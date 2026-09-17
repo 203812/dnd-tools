@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Initiatief-tracker &mdash; DnD Tools</title>
+<meta name="description" content="Houd je D&amp;D-gevecht bij: initiatief, hitpoints, condities en rondes. Slaat automatisch op in je browser.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9876;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'initiative'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <div class="panel-head">
+    <h1 style="margin:0">Initiatief-tracker</h1>
+    <div class="btn-group no-print">
+      <button class="btn btn-sm" id="btn-export">Exporteer</button>
+      <button class="btn btn-sm" id="btn-import">Importeer</button>
+      <button class="btn btn-sm btn-danger" id="btn-reset">Nieuw gevecht</button>
+    </div>
+  </div>
+
+  <div class="grid cols-2" style="align-items:start">
+
+    <!-- Het gevecht -->
+    <div class="stack" style="order:2">
+      <div class="panel">
+        <div class="panel-head">
+          <h2 id="round-label">Ronde 1</h2>
+          <div class="btn-group no-print">
+            <button class="btn btn-sm" id="btn-prev">&#8592; Vorige</button>
+            <button class="btn btn-primary btn-sm" id="btn-next">Volgende &#8594;</button>
+          </div>
+        </div>
+        <div id="combatants"></div>
+        <div class="muted center" id="turn-hint" style="font-size:.85rem;margin-top:10px"></div>
+      </div>
+    </div>
+
+    <!-- Toevoegen -->
+    <div class="stack no-print" style="order:1">
+      <div class="panel">
+        <h2>Deelnemer toevoegen</h2>
+        <form id="add-form">
+          <div class="field">
+            <label for="c-name">Naam</label>
+            <input id="c-name" placeholder="bv. Goblin of Thalia" autocomplete="off" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="c-init">Initiatief</label>
+              <input id="c-init" type="number" placeholder="leeg = rollen">
+            </div>
+            <div class="field">
+              <label for="c-dex">DEX-mod</label>
+              <input id="c-dex" type="number" value="0">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="c-hp">Hitpoints</label>
+              <input id="c-hp" type="number" placeholder="bv. 27">
+            </div>
+            <div class="field">
+              <label for="c-ac">AC</label>
+              <input id="c-ac" type="number" placeholder="bv. 15">
+            </div>
+            <div class="field">
+              <label for="c-count">Aantal</label>
+              <input id="c-count" type="number" value="1" min="1" max="20">
+            </div>
+          </div>
+          <div class="check" style="margin-bottom:12px">
+            <input type="checkbox" id="c-pc">
+            <label for="c-pc">Speler (party)</label>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Toevoegen</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Uit het monsterboek</h2>
+        <div class="field">
+          <label for="m-search">Zoek een monster</label>
+          <input id="m-search" placeholder="bv. goblin" autocomplete="off">
+        </div>
+        <div class="field-row" style="margin-bottom:10px">
+          <div class="field" style="flex:0 0 110px">
+            <label for="m-count">Aantal</label>
+            <input id="m-count" type="number" value="1" min="1" max="20">
+          </div>
+          <div class="field">
+            <label for="m-hp">HP</label>
+            <select id="m-hp">
+              <option value="avg">Gemiddeld</option>
+              <option value="roll">Uitrollen</option>
+            </select>
+          </div>
+        </div>
+        <div id="m-results" class="scroll-y" style="max-height:240px"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Condities</h2>
+        <p class="muted" style="font-size:.88rem">Klik op een deelnemer om condities toe te kennen.</p>
+        <div id="cond-panel" class="muted" style="font-size:.9rem">Geen deelnemer geselecteerd.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/data/monsters.js"></script>
+<script src="../assets/data/rules.js"></script>
+<script src="../assets/js/pages/initiative-page.js"></script>
+</body>
+</html>

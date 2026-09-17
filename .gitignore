@@ -1,0 +1,13 @@
+# Systeembestanden
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Node (alleen als er ooit tooling bijkomt)
+node_modules/
+package-lock.json

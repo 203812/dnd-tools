@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DnD Tools &mdash; gratis hulpmiddelen voor Dungeons &amp; Dragons</title>
+<meta name="description" content="Gratis online D&amp;D-tools: dobbelsteenroller, initiatief-tracker, encounter builder, monsterboek, spreukenlijst, schat- en NPC-generators. Werkt in je browser, zonder account.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127922;</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>window.PAGE = 'home'; window.BASE = '.';</script>
+</head>
+<body>
+
+<main>
+  <section class="wrap hero">
+    <h1>Alles voor je <span class="accent">volgende sessie</span></h1>
+    <p class="lead">
+      Tien gereedschappen voor spelers en Dungeon Masters: dobbelen, gevechten bijhouden, encounters
+      balanceren en in een klik een NPC, schat of naam neerzetten. Geen account, geen reclame &mdash;
+      alles draait gewoon in je browser.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="tools/dice.html">&#127922; Rol dobbelstenen</a>
+      <a class="btn" href="tools/initiative.html">&#9876;&#65039; Start een gevecht</a>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="grid cols-3" id="tool-grid"></div>
+  </section>
+
+  <section class="wrap section">
+    <div class="grid cols-2">
+      <div class="panel">
+        <h2>Snelle worp</h2>
+        <p class="muted" style="font-size:.92rem">Typ een notatie en druk op enter. De volledige roller zit onder <a href="tools/dice.html">Dobbelen</a>.</p>
+        <form id="quick-form" class="field-row" style="align-items:flex-end">
+          <div class="field" style="flex:1 1 200px">
+            <label for="quick-input">Notatie</label>
+            <input id="quick-input" class="mono" value="1d20+5" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" type="submit">Rol</button>
+        </form>
+        <div id="quick-result" class="result-box hidden" style="margin-top:12px">
+          <div class="dice-total" id="quick-total">&mdash;</div>
+          <div class="dice-breakdown" id="quick-break"></div>
+        </div>
+        <div class="chips" style="margin-top:12px" id="quick-chips"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Waarom deze site</h2>
+        <div class="stack">
+          <div class="stat-line"><span>Werkt offline</span><span>alles lokaal, geen server nodig</span></div>
+          <div class="stat-line"><span>Slaat op</span><span>je gevecht blijft staan na F5</span></div>
+          <div class="stat-line"><span>Speldata</span><span>SRD 5.1 &mdash; vrij te gebruiken</span></div>
+          <div class="stat-line"><span>Printbaar</span><span>statblocks en schatten netjes op papier</span></div>
+          <div class="stat-line"><span>Donker &amp; licht</span><span>schakel rechtsboven</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="panel">
+      <h2>Aan de slag</h2>
+      <p class="muted">
+        Ben je Dungeon Master? Begin bij de <a href="tools/encounter.html">encounter builder</a> om een
+        gevecht op maat van je party te maken, zet de monsters daarna met &eacute;&eacute;n klik in de
+        <a href="tools/initiative.html">initiatief-tracker</a> en rol achteraf de buit met de
+        <a href="tools/loot.html">schatgenerator</a>. Speel je mee aan tafel? De
+        <a href="tools/dice.html">dobbelsteenroller</a> en de <a href="tools/rules.html">regelnaslag</a>
+        zijn waarschijnlijk je vaste twee tabbladen.
+      </p>
+    </div>
+  </section>
+</main>
+
+<script src="assets/js/core.js"></script>
+<script src="assets/js/dice.js"></script>
+<script>
+(function () {
+  // Toolkaarten uit het register in core.js
+  var grid = document.getElementById('tool-grid');
+  grid.innerHTML = window.TOOLS.map(function (t) {
+    return '<a class="card" href="' + t.href + '">' +
+             '<h3><span class="card-icon">' + t.icon + '</span>' + t.name + '</h3>' +
+             '<p>' + t.desc + '</p>' +
+           '</a>';
+  }).join('');
+
+  // Snelle worp
+  var form = document.getElementById('quick-form');
+  var input = document.getElementById('quick-input');
+  var box = document.getElementById('quick-result');
+  var totalEl = document.getElementById('quick-total');
+  var breakEl = document.getElementById('quick-break');
+
+  function rollIt(notation) {
+    try {
+      var res = Dice.roll(notation);
+      box.classList.remove('hidden');
+      totalEl.textContent = res.total;
+      totalEl.className = 'dice-total roll-anim';
+      breakEl.innerHTML = Dice.breakdownHtml(res);
+      void totalEl.offsetWidth;
+    } catch (err) {
+      box.classList.remove('hidden');
+      totalEl.textContent = '!';
+      totalEl.className = 'dice-total fumble';
+      breakEl.textContent = err.message;
+    }
+  }
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); rollIt(input.value); });
+
+  ['1d20', '1d20+5', 'adv', '2d6+3', '4d6kh3', '8d6'].forEach(function (n) {
+    var b = H.el('button', 'chip', n);
+    b.type = 'button';
+    b.addEventListener('click', function () { input.value = n; rollIt(n); });
+    document.getElementById('quick-chips').appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>

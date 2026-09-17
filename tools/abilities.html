@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ability scores &mdash; DnD Tools</title>
+<meta name="description" content="D&amp;D point buy calculator, standard array en 4d6-drop-lowest met automatische modifiers en rasbonussen.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128202;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'abilities'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <h1>Ability scores</h1>
+  <p class="muted">Point buy, standard array of dobbelen &mdash; met rasbonussen en modifiers erbij.</p>
+
+  <div class="panel no-print" style="margin-bottom:16px">
+    <div class="field-row">
+      <div class="field">
+        <label for="f-method">Methode</label>
+        <select id="f-method">
+          <option value="pointbuy">Point buy (27 punten)</option>
+          <option value="array">Standard array</option>
+          <option value="roll">4d6 drop lowest</option>
+          <option value="manual">Zelf invullen</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-race">Volk (bonussen)</label>
+        <select id="f-race"></select>
+      </div>
+      <div class="field">
+        <label for="f-level">Niveau</label>
+        <input id="f-level" type="number" value="1" min="1" max="20">
+      </div>
+    </div>
+    <div class="btn-group" style="margin-top:12px">
+      <button class="btn" id="btn-roll">Opnieuw rollen</button>
+      <button class="btn" id="btn-reset">Terug naar 8/8/8/8/8/8</button>
+    </div>
+  </div>
+
+  <div class="grid cols-2" style="align-items:start">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Scores</h2>
+        <span id="points-left" class="tag gold"></span>
+      </div>
+      <div id="score-rows"></div>
+      <div id="pool" class="hidden" style="margin-top:14px">
+        <label>Beschikbare worpen &mdash; sleep ze zelf naar de juiste rij</label>
+        <div class="chips" id="pool-chips"></div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <h2>Overzicht</h2>
+        <div id="summary"></div>
+      </div>
+      <div class="panel">
+        <h2>Point buy-kosten</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Score</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead>
+            <tbody><tr><td>Kosten</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>7</td><td>9</td></tr></tbody>
+          </table>
+        </div>
+        <p class="muted" style="font-size:.88rem;margin-top:12px">
+          Standard array: 15, 14, 13, 12, 10, 8. Rasbonussen komen er daarna bij en mogen
+          een score boven de 15 brengen.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/js/pages/abilities-page.js"></script>
+</body>
+</html>

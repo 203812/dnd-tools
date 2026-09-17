@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encounter builder &mdash; DnD Tools</title>
+<meta name="description" content="Bereken het XP-budget en de moeilijkheidsgraad van een D&amp;D-gevecht en stel je encounter samen uit de monsterlijst.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128200;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'encounter'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <h1>Encounter builder</h1>
+  <p class="muted">Stel je party in, kies monsters en zie meteen of het gevecht makkelijk, pittig of dodelijk wordt.</p>
+
+  <div class="grid cols-2" style="align-items:start">
+
+    <div class="stack">
+      <div class="panel">
+        <h2>Party</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="p-count">Aantal spelers</label>
+            <input id="p-count" type="number" value="4" min="1" max="12">
+          </div>
+          <div class="field">
+            <label for="p-level">Gemiddeld niveau</label>
+            <input id="p-level" type="number" value="3" min="1" max="20">
+          </div>
+        </div>
+        <div class="hr"></div>
+        <h3>Drempels</h3>
+        <div id="thresholds" class="stack"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Monsters kiezen</h2>
+        <div class="field">
+          <label for="m-search">Zoeken</label>
+          <input id="m-search" placeholder="naam of type" autocomplete="off">
+        </div>
+        <div class="field-row" style="margin-bottom:10px">
+          <div class="field">
+            <label for="f-cr-min">CR van</label>
+            <select id="f-cr-min"></select>
+          </div>
+          <div class="field">
+            <label for="f-cr-max">CR tot</label>
+            <select id="f-cr-max"></select>
+          </div>
+        </div>
+        <div id="m-results" class="scroll-y" style="max-height:340px"></div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Het gevecht</h2>
+          <div class="btn-group">
+            <button class="btn btn-sm" id="btn-random">Willekeurig</button>
+            <button class="btn btn-sm btn-danger" id="btn-clear">Leegmaken</button>
+          </div>
+        </div>
+        <div id="chosen"></div>
+
+        <div class="hr"></div>
+
+        <div class="result-box">
+          <div class="stat-line"><span>Ruwe XP</span><span id="r-raw">0</span></div>
+          <div class="stat-line"><span>Aantal monsters</span><span id="r-count">0</span></div>
+          <div class="stat-line"><span>Vermenigvuldiger</span><span id="r-mult">&times;1</span></div>
+          <div class="stat-line"><span>Aangepaste XP</span><span id="r-adj">0</span></div>
+          <div class="stat-line"><span>Moeilijkheid</span><span id="r-diff">&mdash;</span></div>
+          <div class="stat-line"><span>XP per speler</span><span id="r-per">0</span></div>
+          <div class="stat-line"><span>Deel van de dag</span><span id="r-day">0%</span></div>
+        </div>
+
+        <div class="btn-group" style="margin-top:14px">
+          <a class="btn btn-primary" id="btn-to-tracker" href="initiative.html">Naar initiatief-tracker</a>
+          <button class="btn" id="btn-loot">Rol de buit</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Hoe werkt dit?</h2>
+        <p class="muted" style="font-size:.92rem">
+          Elk monster levert XP op basis van zijn challenge rating. Bij meerdere monsters
+          telt niet de kale som: de DMG vermenigvuldigt het totaal omdat een groep gevaarlijker vecht
+          dan de som van de delen. Die aangepaste XP vergelijk je met de drempels van je party.
+        </p>
+        <p class="muted" style="font-size:.92rem">
+          Een party van drie of minder schuift een stap omhoog op de multiplier-schaal,
+          een party van zes of meer een stap omlaag. Dat is hier al verwerkt.
+        </p>
+        <p class="muted" style="font-size:.92rem">
+          <b>Deel van de dag</b> toont hoeveel van het dagelijkse XP-budget dit gevecht opsoupeert &mdash;
+          handig om te zien of er nog ruimte is voor meer voordat de party moet rusten.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/data/monsters.js"></script>
+<script src="../assets/js/pages/encounter-page.js"></script>
+</body>
+</html>

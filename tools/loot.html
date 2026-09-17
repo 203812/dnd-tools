@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schatgenerator &mdash; DnD Tools</title>
+<meta name="description" content="Rol D&amp;D-schatten: munten, edelstenen, kunstvoorwerpen en magische items, per challenge rating.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128176;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'loot'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <h1>Schatgenerator</h1>
+  <p class="muted">Rol de buit van een monster of een hele schatkamer.</p>
+
+  <div class="grid cols-2" style="align-items:start">
+
+    <div class="stack no-print">
+      <div class="panel">
+        <h2>Instellingen</h2>
+        <div class="field">
+          <label for="f-type">Soort schat</label>
+          <select id="f-type">
+            <option value="individueel">Individueel (per monster)</option>
+            <option value="hoard">Schatkamer (hoard)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-cr">Challenge rating</label>
+          <select id="f-cr">
+            <option value="0-4">CR 0&ndash;4</option>
+            <option value="5-10">CR 5&ndash;10</option>
+            <option value="11-16">CR 11&ndash;16</option>
+            <option value="17+">CR 17+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-times">Aantal keer rollen</label>
+          <input id="f-times" type="number" value="1" min="1" max="20">
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-roll">Rol de schat</button>
+      </div>
+
+      <div class="panel">
+        <h2>Los rollen</h2>
+        <div class="btn-group">
+          <button class="btn btn-sm" data-single="gem">Edelsteen</button>
+          <button class="btn btn-sm" data-single="art">Kunstvoorwerp</button>
+          <button class="btn btn-sm" data-single="A">Item tabel A</button>
+          <button class="btn btn-sm" data-single="B">B</button>
+          <button class="btn btn-sm" data-single="C">C</button>
+          <button class="btn btn-sm" data-single="D">D</button>
+          <button class="btn btn-sm" data-single="E">E</button>
+          <button class="btn btn-sm" data-single="F">F</button>
+          <button class="btn btn-sm" data-single="G">G</button>
+          <button class="btn btn-sm" data-single="H">H</button>
+          <button class="btn btn-sm" data-single="I">I</button>
+        </div>
+        <div id="single-result" class="result-box hidden" style="margin-top:12px"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Over deze tabellen</h2>
+        <p class="muted" style="font-size:.9rem">
+          De munttabellen volgen de tabellen uit de DMG/SRD. De verdeling van edelstenen,
+          kunstvoorwerpen en magische items is een vereenvoudigde variant: de verhoudingen kloppen,
+          maar de exacte percentielrijen zijn samengevat tot gewogen kansen.
+        </p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Buit</h2>
+          <div class="btn-group no-print">
+            <button class="btn btn-sm" data-copy="#loot-out">Kopieer</button>
+            <button class="btn btn-sm" onclick="window.print()">Print</button>
+            <button class="btn btn-sm btn-danger" id="btn-clear">Wissen</button>
+          </div>
+        </div>
+        <div id="loot-out"><div class="empty">Nog niets gerold.</div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/data/treasure.js"></script>
+<script src="../assets/js/pages/loot-page.js"></script>
+</body>
+</html>

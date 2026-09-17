@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NPC-generator &mdash; DnD Tools</title>
+<meta name="description" content="Genereer in een klik een complete D&amp;D-NPC: naam, volk, beroep, uiterlijk, karakter, geheim en ability scores.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129497;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'npc'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <h1>NPC-generator</h1>
+  <p class="muted">Eén klik en je hebt iemand om mee te praten &mdash; inclusief een reden om de party nodig te hebben.</p>
+
+  <div class="grid cols-2" style="align-items:start">
+    <div class="panel no-print">
+      <h2>Instellingen</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="f-volk">Volk</label>
+          <select id="f-volk"><option value="">Willekeurig</option></select>
+        </div>
+        <div class="field">
+          <label for="f-geslacht">Geslacht</label>
+          <select id="f-geslacht">
+            <option value="">Willekeurig</option>
+            <option value="m">Mannelijke namen</option>
+            <option value="v">Vrouwelijke namen</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-beroep">Beroep</label>
+        <select id="f-beroep"><option value="">Willekeurig</option></select>
+      </div>
+      <div class="field">
+        <label for="f-aantal">Aantal NPCs</label>
+        <input id="f-aantal" type="number" value="1" min="1" max="10">
+      </div>
+      <div class="check" style="margin-bottom:12px">
+        <input type="checkbox" id="f-stats" checked>
+        <label for="f-stats">Ability scores meegenereren</label>
+      </div>
+      <button class="btn btn-primary btn-block" id="btn-gen">Genereer</button>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Resultaat</h2>
+          <div class="btn-group no-print">
+            <button class="btn btn-sm" data-copy="#npc-out">Kopieer</button>
+            <button class="btn btn-sm" onclick="window.print()">Print</button>
+          </div>
+        </div>
+        <div id="npc-out"><div class="empty">Nog geen NPC gegenereerd.</div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/data/names.js"></script>
+<script src="../assets/data/npc.js"></script>
+<script src="../assets/js/pages/npc-page.js"></script>
+</body>
+</html>
