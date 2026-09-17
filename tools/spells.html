@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="nl" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Spreukenlijst &mdash; DnD Tools</title>
-<meta name="description" content="Zoek D&amp;D-spreuken op naam, niveau, school of klasse. Met componenten, duur en beknopte beschrijving.">
+<title>Spell List &mdash; DnD Tools</title>
+<meta name="description" content="Search D&amp;D spells by name, level, school or class, with components, duration and a concise description.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#10024;</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
 <script>window.PAGE = 'spells'; window.BASE = '..';</script>
@@ -12,47 +12,47 @@
 <body>
 
 <main class="wrap section">
-  <h1>Spreukenlijst</h1>
-  <p class="muted">Spreuken uit de SRD 5.1. De beschrijvingen zijn beknopte samenvattingen in het Nederlands.</p>
+  <h1>Spell List</h1>
+  <p class="muted">Spells from the SRD 5.1. Descriptions are condensed summaries.</p>
 
   <div class="panel no-print" style="margin-bottom:16px">
     <div class="field-row">
       <div class="field" style="flex:2 1 220px">
-        <label for="q">Zoeken</label>
-        <input id="q" placeholder="naam of trefwoord" autocomplete="off">
+        <label for="q">Search</label>
+        <input id="q" placeholder="name or keyword" autocomplete="off">
       </div>
       <div class="field">
-        <label for="f-class">Klasse</label>
-        <select id="f-class"><option value="">Alle</option></select>
+        <label for="f-class">Class</label>
+        <select id="f-class"><option value="">All</option></select>
       </div>
       <div class="field">
         <label for="f-school">School</label>
-        <select id="f-school"><option value="">Alle</option></select>
+        <select id="f-school"><option value="">All</option></select>
       </div>
       <div class="field">
-        <label for="f-extra">Eigenschap</label>
+        <label for="f-extra">Property</label>
         <select id="f-extra">
-          <option value="">Alle</option>
-          <option value="conc">Concentratie</option>
-          <option value="noconc">Geen concentratie</option>
-          <option value="ritual">Ritueel</option>
+          <option value="">All</option>
+          <option value="conc">Concentration</option>
+          <option value="noconc">No concentration</option>
+          <option value="ritual">Ritual</option>
         </select>
       </div>
     </div>
-    <label style="margin-top:12px">Niveau</label>
+    <label style="margin-top:12px">Level</label>
     <div class="chips" id="level-chips"></div>
   </div>
 
   <div class="grid cols-2" style="align-items:start">
     <div class="panel">
       <div class="panel-head">
-        <h2>Resultaten</h2>
+        <h2>Results</h2>
         <span class="muted" id="count"></span>
       </div>
       <div id="list" class="scroll-y" style="max-height:620px"></div>
     </div>
     <div id="detail">
-      <div class="panel"><div class="empty">Kies een spreuk uit de lijst.</div></div>
+      <div class="panel"><div class="empty">Pick a spell from the list.</div></div>
     </div>
   </div>
 </main>

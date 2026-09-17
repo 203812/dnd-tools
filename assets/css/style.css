@@ -1,5 +1,5 @@
 /* ============================================================
-   DnD Tools - globale stylesheet
+   DnD Tools - global stylesheet
    ============================================================ */
 
 :root {
@@ -49,8 +49,8 @@
 
 html { scroll-behavior: smooth; }
 
-/* Slanke scrollbar in de huisstijl: zichtbaar genoeg om te snappen dat je
-   kunt scrollen, zonder de brede grijze balk van het besturingssysteem. */
+/* A slim scrollbar in the site's own style: visible enough to show that the
+   area scrolls, without the wide grey bar the operating system draws. */
 * { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
 *::-webkit-scrollbar { width: 9px; height: 9px; }
 *::-webkit-scrollbar-track { background: transparent; }
@@ -216,7 +216,7 @@ th { color: var(--text-faint); font-size: .76rem; text-transform: uppercase; let
 tbody tr:hover { background: var(--panel-2); }
 .table-wrap { overflow-x: auto; }
 
-/* ---------- Divers ---------- */
+/* ---------- Misc ---------- */
 .muted { color: var(--text-dim); }
 .center { text-align: center; }
 .mono { font-family: var(--font-mono); }
@@ -224,13 +224,13 @@ tbody tr:hover { background: var(--panel-2); }
 .empty { color: var(--text-faint); font-style: italic; padding: 22px; text-align: center; }
 .scroll-y { max-height: 480px; overflow-y: auto; overscroll-behavior: contain; }
 
-/* Vervaging onderaan zolang er nog meer te scrollen valt. core.js zet
-   .at-end zodra je beneden bent, en .no-scroll als alles al past. */
+/* A fade at the bottom while there is more to scroll. core.js sets .at-end
+   once you reach the bottom, and .no-scroll when everything already fits. */
 .scroll-y:not(.at-end):not(.no-scroll) {
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 42px), transparent 100%);
           mask-image: linear-gradient(to bottom, #000 calc(100% - 42px), transparent 100%);
 }
-/* Klein pijltje als extra hint, alleen als er iets te scrollen valt */
+/* A small arrow as an extra hint, only when there is something to scroll */
 .scroll-hint {
   display: none; text-align: center; color: var(--text-faint);
   font-size: .78rem; letter-spacing: .06em; padding-top: 4px; user-select: none;
@@ -286,7 +286,7 @@ tbody tr:hover { background: var(--panel-2); }
 .roll-anim { animation: pop .28s ease; }
 @keyframes pop { 0% { transform: scale(.82); opacity: .4; } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
 
-/* ---------- Initiatief ---------- */
+/* ---------- Initiative ---------- */
 .combatant { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel-2); margin-bottom: 8px; }
 .combatant.active { border-color: var(--gold); box-shadow: inset 3px 0 0 var(--gold); background: var(--panel); }
 .combatant.dead { opacity: .45; }

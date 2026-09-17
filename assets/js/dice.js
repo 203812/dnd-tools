@@ -1,23 +1,23 @@
 /* ============================================================
-   dice.js - parser en evaluator voor dobbelsteennotatie
+   dice.js - parser and evaluator for dice notation
    ------------------------------------------------------------
-   Ondersteunt o.a.:
-     1d20+5            standaard worp met modifier
-     4d6kh3            hoogste 3 van 4 dobbelstenen houden
-     2d20kl1           laagste houden (disadvantage)
-     adv / dis         afkorting voor 2d20kh1 / 2d20kl1
-     8d6!              exploderende dobbelstenen (max op nieuw = extra worp)
-     4d6r1             eenmalig hergooien bij een 1
-     2d10min2          elke worp telt minimaal 2
-     (2d6+3)*2         haakjes en vermenigvuldiging
-     1d100 / 1dF       procentwoorden en Fudge/Fate-dobbelstenen
-     6#1d20+3          zes losse worpen achter elkaar
+   Supports, among others:
+     1d20+5            standard roll with a modifier
+     4d6kh3            keep the highest 3 of 4 dice
+     2d20kl1           keep the lowest (disadvantage)
+     adv / dis         shorthand for 2d20kh1 / 2d20kl1
+     8d6!              exploding dice (a maximum rolls again)
+     4d6r1             reroll any 1
+     2d10min2          every die counts as at least 2
+     (2d6+3)*2         parentheses and multiplication
+     1d100 / 1dF       percentile and Fudge/Fate dice
+     6#1d20+3          six separate rolls in a row
    ============================================================ */
 (function () {
   'use strict';
 
-  var MAX_DICE = 500;        // veiligheidsgrens per term
-  var MAX_EXPLOSIONS = 100;  // voorkomt eindeloos exploderen
+  var MAX_DICE = 500;        // safety limit per term
+  var MAX_EXPLOSIONS = 100;  // prevents endless exploding
 
   function rnd(sides) { return Math.floor(Math.random() * sides) + 1; }
 
@@ -33,7 +33,7 @@
 
       if ('+-*/()'.indexOf(c) !== -1) { tokens.push({ t: c }); i++; continue; }
 
-      // dobbelsteenterm of getal
+      // dice term or number
       var m = /^(\d*)d(%|f|\d+)((?:(?:kh|kl|dh|dl|min|max|ro|r)\d+|!)*)/.exec(s.slice(i));
       if (m) {
         tokens.push({ t: 'dice', count: m[1] === '' ? 1 : parseInt(m[1], 10), sides: m[2], mods: m[3] || '' });
@@ -43,12 +43,12 @@
       var n = /^\d+(?:\.\d+)?/.exec(s.slice(i));
       if (n) { tokens.push({ t: 'num', value: parseFloat(n[0]) }); i += n[0].length; continue; }
 
-      throw new Error('Onbegrepen teken "' + c + '" in de notatie.');
+      throw new Error('Unrecognised character "' + c + '" in the notation.');
     }
     return tokens;
   }
 
-  /* ---------------- Dobbelsteenterm uitvoeren ---------------- */
+  /* ---------------- Rolling a dice term ---------------- */
   function parseMods(str) {
     var mods = { keepHigh: null, keepLow: null, dropHigh: null, dropLow: null, explode: false, reroll: null, rerollOnce: null, min: null, max: null };
     var re = /(kh|kl|dh|dl|min|max|ro|r)(\d+)|(!)/g, m;
@@ -71,11 +71,11 @@
 
   function rollTerm(count, sidesRaw, modStr) {
     if (count < 1) count = 1;
-    if (count > MAX_DICE) throw new Error('Maximaal ' + MAX_DICE + ' dobbelstenen per term.');
+    if (count > MAX_DICE) throw new Error('At most ' + MAX_DICE + ' dice per term.');
 
     var fudge = sidesRaw === 'f';
     var sides = fudge ? 3 : (sidesRaw === '%' ? 100 : parseInt(sidesRaw, 10));
-    if (!fudge && (!sides || sides < 1)) throw new Error('Ongeldig aantal zijden.');
+    if (!fudge && (!sides || sides < 1)) throw new Error('Invalid number of sides.');
 
     var mods = parseMods(modStr);
     var dice = [];
@@ -84,7 +84,7 @@
       var v = rnd(sides);
       var note = '';
 
-      // hergooien
+      // rerolls
       if (mods.reroll != null) {
         var guard = 0;
         while (v <= mods.reroll && guard++ < 50) { v = rnd(sides); note = 'reroll'; }
@@ -98,7 +98,7 @@
 
       dice.push({ value: v, sides: fudge ? 'F' : sides, note: note, dropped: false });
 
-      // exploderen: elke max-worp levert een extra dobbelsteen op
+      // exploding: every maximum roll grants an extra die
       if (mods.explode && !fudge && v === sides) {
         var extra = 0;
         var cur = v;
@@ -110,7 +110,7 @@
       }
     }
 
-    // houden / laten vallen
+    // keep / drop
     var order = dice.map(function (d, idx) { return idx; });
     var keep = null;
     if (mods.keepHigh != null) {
@@ -154,20 +154,20 @@
       while (peek() && (peek().t === '*' || peek().t === '/')) {
         var op = next().t;
         var r = factor();
-        if (op === '/' && r === 0) throw new Error('Deling door nul.');
+        if (op === '/' && r === 0) throw new Error('Division by zero.');
         v = op === '*' ? v * r : v / r;
       }
       return v;
     }
     function factor() {
       var tk = peek();
-      if (!tk) throw new Error('Onverwacht einde van de notatie.');
+      if (!tk) throw new Error('Unexpected end of notation.');
       if (tk.t === '-') { next(); return -factor(); }
       if (tk.t === '+') { next(); return factor(); }
       if (tk.t === '(') {
         next();
         var v = expr();
-        if (!peek() || peek().t !== ')') throw new Error('Ontbrekend sluithaakje.');
+        if (!peek() || peek().t !== ')') throw new Error('Missing closing bracket.');
         next();
         return v;
       }
@@ -178,30 +178,30 @@
         allDice.push(res);
         return res.sum;
       }
-      throw new Error('Onverwacht onderdeel in de notatie.');
+      throw new Error('Unexpected part in the notation.');
     }
 
     var total = expr();
-    if (pos < tokens.length) throw new Error('Notatie kon niet volledig gelezen worden.');
+    if (pos < tokens.length) throw new Error('The notation could not be read in full.');
     return { total: total, terms: allDice };
   }
 
-  /* ---------------- Publieke API ---------------- */
+  /* ---------------- Public API ---------------- */
 
   /**
-   * Rolt een notatie en geeft {total, terms, notation} terug.
-   * Gooit een Error met een leesbare melding bij ongeldige invoer.
+   * Rolls a notation and returns {total, terms, notation}.
+   * Throws an Error with a readable message on invalid input.
    */
   function roll(notation) {
     var input = String(notation || '').trim();
-    if (!input) throw new Error('Geen notatie ingevuld.');
+    if (!input) throw new Error('No notation entered.');
     var res = parse(tokenize(input));
     res.total = Math.round(res.total * 100) / 100;
     res.notation = input;
     return res;
   }
 
-  /** Rolt "N#expr" vorm: geeft altijd een array met resultaten terug. */
+  /** Rolls the "N#expr" form: always returns an array of results. */
   function rollMany(notation) {
     var input = String(notation || '').trim();
     var m = /^(\d+)\s*#\s*(.+)$/.exec(input);
@@ -212,14 +212,14 @@
     return out;
   }
 
-  /** Alleen het totaal, handig voor generatoren. Bij fouten: 0. */
+  /** Just the total, handy for generators. Returns 0 on error. */
   function total(notation) {
     try { return roll(notation).total; } catch (e) { return 0; }
   }
 
-  /** Renderbare HTML met per dobbelsteen een "pill". */
+  /** Renderable HTML with a pill per die. */
   function breakdownHtml(result) {
-    if (!result.terms.length) return '<span class="muted">vaste waarde</span>';
+    if (!result.terms.length) return '<span class="muted">fixed value</span>';
     return result.terms.map(function (term) {
       var pills = term.dice.map(function (d) {
         var cls = 'die-pill';

@@ -1,11 +1,11 @@
 /* ============================================================
-   encounter-page.js - logica voor tools/encounter.html
-   XP-drempels en multipliers volgen de DMG / SRD.
+   encounter-page.js - logic for tools/encounter.html
+   XP thresholds and multipliers follow the DMG / SRD.
    ============================================================ */
 (function () {
   'use strict';
 
-  /* XP-drempels per personageniveau: [easy, medium, hard, deadly] */
+  /* XP thresholds per character level: [easy, medium, hard, deadly] */
   var THRESHOLDS = {
     1: [25, 50, 75, 100], 2: [50, 100, 150, 200], 3: [75, 150, 225, 400],
     4: [125, 250, 375, 500], 5: [250, 500, 750, 1100], 6: [300, 600, 900, 1400],
@@ -16,14 +16,14 @@
     19: [2400, 4900, 7300, 10900], 20: [2800, 5700, 8500, 12700]
   };
 
-  /* Dagelijks XP-budget per personage (adventuring day) */
+  /* Daily XP budget per character (adventuring day) */
   var DAILY = {
     1: 300, 2: 600, 3: 1200, 4: 1700, 5: 3500, 6: 4000, 7: 5000, 8: 6000, 9: 7500, 10: 9000,
     11: 10500, 12: 11500, 13: 13500, 14: 15000, 15: 18000, 16: 20000, 17: 25000, 18: 27000,
     19: 30000, 20: 40000
   };
 
-  /* Multiplier-schaal; de party-grootte schuift een stap op of neer */
+  /* Multiplier scale; party size shifts one step up or down */
   var MULT_STEPS = [0.5, 1, 1.5, 2, 2.5, 3, 4, 5];
 
   function baseStep(count) {
@@ -43,13 +43,13 @@
     return MULT_STEPS[H.clamp(step, 0, MULT_STEPS.length - 1)];
   }
 
-  /* ---------- Toestand ---------- */
+  /* ---------- State ---------- */
   var chosen = H.store.get('encounter-builder', []); // [{name, count}]
 
   var pCount = H.qs('#p-count');
   var pLevel = H.qs('#p-level');
 
-  /* ---------- CR-filters vullen ---------- */
+  /* ---------- Filling the CR filters ---------- */
   var CR_VALUES = [0, 0.125, 0.25, 0.5].concat(
     Array.apply(null, { length: 24 }).map(function (_, i) { return i + 1; })
   );
@@ -66,22 +66,22 @@
     var n = H.clamp(parseInt(pCount.value, 10) || 1, 1, 12);
     var lvl = H.clamp(parseInt(pLevel.value, 10) || 1, 1, 20);
     var t = THRESHOLDS[lvl];
-    var labels = ['Makkelijk', 'Gemiddeld', 'Zwaar', 'Dodelijk'];
+    var labels = ['Easy', 'Medium', 'Hard', 'Deadly'];
     H.qs('#thresholds').innerHTML = labels.map(function (l, i) {
       return '<div class="stat-line"><span>' + l + '</span><span>' + H.num(t[i] * n) + ' XP</span></div>';
     }).join('') +
-      '<div class="stat-line"><span>Dagbudget</span><span>' + H.num(DAILY[lvl] * n) + ' XP</span></div>';
+      '<div class="stat-line"><span>Daily budget</span><span>' + H.num(DAILY[lvl] * n) + ' XP</span></div>';
   }
 
   function renderChosen() {
     if (!chosen.length) {
-      H.qs('#chosen').innerHTML = '<div class="empty">Nog geen monsters gekozen.</div>';
+      H.qs('#chosen').innerHTML = '<div class="empty">No monsters chosen yet.</div>';
       return;
     }
     H.qs('#chosen').innerHTML = chosen.map(function (c, i) {
       var m = monsterByName(c.name);
       return '<div class="stat-line">' +
-        '<span><b>' + H.escape(c.name) + '</b><br><small>CR ' + crLabel(m.cr) + ' · ' + H.num(CR_XP[m.cr]) + ' XP per stuk</small></span>' +
+        '<span><b>' + H.escape(c.name) + '</b><br><small>CR ' + crLabel(m.cr) + ' · ' + H.num(CR_XP[m.cr]) + ' XP each</small></span>' +
         '<span class="btn-group" style="align-items:center">' +
           '<button class="btn btn-sm" data-i="' + i + '" data-act="minus">&#8722;</button>' +
           '<span style="min-width:24px;display:inline-block;text-align:center">' + c.count + '</span>' +
@@ -106,11 +106,11 @@
     var adj = Math.round(raw * mult);
     var t = THRESHOLDS[lvl].map(function (x) { return x * partySize; });
 
-    var diff = 'Triviaal', cls = 'muted';
-    if (adj >= t[3]) { diff = 'Dodelijk'; cls = 'tag red'; }
-    else if (adj >= t[2]) { diff = 'Zwaar'; cls = 'tag gold'; }
-    else if (adj >= t[1]) { diff = 'Gemiddeld'; cls = 'tag blue'; }
-    else if (adj >= t[0]) { diff = 'Makkelijk'; cls = 'tag green'; }
+    var diff = 'Trivial', cls = 'muted';
+    if (adj >= t[3]) { diff = 'Deadly'; cls = 'tag red'; }
+    else if (adj >= t[2]) { diff = 'Hard'; cls = 'tag gold'; }
+    else if (adj >= t[1]) { diff = 'Medium'; cls = 'tag blue'; }
+    else if (adj >= t[0]) { diff = 'Easy'; cls = 'tag green'; }
 
     H.qs('#r-raw').textContent = H.num(raw) + ' XP';
     H.qs('#r-count').textContent = count;
@@ -132,7 +132,7 @@
     renderTotals();
   }
 
-  /* ---------- Monsterlijst ---------- */
+  /* ---------- Monster list ---------- */
   function renderSearch() {
     var q = H.qs('#m-search').value.trim().toLowerCase();
     var lo = parseFloat(crMin.value), hi = parseFloat(crMax.value);
@@ -144,7 +144,7 @@
              (m.env || []).join(' ').toLowerCase().indexOf(q) !== -1;
     });
 
-    if (!list.length) { H.qs('#m-results').innerHTML = '<div class="empty">Niets gevonden.</div>'; return; }
+    if (!list.length) { H.qs('#m-results').innerHTML = '<div class="empty">Nothing found.</div>'; return; }
 
     H.qs('#m-results').innerHTML = list.map(function (m) {
       return '<div class="stat-line" style="cursor:pointer" data-add="' + H.escape(m.name) + '">' +
@@ -178,17 +178,17 @@
     refresh();
   });
 
-  /* ---------- Knoppen ---------- */
+  /* ---------- Buttons ---------- */
   H.on('#btn-clear', 'click', function () { chosen = []; refresh(); });
 
   H.on('#btn-random', 'click', function () {
-    // vult op tot ongeveer de "zware" drempel
+    // fills up to roughly the "hard" threshold
     var partySize = H.clamp(parseInt(pCount.value, 10) || 1, 1, 12);
     var lvl = H.clamp(parseInt(pLevel.value, 10) || 1, 1, 20);
     var target = THRESHOLDS[lvl][2] * partySize;
 
     var pool = MONSTERS.filter(function (m) { return CR_XP[m.cr] <= target && CR_XP[m.cr] > 0; });
-    if (!pool.length) { H.toast('Geen passende monsters gevonden'); return; }
+    if (!pool.length) { H.toast('No suitable monsters found'); return; }
 
     chosen = [];
     var guard = 0;
@@ -212,11 +212,11 @@
   H.on('#btn-loot', 'click', function () {
     var maxCr = 0;
     chosen.forEach(function (c) { maxCr = Math.max(maxCr, monsterByName(c.name).cr); });
-    H.store.set('loot-request', { cr: maxCr, type: chosen.length > 2 ? 'hoard' : 'individueel' });
+    H.store.set('loot-request', { cr: maxCr, type: chosen.length > 2 ? 'hoard' : 'individual' });
     location.href = 'loot.html';
   });
 
-  /* ---------- Invoer ---------- */
+  /* ---------- Input ---------- */
   [pCount, pLevel].forEach(function (el) { el.addEventListener('input', refresh); });
   H.qs('#m-search').addEventListener('input', renderSearch);
   crMin.addEventListener('change', renderSearch);

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="nl" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dobbelsteenroller &mdash; DnD Tools</title>
-<meta name="description" content="Online D&amp;D dobbelsteenroller met volledige notatie: 4d6kh3, advantage, exploding dice, rerolls en rolgeschiedenis.">
+<title>Dice Roller &mdash; DnD Tools</title>
+<meta name="description" content="Online D&amp;D dice roller with full notation: 4d6kh3, advantage, exploding dice, rerolls and a roll history.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127922;</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
 <script>window.PAGE = 'dice'; window.BASE = '..';</script>
@@ -12,46 +12,46 @@
 <body>
 
 <main class="wrap section">
-  <h1>Dobbelsteenroller</h1>
-  <p class="muted">Typ een notatie of gebruik de knoppen. <kbd>Enter</kbd> rolt, <kbd>R</kbd> herhaalt de laatste worp.</p>
+  <h1>Dice Roller</h1>
+  <p class="muted">Type a notation or use the buttons. <kbd>Enter</kbd> rolls, <kbd>R</kbd> repeats the last roll.</p>
 
   <div class="grid cols-2" style="align-items:start">
 
-    <!-- Linkerkolom: roller -->
+    <!-- Left column: the roller -->
     <div class="stack">
       <div class="panel">
         <form id="dice-form">
           <div class="field-row" style="align-items:flex-end">
             <div class="field" style="flex:1 1 220px">
-              <label for="notation">Notatie</label>
+              <label for="notation">Notation</label>
               <input id="notation" class="mono" value="1d20" autocomplete="off" spellcheck="false">
             </div>
-            <button class="btn btn-primary" type="submit">Rol</button>
+            <button class="btn btn-primary" type="submit">Roll</button>
           </div>
         </form>
 
         <div class="field-row" style="margin-top:10px">
           <div class="field" style="flex:0 0 120px">
-            <label for="times">Aantal keer</label>
+            <label for="times">Number of rolls</label>
             <input id="times" type="number" value="1" min="1" max="50">
           </div>
           <div class="field" style="flex:1 1 160px">
-            <label for="label">Label (optioneel)</label>
-            <input id="label" placeholder="bv. Longsword-aanval" autocomplete="off">
+            <label for="label">Label (optional)</label>
+            <input id="label" placeholder="e.g. Longsword attack" autocomplete="off">
           </div>
         </div>
 
         <div class="hr"></div>
 
-        <label>Standaard dobbelstenen</label>
+        <label>Standard dice</label>
         <div class="chips" id="die-buttons"></div>
 
-        <label style="margin-top:14px">Veelgebruikt</label>
+        <label style="margin-top:14px">Common rolls</label>
         <div class="chips" id="preset-buttons"></div>
       </div>
 
       <div class="panel" id="result-panel">
-        <div class="empty" id="result-empty">Nog niets gerold.</div>
+        <div class="empty" id="result-empty">Nothing rolled yet.</div>
         <div id="result-body" class="hidden">
           <div class="dice-total" id="total">&mdash;</div>
           <div class="dice-breakdown" id="breakdown"></div>
@@ -61,38 +61,38 @@
       </div>
     </div>
 
-    <!-- Rechterkolom: geschiedenis + hulp -->
+    <!-- Right column: history and help -->
     <div class="stack">
       <div class="panel">
         <div class="panel-head">
-          <h2>Geschiedenis</h2>
+          <h2>History</h2>
           <div class="btn-group">
-            <button class="btn btn-sm" id="copy-history">Kopieer</button>
-            <button class="btn btn-sm btn-danger" id="clear-history">Wissen</button>
+            <button class="btn btn-sm" id="copy-history">Copy</button>
+            <button class="btn btn-sm btn-danger" id="clear-history">Clear</button>
           </div>
         </div>
         <div id="history" class="scroll-y"></div>
       </div>
 
       <div class="panel">
-        <h2>Notatie</h2>
+        <h2>Notation</h2>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Schrijfwijze</th><th>Betekenis</th></tr></thead>
+            <thead><tr><th>Written as</th><th>Meaning</th></tr></thead>
             <tbody>
-              <tr><td class="mono">1d20+5</td><td>d20 met modifier</td></tr>
+              <tr><td class="mono">1d20+5</td><td>d20 with a modifier</td></tr>
               <tr><td class="mono">adv</td><td>advantage (2d20kh1)</td></tr>
               <tr><td class="mono">dis</td><td>disadvantage (2d20kl1)</td></tr>
-              <tr><td class="mono">4d6kh3</td><td>hoogste 3 van 4 houden</td></tr>
-              <tr><td class="mono">4d6dl1</td><td>laagste 1 laten vallen</td></tr>
-              <tr><td class="mono">8d6!</td><td>exploderend: max rolt door</td></tr>
-              <tr><td class="mono">4d6r1</td><td>1'en opnieuw gooien</td></tr>
-              <tr><td class="mono">4d6ro1</td><td>1'en &eacute;&eacute;n keer opnieuw</td></tr>
-              <tr><td class="mono">2d10min2</td><td>elke worp telt minstens 2</td></tr>
-              <tr><td class="mono">(2d6+3)*2</td><td>haakjes en rekenen</td></tr>
-              <tr><td class="mono">1d%</td><td>percentiel (d100)</td></tr>
-              <tr><td class="mono">4dF</td><td>Fudge/Fate-dobbelstenen</td></tr>
-              <tr><td class="mono">6#1d20+3</td><td>zes losse worpen</td></tr>
+              <tr><td class="mono">4d6kh3</td><td>keep the highest 3 of 4</td></tr>
+              <tr><td class="mono">4d6dl1</td><td>drop the lowest 1</td></tr>
+              <tr><td class="mono">8d6!</td><td>exploding: a maximum rolls again</td></tr>
+              <tr><td class="mono">4d6r1</td><td>reroll any 1</td></tr>
+              <tr><td class="mono">4d6ro1</td><td>reroll a 1 once</td></tr>
+              <tr><td class="mono">2d10min2</td><td>every die counts as at least 2</td></tr>
+              <tr><td class="mono">(2d6+3)*2</td><td>brackets and arithmetic</td></tr>
+              <tr><td class="mono">1d%</td><td>percentile (d100)</td></tr>
+              <tr><td class="mono">4dF</td><td>Fudge/Fate dice</td></tr>
+              <tr><td class="mono">6#1d20+3</td><td>six separate rolls</td></tr>
             </tbody>
           </table>
         </div>

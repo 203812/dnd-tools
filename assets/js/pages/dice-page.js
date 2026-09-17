@@ -1,5 +1,5 @@
 /* ============================================================
-   dice-page.js - logica voor tools/dice.html
+   dice-page.js - logic for tools/dice.html
    ============================================================ */
 (function () {
   'use strict';
@@ -18,13 +18,13 @@
 
   var history = H.store.get('dice-history', []);
 
-  /* ---------- Knoppen ---------- */
+  /* ---------- Buttons ---------- */
   var DICE = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
   DICE.forEach(function (d) {
     var b = H.el('button', 'chip', d);
     b.type = 'button';
     b.addEventListener('click', function () {
-      // klik telt op bij dezelfde dobbelsteen in het invoerveld
+      // clicking adds one to the same die already in the input
       var cur = input.value.trim();
       var re = new RegExp('(^|[+\\-*/(])(\\d*)' + d + '(?![0-9a-z])');
       var m = re.exec(cur);
@@ -40,9 +40,9 @@
   });
 
   var PRESETS = [
-    { l: 'Aanval', n: '1d20+5' }, { l: 'Advantage', n: 'adv' }, { l: 'Disadvantage', n: 'dis' },
+    { l: 'Attack', n: '1d20+5' }, { l: 'Advantage', n: 'adv' }, { l: 'Disadvantage', n: 'dis' },
     { l: 'Ability score', n: '4d6kh3' }, { l: 'Fireball', n: '8d6' }, { l: 'Healing word', n: '1d4+3' },
-    { l: 'Percentiel', n: '1d%' }, { l: 'Statline (6x)', n: '6#4d6kh3' }, { l: 'Death save', n: '1d20' },
+    { l: 'Percentile', n: '1d%' }, { l: 'Full stat line', n: '6#4d6kh3' }, { l: 'Death save', n: '1d20' },
     { l: 'Sneak attack', n: '1d6+3d6' }, { l: 'Greatsword', n: '2d6+4' }
   ];
   PRESETS.forEach(function (p) {
@@ -53,7 +53,7 @@
     H.qs('#preset-buttons').appendChild(b);
   });
 
-  /* ---------- Rollen ---------- */
+  /* ---------- Rolling ---------- */
   function roll() {
     var notation = input.value.trim();
     var times = H.clamp(parseInt(timesInput.value, 10) || 1, 1, 50);
@@ -65,7 +65,7 @@
 
     var results;
     try {
-      // "N#expr" in het veld zelf heeft voorrang op het aantal-veld
+      // "N#expr" typed in the field itself takes precedence over the count field
       results = /#/.test(notation) ? Dice.rollMany(notation) : (function () {
         var out = [];
         for (var i = 0; i < times; i++) out.push(Dice.roll(notation));
@@ -84,13 +84,13 @@
 
     totalEl.textContent = results.length > 1 ? sum : first.total;
     totalEl.className = 'dice-total roll-anim ' + critClass(first);
-    void totalEl.offsetWidth; // herstart de animatie
+    void totalEl.offsetWidth; // restart the animation
     breakEl.innerHTML = Dice.breakdownHtml(first);
 
     var metaParts = [];
     if (label) metaParts.push(label);
     metaParts.push(H.escape(notation));
-    if (results.length > 1) metaParts.push(results.length + ' worpen, totaal ' + sum + ', gemiddeld ' + (sum / results.length).toFixed(1));
+    if (results.length > 1) metaParts.push(results.length + ' rolls, total ' + sum + ', average ' + (sum / results.length).toFixed(1));
     metaEl.textContent = metaParts.join(' · ');
 
     if (results.length > 1) {
@@ -106,12 +106,12 @@
       notation: notation,
       totals: results.map(function (r) { return r.total; }),
       breakdown: results.length === 1 ? stripTags(Dice.breakdownHtml(first)) : '',
-      time: new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })
+      time: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
     });
   }
 
   function critClass(res) {
-    // markeer een natuurlijke 20 of 1 op een enkele d20
+    // highlight a natural 20 or 1 on a single d20
     var d20 = null, count = 0;
     res.terms.forEach(function (t) {
       t.dice.forEach(function (d) { if (d.sides === 20 && !d.dropped) { d20 = d.value; count++; } });
@@ -127,7 +127,7 @@
     return tmp.textContent.replace(/\s+/g, ' ').trim();
   }
 
-  /* ---------- Geschiedenis ---------- */
+  /* ---------- History ---------- */
   function addHistory(entry) {
     history.unshift(entry);
     if (history.length > 60) history.length = 60;
@@ -137,7 +137,7 @@
 
   function renderHistory() {
     if (!history.length) {
-      historyEl.innerHTML = '<div class="empty">Nog geen worpen.</div>';
+      historyEl.innerHTML = '<div class="empty">No rolls yet.</div>';
       return;
     }
     historyEl.innerHTML = history.map(function (h) {
@@ -158,17 +158,17 @@
     history = [];
     H.store.set('dice-history', history);
     renderHistory();
-    H.toast('Geschiedenis gewist');
+    H.toast('History cleared');
   });
 
   H.on('#copy-history', 'click', function () {
-    if (!history.length) { H.toast('Niets om te kopiëren'); return; }
+    if (!history.length) { H.toast('Nothing to copy'); return; }
     H.copy(history.map(function (h) {
       return h.time + '  ' + (h.label ? h.label + ' - ' : '') + h.notation + ' = ' + h.totals.join(', ');
     }).join('\n'));
   });
 
-  /* ---------- Invoer ---------- */
+  /* ---------- Input ---------- */
   form.addEventListener('submit', function (e) { e.preventDefault(); roll(); });
 
   document.addEventListener('keydown', function (e) {

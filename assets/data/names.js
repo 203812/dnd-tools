@@ -1,71 +1,71 @@
 /* ============================================================
-   names.js - naamlijsten per volk en woordenlijsten voor plaatsen
+   names.js - name lists per ancestry and word lists for places
    ============================================================ */
 window.NAMES = {
-  volken: {
-    Mens: {
+  ancestries: {
+    Human: {
       m: ["Aldric", "Bram", "Cedric", "Darian", "Edmund", "Faelan", "Garrick", "Halvard", "Ivar", "Joren", "Kaspar", "Lucan", "Merrick", "Nolan", "Osric", "Perrin", "Quentin", "Roderick", "Soren", "Tobias", "Ulric", "Varian", "Willem", "Yorick"],
-      v: ["Adela", "Brienne", "Cerys", "Dara", "Elowen", "Fenna", "Gwendolyn", "Helena", "Isolde", "Jessa", "Katrien", "Liesel", "Mirela", "Nyssa", "Orla", "Petra", "Rosalind", "Seraphine", "Thalia", "Ursula", "Vera", "Wilhelmina", "Yvette"],
-      achter: ["Ashdown", "Brackwater", "Coldwell", "Dunmore", "Everhart", "Fairwind", "Greymoor", "Holloway", "Ironwood", "Karsten", "Lockridge", "Marsh", "Northgate", "Oakhurst", "Pellham", "Ravenscroft", "Stonebrook", "Thorne", "Vance", "Winterbourne"]
+      f: ["Adela", "Brienne", "Cerys", "Dara", "Elowen", "Fenna", "Gwendolyn", "Helena", "Isolde", "Jessa", "Katrien", "Liesel", "Mirela", "Nyssa", "Orla", "Petra", "Rosalind", "Seraphine", "Thalia", "Ursula", "Vera", "Wilhelmina", "Yvette"],
+      family: ["Ashdown", "Brackwater", "Coldwell", "Dunmore", "Everhart", "Fairwind", "Greymoor", "Holloway", "Ironwood", "Karsten", "Lockridge", "Marsh", "Northgate", "Oakhurst", "Pellham", "Ravenscroft", "Stonebrook", "Thorne", "Vance", "Winterbourne"]
     },
     Elf: {
       m: ["Adran", "Aelar", "Beiro", "Carric", "Erdan", "Gennal", "Heian", "Immeral", "Ivellios", "Laucian", "Mindartis", "Paelias", "Peren", "Riardon", "Rolen", "Soveliss", "Thamior", "Theren", "Varis"],
-      v: ["Adrie", "Althaea", "Anastrianna", "Andraste", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Meriele", "Mialee", "Naivara", "Quelenna", "Sariel", "Shanairra", "Thia", "Valanthe", "Xanaphia"],
-      achter: ["Amakiir", "Amastacia", "Galanodel", "Holimion", "Ilphelkiir", "Liadon", "Meliamne", "Naïlo", "Siannodel", "Xiloscient"]
+      f: ["Adrie", "Althaea", "Anastrianna", "Andraste", "Antinua", "Bethrynna", "Birel", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Meriele", "Mialee", "Naivara", "Quelenna", "Sariel", "Shanairra", "Thia", "Valanthe", "Xanaphia"],
+      family: ["Amakiir", "Amastacia", "Galanodel", "Holimion", "Ilphelkiir", "Liadon", "Meliamne", "Nailo", "Siannodel", "Xiloscient"]
     },
-    Dwerg: {
+    Dwarf: {
       m: ["Adrik", "Baern", "Darrak", "Delg", "Eberk", "Fargrim", "Gardain", "Harbek", "Kildrak", "Morgran", "Orsik", "Rangrim", "Rurik", "Taklinn", "Thoradin", "Thorin", "Tordek", "Traubon", "Ulfgar", "Veit"],
-      v: ["Amber", "Bardryn", "Diesa", "Eldeth", "Falkrunn", "Gunnloda", "Gurdis", "Helja", "Hlin", "Kathra", "Kristryd", "Ilde", "Liftrasa", "Mardred", "Riswynn", "Sannl", "Torbera", "Vistra"],
-      achter: ["Balderk", "Battlehammer", "Brawnanvil", "Dankil", "Fireforge", "Frostbeard", "Gorunn", "Holderhek", "Ironfist", "Loderr", "Lutgehr", "Rumnaheim", "Strakeln", "Torunn", "Ungart"]
+      f: ["Amber", "Bardryn", "Diesa", "Eldeth", "Falkrunn", "Gunnloda", "Gurdis", "Helja", "Hlin", "Kathra", "Kristryd", "Ilde", "Liftrasa", "Mardred", "Riswynn", "Sannl", "Torbera", "Vistra"],
+      family: ["Balderk", "Battlehammer", "Brawnanvil", "Dankil", "Fireforge", "Frostbeard", "Gorunn", "Holderhek", "Ironfist", "Loderr", "Lutgehr", "Rumnaheim", "Strakeln", "Torunn", "Ungart"]
     },
     Halfling: {
       m: ["Alton", "Ander", "Cade", "Corrin", "Eldon", "Errich", "Finnan", "Garret", "Lindal", "Lyle", "Merric", "Milo", "Osborn", "Perrin", "Reed", "Roscoe", "Wellby"],
-      v: ["Andry", "Bree", "Callie", "Cora", "Euphemia", "Jillian", "Kithri", "Lavinia", "Lidda", "Merla", "Nedda", "Paela", "Portia", "Seraphina", "Shaena", "Trym", "Vani", "Verna"],
-      achter: ["Brushgather", "Goodbarrel", "Greenbottle", "High-hill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble", "Underbough"]
+      f: ["Andry", "Bree", "Callie", "Cora", "Euphemia", "Jillian", "Kithri", "Lavinia", "Lidda", "Merla", "Nedda", "Paela", "Portia", "Seraphina", "Shaena", "Trym", "Vani", "Verna"],
+      family: ["Brushgather", "Goodbarrel", "Greenbottle", "High-hill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble", "Underbough"]
     },
-    Gnoom: {
+    Gnome: {
       m: ["Alston", "Boddynock", "Brocc", "Burgell", "Dimble", "Eldon", "Erky", "Fonkin", "Frug", "Gerbo", "Gimble", "Glim", "Jebeddo", "Kellen", "Namfoodle", "Roondar", "Seebo", "Sindri", "Warryn", "Zook"],
-      v: ["Bimpnottin", "Breena", "Caramip", "Carlin", "Donella", "Duvamil", "Ella", "Ellyjobell", "Loopmottin", "Lorilla", "Mardnab", "Nissa", "Nyx", "Oda", "Orla", "Roywyn", "Shamil", "Tana", "Waywocket", "Zanna"],
-      achter: ["Beren", "Daergel", "Folkor", "Garrick", "Nackle", "Murnig", "Ningel", "Raulnor", "Scheppen", "Timbers", "Turen"]
+      f: ["Bimpnottin", "Breena", "Caramip", "Carlin", "Donella", "Duvamil", "Ella", "Ellyjobell", "Loopmottin", "Lorilla", "Mardnab", "Nissa", "Nyx", "Oda", "Orla", "Roywyn", "Shamil", "Tana", "Waywocket", "Zanna"],
+      family: ["Beren", "Daergel", "Folkor", "Garrick", "Nackle", "Murnig", "Ningel", "Raulnor", "Scheppen", "Timbers", "Turen"]
     },
-    Ork: {
+    Orc: {
       m: ["Dench", "Feng", "Gell", "Henk", "Holg", "Imsh", "Keth", "Krusk", "Mhurren", "Ront", "Shump", "Thokk", "Ukurg", "Vrakk"],
-      v: ["Baggi", "Emen", "Engong", "Kansif", "Myev", "Neega", "Ovak", "Ownka", "Shautha", "Sutha", "Vola", "Volen", "Yevelda"],
-      achter: ["Bloodtusk", "Ironjaw", "Gorekin", "Skullcleave", "Manghand", "Bonegrinder"]
+      f: ["Baggi", "Emen", "Engong", "Kansif", "Myev", "Neega", "Ovak", "Ownka", "Shautha", "Sutha", "Vola", "Volen", "Yevelda"],
+      family: ["Bloodtusk", "Ironjaw", "Gorekin", "Skullcleave", "Manghand", "Bonegrinder"]
     },
     Dragonborn: {
       m: ["Arjhan", "Balasar", "Bharash", "Donaar", "Ghesh", "Heskan", "Kriv", "Medrash", "Mehen", "Nadarr", "Pandjed", "Patrin", "Rhogar", "Shamash", "Torinn"],
-      v: ["Akra", "Biri", "Daar", "Farideh", "Harann", "Havilar", "Jheri", "Kava", "Korinn", "Mishann", "Nala", "Perra", "Raiann", "Sora", "Surina", "Thava", "Uadjit"],
-      achter: ["Clethtinthiallor", "Daardendrian", "Delmirev", "Drachedandion", "Kepeshkmolik", "Kerrhylon", "Linxakasendalor", "Myastan", "Prexijandilin", "Shestendeliath", "Turnuroth", "Verthisathurgiesh", "Yarjerit"]
+      f: ["Akra", "Biri", "Daar", "Farideh", "Harann", "Havilar", "Jheri", "Kava", "Korinn", "Mishann", "Nala", "Perra", "Raiann", "Sora", "Surina", "Thava", "Uadjit"],
+      family: ["Clethtinthiallor", "Daardendrian", "Delmirev", "Drachedandion", "Kepeshkmolik", "Kerrhylon", "Linxakasendalor", "Myastan", "Prexijandilin", "Shestendeliath", "Turnuroth", "Verthisathurgiesh", "Yarjerit"]
     },
     Tiefling: {
       m: ["Akmenos", "Amnon", "Barakas", "Damakos", "Ekemon", "Iados", "Kairon", "Leucis", "Melech", "Mordai", "Morthos", "Pelaios", "Skamos", "Therai"],
-      v: ["Akta", "Anakis", "Bryseis", "Criella", "Damaia", "Ea", "Kallista", "Lerissa", "Makaria", "Nemeia", "Orianna", "Phelaia", "Rieta"],
-      achter: ["Hoop", "Vroomheid", "Berouw", "Verlangen", "Nemesis", "Waarheid", "Voorteken", "Vrees", "Zorg", "Deugd", "Wraak"]
+      f: ["Akta", "Anakis", "Bryseis", "Criella", "Damaia", "Ea", "Kallista", "Lerissa", "Makaria", "Nemeia", "Orianna", "Phelaia", "Rieta"],
+      family: ["Hope", "Piety", "Regret", "Yearning", "Nemesis", "Truth", "Portent", "Dread", "Sorrow", "Virtue", "Vengeance"]
     },
-    Halfelf: {
+    "Half-elf": {
       m: ["Corvin", "Elrik", "Fenris", "Jareth", "Kaelen", "Lorien", "Rian", "Sylas", "Talion", "Varen"],
-      v: ["Arwyn", "Celia", "Delphine", "Eirlys", "Faye", "Liora", "Maevis", "Nerys", "Sylvaine", "Vaela"],
-      achter: ["Duskwalker", "Everlight", "Halfmoon", "Silverbrook", "Thornwood", "Winterleaf"]
+      f: ["Arwyn", "Celia", "Delphine", "Eirlys", "Faye", "Liora", "Maevis", "Nerys", "Sylvaine", "Vaela"],
+      family: ["Duskwalker", "Everlight", "Halfmoon", "Silverbrook", "Thornwood", "Winterleaf"]
     },
-    Halfork: {
+    "Half-orc": {
       m: ["Brakk", "Drogan", "Gorm", "Haldr", "Karsk", "Morg", "Rurg", "Tharok", "Ugarth", "Zorn"],
-      v: ["Brenna", "Grisla", "Hulda", "Karga", "Murna", "Sagra", "Torga", "Urda", "Yelka"],
-      achter: ["Halfhand", "Strongarm", "Grimjaw", "Steenvuist", "Wolfsbroed"]
+      f: ["Brenna", "Grisla", "Hulda", "Karga", "Murna", "Sagra", "Torga", "Urda", "Yelka"],
+      family: ["Halfhand", "Strongarm", "Grimjaw", "Stonefist", "Wolfborn"]
     }
   },
 
-  /* --- Onderdelen voor plaats- en zaaknamen --- */
-  herbergVoor: ["De Dronken", "De Lachende", "De Rustende", "De Gouden", "De Zilveren", "De Bloedende", "De Slapende", "De Dansende", "De Kreupele", "De Trotse", "De Laatste", "De Groene", "De Zwarte", "De Rode", "Het Verloren", "Het Dorstige", "Het Kromme", "De Vrolijke"],
-  herbergDier: ["Draak", "Eenhoorn", "Griffioen", "Everzwijn", "Raaf", "Wolf", "Beer", "Haan", "Ros", "Zwaan", "Vos", "Pad", "Aal", "Meeuw", "Hert", "Kat", "Nachtegaal", "Slang"],
-  herbergDing: ["Kroon", "Beker", "Ketel", "Anker", "Lantaarn", "Schild", "Bijl", "Vat", "Munt", "Sleutel", "Roos", "Ster", "Maan", "Hamer", "Mantel", "Kompas", "Veer", "Klok"],
+  /* --- Parts for place and business names --- */
+  tavernAdjective: ["The Drunken", "The Laughing", "The Resting", "The Golden", "The Silver", "The Bleeding", "The Sleeping", "The Dancing", "The Limping", "The Proud", "The Last", "The Green", "The Black", "The Red", "The Lost", "The Thirsty", "The Crooked", "The Merry"],
+  tavernBeast: ["Dragon", "Unicorn", "Griffon", "Boar", "Raven", "Wolf", "Bear", "Rooster", "Steed", "Swan", "Fox", "Toad", "Eel", "Gull", "Stag", "Cat", "Nightingale", "Serpent"],
+  tavernThing: ["Crown", "Goblet", "Kettle", "Anchor", "Lantern", "Shield", "Axe", "Barrel", "Coin", "Key", "Rose", "Star", "Moon", "Hammer", "Cloak", "Compass", "Feather", "Bell"],
 
-  winkelType: ["Smederij", "Apotheek", "Kruidenier", "Wapenhandel", "Boekhandel", "Alchemist", "Juwelier", "Leerlooier", "Bakkerij", "Kaarsenmakerij", "Kleermaker", "Pandjeshuis", "Curiosazaak", "Stalhouderij", "Herbalist"],
-  winkelBijvoeglijk: ["Betrouwbare", "Bekwame", "Oude", "Eerlijke", "Geduldige", "Vindingrijke", "Vermaarde", "Zuinige", "Nauwgezette", "Gulle", "Norse", "Behulpzame"],
+  shopType: ["Smithy", "Apothecary", "Grocery", "Weaponry", "Bookshop", "Alchemist", "Jeweller", "Tannery", "Bakery", "Chandlery", "Tailor", "Pawnshop", "Curiosity Shop", "Stables", "Herbalist"],
+  shopAdjective: ["Reliable", "Capable", "Old", "Honest", "Patient", "Inventive", "Renowned", "Thrifty", "Meticulous", "Generous", "Surly", "Helpful"],
 
-  plaatsVoor: ["Noord", "Zuid", "Oost", "West", "Hoog", "Diep", "Steen", "IJzer", "Winter", "Zomer", "Raven", "Wolf", "Eik", "Mist", "Zilver", "Schemer", "Doorn", "Brug", "Bron", "As"],
-  plaatsAchter: ["haven", "burg", "veste", "dal", "voorde", "brug", "heuvel", "rust", "wijk", "hoven", "marke", "beek", "stede", "kamp", "gaard", "poort", "woud", "klif"],
+  placePrefix: ["North", "South", "East", "West", "High", "Deep", "Stone", "Iron", "Winter", "Summer", "Raven", "Wolf", "Oak", "Mist", "Silver", "Dusk", "Thorn", "Bridge", "Well", "Ash"],
+  placeSuffix: ["haven", "burgh", "hold", "dale", "ford", "bridge", "hill", "rest", "wick", "hollow", "march", "brook", "stead", "camp", "garde", "gate", "wood", "cliff"],
 
-  gezelschapVoor: ["De IJzeren", "De Stille", "De Gouden", "De Grijze", "De Verloren", "De Schaduw", "De Karmozijnen", "De Laatste", "De Vrije", "De Zwijgende"],
-  gezelschapAchter: ["Wacht", "Klauw", "Roos", "Hand", "Broederschap", "Compagnie", "Orde", "Kring", "Eed", "Bende", "Vloot", "Vuist"]
+  companyPrefix: ["The Iron", "The Silent", "The Golden", "The Grey", "The Lost", "The Shadow", "The Crimson", "The Last", "The Free", "The Whispering"],
+  companySuffix: ["Watch", "Talon", "Rose", "Hand", "Brotherhood", "Company", "Order", "Circle", "Oath", "Band", "Fleet", "Fist"]
 };

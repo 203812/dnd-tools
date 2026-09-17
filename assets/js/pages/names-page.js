@@ -1,100 +1,100 @@
 /* ============================================================
-   names-page.js - logica voor tools/names.html
+   names-page.js - logic for tools/names.html
    ============================================================ */
 (function () {
   'use strict';
 
-  var volken = Object.keys(NAMES.volken);
-  volken.forEach(function (v) { H.qs('#f-volk').appendChild(new Option(v, v)); });
+  var ancestries = Object.keys(NAMES.ancestries);
+  ancestries.forEach(function (v) { H.qs('#f-ancestry').appendChild(new Option(v, v)); });
 
-  /* ---------- Personagenamen ---------- */
-  function persoonsnaam(volk, geslacht) {
-    var d = NAMES.volken[volk];
-    var g = geslacht || H.pick(['m', 'v']);
-    var achter = d.achter && d.achter.length ? ' ' + H.pick(d.achter) : '';
-    return H.pick(d[g]) + achter;
+  /* ---------- Character names ---------- */
+  function personName(ancestry, gender) {
+    var d = NAMES.ancestries[ancestry];
+    var g = gender || H.pick(['m', 'f']);
+    var family = d.family && d.family.length ? ' ' + H.pick(d.family) : '';
+    return H.pick(d[g]) + family;
   }
 
-  function lijst(container, items) {
+  function list(container, items) {
     container.innerHTML = items.map(function (t) {
       return '<div class="stat-line" style="cursor:pointer" data-name="' + H.escape(t) + '">' +
-        '<span>' + H.escape(t) + '</span><span class="muted" style="font-size:.8rem">kopieer</span></div>';
+        '<span>' + H.escape(t) + '</span><span class="muted" style="font-size:.8rem">copy</span></div>';
     }).join('');
   }
 
-  H.on('#btn-namen', 'click', function () {
-    var volk = H.qs('#f-volk').value;
-    var g = H.qs('#f-geslacht').value || null;
-    var n = H.clamp(parseInt(H.qs('#f-aantal').value, 10) || 8, 1, 30);
+  H.on('#btn-names', 'click', function () {
+    var ancestry = H.qs('#f-ancestry').value;
+    var g = H.qs('#f-gender').value || null;
+    var n = H.clamp(parseInt(H.qs('#f-count').value, 10) || 8, 1, 30);
     var out = [];
-    for (var i = 0; i < n; i++) out.push(persoonsnaam(volk, g));
-    lijst(H.qs('#out-namen'), out);
+    for (var i = 0; i < n; i++) out.push(personName(ancestry, g));
+    list(H.qs('#out-names'), out);
   });
 
-  /* ---------- Plaatsen en zaken ---------- */
-  var SOORTEN = {
-    Herberg: function () {
+  /* ---------- Places and businesses ---------- */
+  var KINDS = {
+    Tavern: function () {
       return Math.random() < 0.55
-        ? H.pick(NAMES.herbergVoor) + ' ' + H.pick(NAMES.herbergDier)
-        : H.pick(NAMES.herbergVoor) + ' ' + H.pick(NAMES.herbergDing);
+        ? H.pick(NAMES.tavernAdjective) + ' ' + H.pick(NAMES.tavernBeast)
+        : H.pick(NAMES.tavernAdjective) + ' ' + H.pick(NAMES.tavernThing);
     },
-    Winkel: function () {
-      return 'De ' + H.pick(NAMES.winkelBijvoeglijk) + ' ' + H.pick(NAMES.winkelType).toLowerCase() +
-             ' van ' + persoonsnaam(H.pick(volken)).split(' ')[0];
+    Shop: function () {
+      return 'The ' + H.pick(NAMES.shopAdjective) + ' ' + H.pick(NAMES.shopType).toLowerCase() +
+             ' of ' + personName(H.pick(ancestries)).split(' ')[0];
     },
-    Dorp: function () { return H.pick(NAMES.plaatsVoor) + H.pick(NAMES.plaatsAchter); },
-    Gezelschap: function () { return H.pick(NAMES.gezelschapVoor) + ' ' + H.pick(NAMES.gezelschapAchter); }
+    Village: function () { return H.pick(NAMES.placePrefix) + H.pick(NAMES.placeSuffix); },
+    Company: function () { return H.pick(NAMES.companyPrefix) + ' ' + H.pick(NAMES.companySuffix); }
   };
 
-  var actieveSoort = 'Herberg';
-  var chipHost = H.qs('#soort-chips');
-  Object.keys(SOORTEN).forEach(function (s) {
-    var b = H.el('button', 'chip' + (s === actieveSoort ? ' active' : ''), s);
+  var activeKind = 'Tavern';
+  var chipHost = H.qs('#kind-chips');
+  Object.keys(KINDS).forEach(function (s) {
+    var b = H.el('button', 'chip' + (s === activeKind ? ' active' : ''), s);
     b.type = 'button';
-    b.setAttribute('data-soort', s);
+    b.setAttribute('data-kind', s);
     chipHost.appendChild(b);
   });
 
-  function renderPlaatsen() {
-    var n = H.clamp(parseInt(H.qs('#f-plaats-aantal').value, 10) || 6, 1, 20);
+  function renderPlaces() {
+    var n = H.clamp(parseInt(H.qs('#f-place-count').value, 10) || 6, 1, 20);
     var out = [];
-    for (var i = 0; i < n; i++) out.push(SOORTEN[actieveSoort]());
-    lijst(H.qs('#out-plaats'), out);
+    for (var i = 0; i < n; i++) out.push(KINDS[activeKind]());
+    list(H.qs('#out-places'), out);
   }
 
   chipHost.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-soort]');
+    var b = e.target.closest('[data-kind]');
     if (!b) return;
     H.qsa('.chip', chipHost).forEach(function (c) { c.classList.remove('active'); });
     b.classList.add('active');
-    actieveSoort = b.getAttribute('data-soort');
-    renderPlaatsen();
+    activeKind = b.getAttribute('data-kind');
+    renderPlaces();
   });
 
-  H.qs('#f-plaats-aantal').addEventListener('input', renderPlaatsen);
+  H.qs('#f-place-count').addEventListener('input', renderPlaces);
 
-  /* ---------- Herberg met inhoud ---------- */
-  H.on('#btn-herberg', 'click', function () {
-    var waard = persoonsnaam(H.pick(volken));
-    H.qs('#out-herberg').innerHTML =
+  /* ---------- A tavern with contents ---------- */
+  H.on('#btn-tavern', 'click', function () {
+    var host = personName(H.pick(ancestries));
+    H.qs('#out-tavern').innerHTML =
       '<div class="result-box">' +
-        '<h3 style="margin-top:0">' + H.escape(SOORTEN.Herberg()) + '</h3>' +
-        '<div class="stat-line"><span>Waard</span><span>' + H.escape(waard) + '</span></div>' +
-        '<div class="stat-line"><span>Sfeer</span><span>' + H.escape(H.pick(TAVERN_DATA.sfeer)) + '</span></div>' +
-        '<div class="stat-line"><span>Specialiteit</span><span>' + H.escape(H.pick(TAVERN_DATA.specialiteit)) + '</span></div>' +
-        '<div class="stat-line"><span>Kamer per nacht</span><span>' + H.randInt(2, 15) + ' sp</span></div>' +
-        '<div class="stat-line"><span>Er speelt iets</span><span>' + H.escape(H.pick(TAVERN_DATA.probleem)) + '</span></div>' +
+        '<h3 style="margin-top:0">' + H.escape(KINDS.Tavern()) + '</h3>' +
+        '<div class="stat-line"><span>Innkeeper</span><span>' + H.escape(host) + '</span></div>' +
+        '<div class="stat-line"><span>Mood</span><span>' + H.escape(H.pick(TAVERN_DATA.mood)) + '</span></div>' +
+        '<div class="stat-line"><span>Speciality</span><span>' + H.escape(H.pick(TAVERN_DATA.speciality)) + '</span></div>' +
+        '<div class="stat-line"><span>Room per night</span><span>' + H.randInt(2, 15) + ' sp</span></div>' +
+        '<div class="stat-line"><span>Something is going on</span><span>' + H.escape(H.pick(TAVERN_DATA.trouble)) + '</span></div>' +
       '</div>';
   });
 
-  /* ---------- Kopiëren ---------- */
+  /* ---------- Copying ---------- */
   document.addEventListener('click', function (e) {
     var row = e.target.closest('[data-name]');
     if (!row) return;
     H.copy(row.getAttribute('data-name'));
   });
 
-  H.qs('#btn-namen').click();
-  renderPlaatsen();
-  H.qs('#btn-herberg').click();
+  H.qs('#btn-names').click();
+  renderPlaces();
+  H.qs('#btn-tavern').click();
 })();

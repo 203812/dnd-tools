@@ -1,5 +1,5 @@
 /* ============================================================
-   abilities-page.js - logica voor tools/abilities.html
+   abilities-page.js - logic for tools/abilities.html
    ============================================================ */
 (function () {
   'use strict';
@@ -13,20 +13,20 @@
   var ARRAY = [15, 14, 13, 12, 10, 8];
   var BUDGET = 27;
 
-  /* Rasbonussen uit de SRD 5.1 */
+  /* Racial bonuses from the SRD 5.1 */
   var RACES = {
-    'Geen': {},
-    'Mens': { str: 1, dex: 1, con: 1, int: 1, wis: 1, cha: 1 },
-    'Dwerg (heuvel)': { con: 2, wis: 1 },
-    'Dwerg (berg)': { con: 2, str: 2 },
-    'Elf (hoog)': { dex: 2, int: 1 },
-    'Elf (woud)': { dex: 2, wis: 1 },
-    'Elf (drow)': { dex: 2, cha: 1 },
-    'Halfling (lightfoot)': { dex: 2, cha: 1 },
-    'Halfling (stout)': { dex: 2, con: 1 },
-    'Gnoom (rots)': { int: 2, con: 1 },
-    'Halfelf': { cha: 2 },
-    'Halfork': { str: 2, con: 1 },
+    'None': {},
+    'Human': { str: 1, dex: 1, con: 1, int: 1, wis: 1, cha: 1 },
+    'Hill Dwarf': { con: 2, wis: 1 },
+    'Mountain Dwarf': { con: 2, str: 2 },
+    'High Elf': { dex: 2, int: 1 },
+    'Wood Elf': { dex: 2, wis: 1 },
+    'Dark Elf (Drow)': { dex: 2, cha: 1 },
+    'Lightfoot Halfling': { dex: 2, cha: 1 },
+    'Stout Halfling': { dex: 2, con: 1 },
+    'Rock Gnome': { int: 2, con: 1 },
+    'Half-elf': { cha: 2 },
+    'Half-orc': { str: 2, con: 1 },
     'Dragonborn': { str: 2, cha: 1 },
     'Tiefling': { int: 1, cha: 2 }
   };
@@ -34,7 +34,7 @@
   Object.keys(RACES).forEach(function (r) { H.qs('#f-race').appendChild(new Option(r, r)); });
 
   var base = { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 };
-  var pool = [];          // beschikbare waarden bij array/roll
+  var pool = [];          // available values for array/roll
   var assigned = {};      // ability -> index in pool
 
   function method() { return H.qs('#f-method').value; }
@@ -60,7 +60,7 @@
     if (m === 'pointbuy') {
       var left = BUDGET - pointsUsed();
       var el = H.qs('#points-left');
-      el.textContent = left + ' punten over';
+      el.textContent = left + ' points left';
       el.className = 'tag ' + (left < 0 ? 'red' : (left === 0 ? 'green' : 'gold'));
     }
 
@@ -110,12 +110,12 @@
     var mods = totals.reduce(function (s, v) { return s + H.mod(v); }, 0);
 
     H.qs('#summary').innerHTML =
-      '<div class="stat-line"><span>Som van de scores</span><span>' + sum + '</span></div>' +
-      '<div class="stat-line"><span>Som van de modifiers</span><span>' + H.signed(mods) + '</span></div>' +
-      '<div class="stat-line"><span>Hoogste score</span><span>' + Math.max.apply(null, totals) + '</span></div>' +
-      '<div class="stat-line"><span>Proficiency bonus (niv. ' + level + ')</span><span>' + H.signed(prof) + '</span></div>' +
+      '<div class="stat-line"><span>Sum of scores</span><span>' + sum + '</span></div>' +
+      '<div class="stat-line"><span>Sum of modifiers</span><span>' + H.signed(mods) + '</span></div>' +
+      '<div class="stat-line"><span>Highest score</span><span>' + Math.max.apply(null, totals) + '</span></div>' +
+      '<div class="stat-line"><span>Proficiency bonus (level ' + level + ')</span><span>' + H.signed(prof) + '</span></div>' +
       '<div class="stat-line"><span>Spell save DC (8 + prof + mod)</span><span>' +
-        (8 + prof + Math.max.apply(null, totals.map(function (t) { return H.mod(t); }))) + ' bij je beste score</span></div>' +
+        (8 + prof + Math.max.apply(null, totals.map(function (t) { return H.mod(t); }))) + ' using your best score</span></div>' +
       '<div class="hr"></div>' +
       ABILITIES.map(function (a) {
         return '<div class="stat-line"><span>' + a.n + '</span><span>' + finalScore(a.k) +
@@ -123,14 +123,14 @@
       }).join('');
   }
 
-  /* ---------- Interactie ---------- */
+  /* ---------- Interaction ---------- */
   H.qs('#score-rows').addEventListener('click', function (e) {
     var btn = e.target.closest('[data-act]');
     if (!btn || method() !== 'pointbuy') return;
     var k = btn.getAttribute('data-k');
     var act = btn.getAttribute('data-act');
     if (act === 'inc' && base[k] < 15) {
-      if (pointsUsed() - COST[base[k]] + COST[base[k] + 1] > BUDGET) { H.toast('Niet genoeg punten'); return; }
+      if (pointsUsed() - COST[base[k]] + COST[base[k] + 1] > BUDGET) { H.toast('Not enough points'); return; }
       base[k]++;
     }
     if (act === 'dec' && base[k] > 8) base[k]--;

@@ -1,132 +1,132 @@
 /* ============================================================
-   rules.js - naslagdata: condities, acties, dekking, rust, reizen
-   Samengevat uit de SRD 5.1 (CC-BY-4.0).
+   rules.js - reference data: conditions, actions, cover, rest, travel
+   Summarised from the SRD 5.1 (CC-BY-4.0).
    ============================================================ */
 window.RULES = {
 
-  condities: [
-    { n: "Blinded", nl: "Verblind", p: [
-      "Je kunt niet zien en faalt automatisch elke check waarvoor zicht nodig is.",
-      "Aanvalsworpen tegen jou hebben advantage, jouw aanvalsworpen hebben disadvantage."
+  conditions: [
+    { n: "Blinded", p: [
+      "You can't see and automatically fail any check that requires sight.",
+      "Attack rolls against you have advantage, and your attack rolls have disadvantage."
     ] },
-    { n: "Charmed", nl: "Betoverd", p: [
-      "Je kunt de betoveraar niet aanvallen en hem niet als doel kiezen voor schadelijke effecten.",
-      "De betoveraar heeft advantage op CHA-checks om sociaal met je om te gaan."
+    { n: "Charmed", p: [
+      "You can't attack the charmer or target them with harmful abilities or magical effects.",
+      "The charmer has advantage on any ability check to interact socially with you."
     ] },
-    { n: "Deafened", nl: "Doof", p: [
-      "Je kunt niet horen en faalt automatisch elke check waarvoor gehoor nodig is."
+    { n: "Deafened", p: [
+      "You can't hear and automatically fail any check that requires hearing."
     ] },
-    { n: "Exhaustion", nl: "Uitputting", p: [
-      "Niveau 1: disadvantage op ability checks.",
-      "Niveau 2: snelheid gehalveerd.",
-      "Niveau 3: disadvantage op aanvalsworpen en saving throws.",
-      "Niveau 4: HP-maximum gehalveerd.",
-      "Niveau 5: snelheid tot 0.",
-      "Niveau 6: dood. Een lange rust verwijdert één niveau, mits je eet en drinkt."
+    { n: "Exhaustion", p: [
+      "Level 1: disadvantage on ability checks.",
+      "Level 2: speed halved.",
+      "Level 3: disadvantage on attack rolls and saving throws.",
+      "Level 4: hit point maximum halved.",
+      "Level 5: speed reduced to 0.",
+      "Level 6: death. A long rest removes one level, provided you have food and drink."
     ] },
-    { n: "Frightened", nl: "Bang", p: [
-      "Disadvantage op ability checks en aanvalsworpen zolang de bron van je angst in zicht is.",
-      "Je kunt niet vrijwillig dichter naar de bron toe bewegen."
+    { n: "Frightened", p: [
+      "Disadvantage on ability checks and attack rolls while the source of your fear is in line of sight.",
+      "You can't willingly move closer to the source of your fear."
     ] },
-    { n: "Grappled", nl: "Vastgegrepen", p: [
-      "Je snelheid wordt 0 en je kunt niet profiteren van bonussen op snelheid.",
-      "Eindigt als de grijper incapacitated raakt of als jullie uit elkaars bereik worden gehaald."
+    { n: "Grappled", p: [
+      "Your speed becomes 0 and you can't benefit from any bonus to your speed.",
+      "Ends if the grappler is incapacitated, or if you are moved out of its reach."
     ] },
-    { n: "Incapacitated", nl: "Uitgeschakeld", p: [
-      "Je kunt geen acties of reacties uitvoeren."
+    { n: "Incapacitated", p: [
+      "You can't take actions or reactions."
     ] },
-    { n: "Invisible", nl: "Onzichtbaar", p: [
-      "Je bent niet te zien zonder magie of een speciaal zintuig; je positie kan verraden worden door geluid of sporen.",
-      "Aanvalsworpen tegen jou hebben disadvantage, jouw aanvalsworpen hebben advantage."
+    { n: "Invisible", p: [
+      "You can't be seen without magic or a special sense; your location can still be given away by noise or tracks.",
+      "Attack rolls against you have disadvantage, and your attack rolls have advantage."
     ] },
-    { n: "Paralyzed", nl: "Verlamd", p: [
-      "Je bent incapacitated, kunt niet bewegen of spreken.",
-      "Je faalt automatisch STR- en DEX-saves. Aanvallen tegen jou hebben advantage.",
-      "Elke treffer binnen 5 ft. is automatisch een critical hit."
+    { n: "Paralyzed", p: [
+      "You are incapacitated and can't move or speak.",
+      "You automatically fail STR and DEX saves. Attacks against you have advantage.",
+      "Any attack that hits you from within 5 feet is a critical hit."
     ] },
-    { n: "Petrified", nl: "Versteend", p: [
-      "Je bent veranderd in steen: incapacitated, je kunt niet bewegen of spreken en bent je omgeving niet bewust.",
-      "Je gewicht wordt tien keer zo groot en je veroudert niet.",
-      "Aanvallen tegen jou hebben advantage; je faalt STR- en DEX-saves automatisch.",
-      "Je hebt resistance tegen alle schade en bent immuun voor vergif en ziekte."
+    { n: "Petrified", p: [
+      "You are transformed into stone: incapacitated, unable to move or speak, and unaware of your surroundings.",
+      "Your weight increases tenfold and you stop aging.",
+      "Attacks against you have advantage; you automatically fail STR and DEX saves.",
+      "You have resistance to all damage and are immune to poison and disease."
     ] },
-    { n: "Poisoned", nl: "Vergiftigd", p: [
-      "Disadvantage op aanvalsworpen en ability checks."
+    { n: "Poisoned", p: [
+      "Disadvantage on attack rolls and ability checks."
     ] },
-    { n: "Prone", nl: "Liggend", p: [
-      "Je kunt alleen kruipen, tenzij je opstaat (kost de helft van je snelheid).",
-      "Disadvantage op aanvalsworpen.",
-      "Aanvallen tegen jou hebben advantage binnen 5 ft., anders disadvantage."
+    { n: "Prone", p: [
+      "Your only movement option is to crawl, unless you stand up (costing half your speed).",
+      "Disadvantage on attack rolls.",
+      "Attacks against you have advantage within 5 feet, otherwise disadvantage."
     ] },
-    { n: "Restrained", nl: "Beknot", p: [
-      "Je snelheid wordt 0.",
-      "Aanvallen tegen jou hebben advantage, jouw aanvallen hebben disadvantage.",
-      "Disadvantage op DEX-saves."
+    { n: "Restrained", p: [
+      "Your speed becomes 0.",
+      "Attacks against you have advantage, and your attacks have disadvantage.",
+      "Disadvantage on DEX saving throws."
     ] },
-    { n: "Stunned", nl: "Verdoofd", p: [
-      "Je bent incapacitated, kunt niet bewegen en spreekt alleen haperend.",
-      "Je faalt automatisch STR- en DEX-saves; aanvallen tegen jou hebben advantage."
+    { n: "Stunned", p: [
+      "You are incapacitated, can't move, and can speak only falteringly.",
+      "You automatically fail STR and DEX saves; attacks against you have advantage."
     ] },
-    { n: "Unconscious", nl: "Bewusteloos", p: [
-      "Je bent incapacitated, bewust van niets, laat alles vallen en valt prone.",
-      "Je faalt automatisch STR- en DEX-saves; aanvallen tegen jou hebben advantage.",
-      "Elke treffer binnen 5 ft. is een critical hit."
+    { n: "Unconscious", p: [
+      "You are incapacitated, unaware of your surroundings, drop what you're holding, and fall prone.",
+      "You automatically fail STR and DEX saves; attacks against you have advantage.",
+      "Any attack that hits you from within 5 feet is a critical hit."
     ] }
   ],
 
-  acties: [
-    { n: "Attack", d: "Eén wapenaanval (meer met Extra Attack). Je mag je beweging over de aanvallen verdelen." },
-    { n: "Cast a Spell", d: "Spreek een spreuk uit; de casting time bepaalt of het een actie, bonusactie of reactie is." },
-    { n: "Dash", d: "Verdubbel je beweging voor deze beurt." },
-    { n: "Disengage", d: "Je beweging lokt deze beurt geen opportunity attacks uit." },
-    { n: "Dodge", d: "Aanvallen tegen jou hebben disadvantage en je hebt advantage op DEX-saves tot je volgende beurt. Vervalt als je incapacitated raakt of je snelheid 0 wordt." },
-    { n: "Help", d: "Geef een bondgenoot advantage op zijn volgende check, of op zijn volgende aanval tegen een vijand binnen 5 ft. van jou." },
-    { n: "Hide", d: "Doe een DEX (Stealth)-check om je te verbergen." },
-    { n: "Ready", d: "Kies een trigger en een reactie. Je houdt concentratie vast op een voorbereide spreuk." },
-    { n: "Search", d: "Zoek actief: WIS (Perception) of INT (Investigation)." },
-    { n: "Use an Object", d: "Bedien een voorwerp dat een actie vergt, of gebruik een tweede voorwerp in dezelfde beurt." },
-    { n: "Grapple (deel van Attack)", d: "Athletics tegen Athletics of Acrobatics van het doel; bij succes is het grappled." },
-    { n: "Shove (deel van Attack)", d: "Athletics tegen Athletics of Acrobatics; bij succes 5 ft. wegduwen of prone maken." },
-    { n: "Opportunity Attack (reactie)", d: "Als een vijand je bereik uit beweegt, mag je één melee-aanval doen." },
-    { n: "Two-Weapon Fighting (bonusactie)", d: "Met twee lichte wapens: één extra aanval met de offhand, zonder ability-modifier op de schade (tenzij negatief)." }
+  actions: [
+    { n: "Attack", d: "Make one weapon attack (more with Extra Attack). You can split your movement around the attacks." },
+    { n: "Cast a Spell", d: "Cast a spell; its casting time determines whether it takes an action, bonus action, or reaction." },
+    { n: "Dash", d: "Double your movement for the turn." },
+    { n: "Disengage", d: "Your movement doesn't provoke opportunity attacks for the rest of the turn." },
+    { n: "Dodge", d: "Attacks against you have disadvantage and you have advantage on DEX saves until your next turn. Lost if you become incapacitated or your speed drops to 0." },
+    { n: "Help", d: "Give an ally advantage on their next ability check, or on their next attack against a creature within 5 feet of you." },
+    { n: "Hide", d: "Make a DEX (Stealth) check to hide." },
+    { n: "Ready", d: "Choose a trigger and a reaction. You maintain concentration on a readied spell." },
+    { n: "Search", d: "Devote your attention to finding something: WIS (Perception) or INT (Investigation)." },
+    { n: "Use an Object", d: "Interact with an object that requires an action, or use a second object in the same turn." },
+    { n: "Grapple (part of Attack)", d: "Athletics contested by the target's Athletics or Acrobatics; on a success the target is grappled." },
+    { n: "Shove (part of Attack)", d: "Athletics contested by Athletics or Acrobatics; on a success push the target 5 feet or knock it prone." },
+    { n: "Opportunity Attack (reaction)", d: "When a hostile creature leaves your reach, you can make one melee attack against it." },
+    { n: "Two-Weapon Fighting (bonus action)", d: "With two light weapons, make one extra attack with the off-hand weapon, adding no ability modifier to the damage unless it is negative." }
   ],
 
-  dekking: [
-    { n: "Halve dekking", d: "+2 AC en +2 op DEX-saves. Bijvoorbeeld achter een laag muurtje of een ander wezen." },
-    { n: "Driekwart dekking", d: "+5 AC en +5 op DEX-saves. Bijvoorbeeld door een schietgat of achter een boomstam." },
-    { n: "Volledige dekking", d: "Kan niet direct als doel gekozen worden." }
+  cover: [
+    { n: "Half cover", d: "+2 AC and +2 on DEX saves. For example behind a low wall or another creature." },
+    { n: "Three-quarters cover", d: "+5 AC and +5 on DEX saves. For example through an arrow slit or behind a tree trunk." },
+    { n: "Total cover", d: "Can't be targeted directly by an attack or spell." }
   ],
 
-  rusten: [
-    { n: "Korte rust", d: "Minstens 1 uur licht bezig. Je mag Hit Dice uitgeven om HP te herstellen (worp + CON-modifier per die)." },
-    { n: "Lange rust", d: "Minstens 8 uur, waarvan hooguit 2 uur wacht lopen. Je herstelt al je HP en de helft van je Hit Dice (minimaal 1), en verliest één niveau exhaustion. Maximaal één lange rust per 24 uur." }
+  resting: [
+    { n: "Short rest", d: "At least 1 hour of light activity. You can spend Hit Dice to regain hit points (roll + CON modifier per die)." },
+    { n: "Long rest", d: "At least 8 hours, of which at most 2 hours on watch. You regain all hit points and half your Hit Dice (minimum 1), and lose one level of exhaustion. At most one long rest per 24 hours." }
   ],
 
   dcs: [
-    { dc: 5, n: "Heel makkelijk" }, { dc: 10, n: "Makkelijk" }, { dc: 15, n: "Gemiddeld" },
-    { dc: 20, n: "Lastig" }, { dc: 25, n: "Heel lastig" }, { dc: 30, n: "Bijna onmogelijk" }
+    { dc: 5, n: "Very easy" }, { dc: 10, n: "Easy" }, { dc: 15, n: "Medium" },
+    { dc: 20, n: "Hard" }, { dc: 25, n: "Very hard" }, { dc: 30, n: "Nearly impossible" }
   ],
 
-  reizen: [
-    { tempo: "Langzaam", perUur: "2 mijl", perDag: "18 mijl", effect: "Kan tijdens het reizen sluipen (Stealth)." },
-    { tempo: "Normaal", perUur: "3 mijl", perDag: "24 mijl", effect: "Geen bijzonderheden." },
-    { tempo: "Snel", perUur: "4 mijl", perDag: "30 mijl", effect: "-5 op passieve Perception." }
+  travel: [
+    { pace: "Slow", perHour: "2 miles", perDay: "18 miles", effect: "Able to use stealth while travelling." },
+    { pace: "Normal", perHour: "3 miles", perDay: "24 miles", effect: "No special effect." },
+    { pace: "Fast", perHour: "4 miles", perDay: "30 miles", effect: "-5 penalty to passive Perception." }
   ],
 
-  vallen: [
-    { n: "Vallen", d: "1d6 bludgeoning per 10 ft. gevallen, maximaal 20d6. Je landt prone tenzij je de schade volledig vermijdt." },
-    { n: "Verstikking", d: "Je kunt je adem 1 + CON-modifier minuten inhouden (minimaal 30 seconden). Daarna hou je nog CON-modifier rondes vol en val je dan naar 0 HP." },
-    { n: "Verbranden/lava", d: "Richtlijn: 10d10 vuurschade per beurt in lava, 1d10 voor een fakkel of open vuur." },
-    { n: "Honger en dorst", d: "Zonder genoeg water: één niveau exhaustion per dag. Zonder eten: één niveau per dag na een aantal dagen gelijk aan 3 + CON-modifier." }
+  hazards: [
+    { n: "Falling", d: "1d6 bludgeoning per 10 feet fallen, to a maximum of 20d6. You land prone unless you avoid the damage entirely." },
+    { n: "Suffocating", d: "You can hold your breath for 1 + CON modifier minutes (minimum 30 seconds). After that you survive a number of rounds equal to your CON modifier, then drop to 0 hit points." },
+    { n: "Burning and lava", d: "Guideline: 10d10 fire damage per turn in lava, 1d10 for a torch or open flame." },
+    { n: "Hunger and thirst", d: "Without enough water: one level of exhaustion per day. Without food: one level per day after a number of days equal to 3 + your CON modifier." }
   ],
 
-  /* Snelle DC- en aanvalsrichtlijnen per gemiddeld partyniveau */
-  vaardigheden: [
+  /* Which skills belong to which ability */
+  skills: [
     { n: "STR", skills: "Athletics" },
     { n: "DEX", skills: "Acrobatics, Sleight of Hand, Stealth" },
     { n: "INT", skills: "Arcana, History, Investigation, Nature, Religion" },
     { n: "WIS", skills: "Animal Handling, Insight, Medicine, Perception, Survival" },
     { n: "CHA", skills: "Deception, Intimidation, Performance, Persuasion" },
-    { n: "CON", skills: "geen vaardigheden - alleen saving throws" }
+    { n: "CON", skills: "no skills - saving throws only" }
   ]
 };

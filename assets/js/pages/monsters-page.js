@@ -1,5 +1,5 @@
 /* ============================================================
-   monsters-page.js - logica voor tools/monsters.html
+   monsters-page.js - logic for tools/monsters.html
    ============================================================ */
 (function () {
   'use strict';
@@ -8,7 +8,7 @@
   var detailEl = H.qs('#detail');
   var countEl = H.qs('#count');
 
-  /* ---------- Filters vullen ---------- */
+  /* ---------- Filling the filters ---------- */
   var types = [], envs = [];
   MONSTERS.forEach(function (m) {
     if (types.indexOf(m.type) === -1) types.push(m.type);
@@ -28,7 +28,7 @@
   H.qs('#f-cr-min').value = '0';
   H.qs('#f-cr-max').value = '24';
 
-  /* ---------- Lijst ---------- */
+  /* ---------- The list ---------- */
   function filtered() {
     var q = H.qs('#q').value.trim().toLowerCase();
     var type = H.qs('#f-type').value;
@@ -57,10 +57,10 @@
 
   function render() {
     var list = filtered();
-    countEl.textContent = list.length + ' van ' + MONSTERS.length;
+    countEl.textContent = list.length + ' of ' + MONSTERS.length;
 
     if (!list.length) {
-      listEl.innerHTML = '<div class="empty">Geen monsters gevonden met deze filters.</div>';
+      listEl.innerHTML = '<div class="empty">No monsters match these filters.</div>';
       return;
     }
 
@@ -71,7 +71,7 @@
     }).join('');
   }
 
-  /* ---------- Statblock ---------- */
+  /* ---------- Stat block ---------- */
   function abilityCell(label, score) {
     return '<div><b>' + label + '</b>' + score + ' (' + H.signed(H.mod(score)) + ')</div>';
   }
@@ -84,10 +84,10 @@
     var html =
       '<div class="panel">' +
         '<div class="panel-head no-print">' +
-          '<h2 style="margin:0">Statblock</h2>' +
+          '<h2 style="margin:0">Stat block</h2>' +
           '<div class="btn-group">' +
-            '<button class="btn btn-sm" id="sb-roll-hp">Rol HP</button>' +
-            '<button class="btn btn-sm" data-copy="#sb">Kopieer</button>' +
+            '<button class="btn btn-sm" id="sb-roll-hp">Roll HP</button>' +
+            '<button class="btn btn-sm" data-copy="#sb">Copy</button>' +
             '<button class="btn btn-sm" onclick="window.print()">Print</button>' +
           '</div>' +
         '</div>' +
@@ -117,18 +117,18 @@
           (m.traits || []).map(function (t) {
             return '<p class="sb-action"><b>' + H.escape(t.n) + '.</b> ' + H.escape(t.d) + '</p>';
           }).join('') +
-          ((m.actions || []).length ? '<h4 style="color:var(--red-soft);margin:14px 0 4px">Acties</h4>' : '') +
+          ((m.actions || []).length ? '<h4 style="color:var(--red-soft);margin:14px 0 4px">Actions</h4>' : '') +
           (m.actions || []).map(function (a) {
             return '<p class="sb-action"><b>' + H.escape(a.n) + '.</b> ' + H.escape(a.d) + '</p>';
           }).join('') +
-          ((m.legendary || []).length ? '<h4 style="color:var(--red-soft);margin:14px 0 4px">Legendarische acties</h4>' : '') +
+          ((m.legendary || []).length ? '<h4 style="color:var(--red-soft);margin:14px 0 4px">Legendary Actions</h4>' : '') +
           (m.legendary || []).map(function (a) {
             return '<p class="sb-action"><b>' + H.escape(a.n) + '.</b> ' + H.escape(a.d) + '</p>';
           }).join('') +
         '</div>' +
         '<div class="btn-group no-print" style="margin-top:14px">' +
-          '<button class="btn" id="sb-to-tracker">Naar initiatief-tracker</button>' +
-          '<button class="btn" id="sb-to-encounter">Naar encounter builder</button>' +
+          '<button class="btn" id="sb-to-tracker">Send to initiative tracker</button>' +
+          '<button class="btn" id="sb-to-encounter">Send to encounter builder</button>' +
         '</div>' +
       '</div>';
 
@@ -158,7 +158,7 @@
     var m = MONSTERS.filter(function (x) { return x.name === row.getAttribute('data-name'); })[0];
     if (m) {
       showMonster(m);
-      if (window.matchMedia && window.matchMedia("(max-width: 900px)").matches) detailEl.scrollIntoView({ behavior: 'smooth' });
+      if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) detailEl.scrollIntoView({ behavior: 'smooth' });
     }
   });
 

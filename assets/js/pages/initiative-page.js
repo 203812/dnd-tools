@@ -1,5 +1,5 @@
 /* ============================================================
-   initiative-page.js - logica voor tools/initiative.html
+   initiative-page.js - logic for tools/initiative.html
    ============================================================ */
 (function () {
   'use strict';
@@ -14,7 +14,7 @@
 
   function save() { H.store.set('encounter', state); }
 
-  /* ---------- Sorteren en renderen ---------- */
+  /* ---------- Sorting and rendering ---------- */
   function sorted() {
     return state.combatants.slice().sort(function (a, b) {
       if (b.init !== a.init) return b.init - a.init;
@@ -25,10 +25,10 @@
 
   function render() {
     var list = sorted();
-    roundEl.textContent = 'Ronde ' + state.round;
+    roundEl.textContent = 'Round ' + state.round;
 
     if (!list.length) {
-      listEl.innerHTML = '<div class="empty">Nog geen deelnemers. Voeg spelers en monsters toe om te beginnen.</div>';
+      listEl.innerHTML = '<div class="empty">No combatants yet. Add players and monsters to begin.</div>';
       hintEl.textContent = '';
       renderCond();
       return;
@@ -47,7 +47,7 @@
       if (c.conditions && c.conditions.length) sub.push(c.conditions.join(', '));
 
       return '<div class="' + cls + '" data-id="' + c.id + '">' +
-        '<div class="c-init" title="Initiatief">' + c.init + '</div>' +
+        '<div class="c-init" title="Initiative">' + c.init + '</div>' +
         '<div class="c-main">' +
           '<div class="c-name">' + H.escape(c.name) +
             (c.pc ? ' <span class="tag green">PC</span>' : '') +
@@ -58,29 +58,29 @@
         '</div>' +
         (c.maxHp != null
           ? '<div class="c-hp no-print">' +
-              '<button class="btn btn-sm" data-act="dmg" title="Schade">&#8722;</button>' +
-              '<input type="number" data-act="hpnum" value="' + c.hp + '" aria-label="Hitpoints">' +
+              '<button class="btn btn-sm" data-act="dmg" title="Damage">&#8722;</button>' +
+              '<input type="number" data-act="hpnum" value="' + c.hp + '" aria-label="Hit points">' +
               '<span class="muted" style="font-size:.8rem">/' + c.maxHp + '</span>' +
-              '<button class="btn btn-sm" data-act="heal" title="Genezen">+</button>' +
+              '<button class="btn btn-sm" data-act="heal" title="Heal">+</button>' +
             '</div>'
           : '<div class="c-hp no-print"><button class="btn btn-sm" data-act="sethp">HP</button></div>') +
-        '<button class="btn btn-sm btn-danger no-print" data-act="del" title="Verwijderen">&#10005;</button>' +
+        '<button class="btn btn-sm btn-danger no-print" data-act="del" title="Remove">&#10005;</button>' +
       '</div>';
     }).join('');
 
     var cur = list[state.turn];
-    hintEl.textContent = cur ? 'Aan de beurt: ' + cur.name : '';
+    hintEl.textContent = cur ? 'Up now: ' + cur.name : '';
     renderCond();
   }
 
-  /* ---------- Condities ---------- */
+  /* ---------- Conditions ---------- */
   function renderCond() {
     var c = state.combatants.filter(function (x) { return x.id === selectedId; })[0];
-    if (!c) { condEl.innerHTML = '<span class="muted">Geen deelnemer geselecteerd.</span>'; return; }
+    if (!c) { condEl.innerHTML = '<span class="muted">No combatant selected.</span>'; return; }
 
-    var chips = RULES.condities.map(function (cd) {
+    var chips = RULES.conditions.map(function (cd) {
       var on = (c.conditions || []).indexOf(cd.n) !== -1;
-      return '<button class="chip' + (on ? ' active' : '') + '" data-cond="' + cd.n + '" title="' + H.escape(cd.nl) + '">' + cd.n + '</button>';
+      return '<button class="chip' + (on ? ' active' : '') + '" data-cond="' + cd.n + '">' + cd.n + '</button>';
     }).join('');
 
     condEl.innerHTML = '<div style="margin-bottom:8px"><b>' + H.escape(c.name) + '</b></div><div class="chips">' + chips + '</div>';
@@ -98,7 +98,7 @@
     save(); render();
   });
 
-  /* ---------- Interactie met de lijst ---------- */
+  /* ---------- Interacting with the list ---------- */
   listEl.addEventListener('click', function (e) {
     var row = e.target.closest('.combatant');
     if (!row) return;
@@ -115,19 +115,19 @@
         if (selectedId === id) selectedId = null;
         break;
       case 'dmg': {
-        var d = prompt('Hoeveel schade voor ' + c.name + '?', '');
+        var d = prompt('How much damage to ' + c.name + '?', '');
         if (d == null) return;
         c.hp = Math.max(0, c.hp - (parseInt(d, 10) || 0));
         break;
       }
       case 'heal': {
-        var h = prompt('Hoeveel genezing voor ' + c.name + '?', '');
+        var h = prompt('How much healing for ' + c.name + '?', '');
         if (h == null) return;
         c.hp = Math.min(c.maxHp, c.hp + (parseInt(h, 10) || 0));
         break;
       }
       case 'sethp': {
-        var v = prompt('Hitpoints voor ' + c.name + '?', '10');
+        var v = prompt('Hit points for ' + c.name + '?', '10');
         if (v == null) return;
         c.maxHp = c.hp = parseInt(v, 10) || 0;
         break;
@@ -146,7 +146,7 @@
     save(); render();
   });
 
-  /* ---------- Beurten ---------- */
+  /* ---------- Turns ---------- */
   function step(dir) {
     var n = state.combatants.length;
     if (!n) return;
@@ -164,7 +164,7 @@
     if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
   });
 
-  /* ---------- Toevoegen ---------- */
+  /* ---------- Adding ---------- */
   function add(c) {
     c.id = state.nextId++;
     c.conditions = c.conditions || [];
@@ -195,7 +195,7 @@
     H.qs('#c-name').focus();
   });
 
-  /* ---------- Monsters zoeken ---------- */
+  /* ---------- Monster search ---------- */
   var searchInput = H.qs('#m-search');
   var resultsEl = H.qs('#m-results');
 
@@ -205,7 +205,7 @@
       ? MONSTERS.filter(function (m) { return m.name.toLowerCase().indexOf(q) !== -1 || m.type.indexOf(q) !== -1; })
       : MONSTERS.slice(0, 12);
 
-    if (!list.length) { resultsEl.innerHTML = '<div class="empty">Niets gevonden.</div>'; return; }
+    if (!list.length) { resultsEl.innerHTML = '<div class="empty">Nothing found.</div>'; return; }
 
     resultsEl.innerHTML = list.slice(0, 40).map(function (m) {
       return '<div class="stat-line" style="cursor:pointer" data-mon="' + H.escape(m.name) + '">' +
@@ -233,21 +233,21 @@
       });
     }
     save(); render();
-    H.toast(count + '× ' + m.name + ' toegevoegd');
+    H.toast(count + '× ' + m.name + ' added');
   });
 
   searchInput.addEventListener('input', renderSearch);
 
-  /* ---------- Beheer ---------- */
+  /* ---------- Managing the fight ---------- */
   H.on('#btn-reset', 'click', function () {
-    if (!confirm('Het hele gevecht wissen?')) return;
+    if (!confirm('Clear the entire fight?')) return;
     state = { combatants: [], round: 1, turn: 0, nextId: 1 };
     selectedId = null;
     save(); render();
   });
 
   H.on('#btn-export', 'click', function () {
-    H.download('gevecht.json', JSON.stringify(state, null, 2), 'application/json');
+    H.download('encounter.json', JSON.stringify(state, null, 2), 'application/json');
   });
 
   H.on('#btn-import', 'click', function () {
@@ -265,15 +265,15 @@
           state = data;
           state.nextId = state.nextId || (Math.max.apply(null, [0].concat(state.combatants.map(function (c) { return c.id || 0; }))) + 1);
           save(); render();
-          H.toast('Gevecht geladen');
-        } catch (err) { H.toast('Dit bestand kon niet gelezen worden'); }
+          H.toast('Fight loaded');
+        } catch (err) { H.toast('That file could not be read'); }
       };
       reader.readAsText(file);
     });
     inp.click();
   });
 
-  /* Monsters uit de encounter builder overnemen */
+  /* Monsters handed over from the encounter builder */
   var pending = H.store.get('encounter-queue', null);
   if (pending && pending.length) {
     pending.forEach(function (p) {
@@ -289,7 +289,7 @@
     });
     H.store.del('encounter-queue');
     save();
-    H.toast('Encounter overgenomen uit de builder');
+    H.toast('Encounter imported from the builder');
   }
 
   renderSearch();

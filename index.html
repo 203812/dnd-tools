@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="nl" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DnD Tools &mdash; gratis hulpmiddelen voor Dungeons &amp; Dragons</title>
-<meta name="description" content="Gratis online D&amp;D-tools: dobbelsteenroller, initiatief-tracker, encounter builder, monsterboek, spreukenlijst, schat- en NPC-generators. Werkt in je browser, zonder account.">
+<title>DnD Tools &mdash; free tools for Dungeons &amp; Dragons</title>
+<meta name="description" content="Free online D&amp;D tools: dice roller, initiative tracker, encounter builder, bestiary, spell list, treasure and NPC generators. Runs in your browser, no account needed.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127922;</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
 <script>window.PAGE = 'home'; window.BASE = '.';</script>
@@ -13,15 +13,15 @@
 
 <main>
   <section class="wrap hero">
-    <h1>Alles voor je <span class="accent">volgende sessie</span></h1>
+    <h1>Everything for your <span class="accent">next session</span></h1>
     <p class="lead">
-      Tien gereedschappen voor spelers en Dungeon Masters: dobbelen, gevechten bijhouden, encounters
-      balanceren en in een klik een NPC, schat of naam neerzetten. Geen account, geen reclame &mdash;
-      alles draait gewoon in je browser.
+      Ten tools for players and Dungeon Masters: roll dice, run a fight, balance encounters
+      and drop an NPC, a hoard or a name into play in one click. No account, no ads &mdash;
+      it all runs in your browser.
     </p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="tools/dice.html">&#127922; Rol dobbelstenen</a>
-      <a class="btn" href="tools/initiative.html">&#9876;&#65039; Start een gevecht</a>
+      <a class="btn btn-primary" href="tools/dice.html">&#127922; Roll some dice</a>
+      <a class="btn" href="tools/initiative.html">&#9876;&#65039; Start a fight</a>
     </div>
   </section>
 
@@ -32,14 +32,14 @@
   <section class="wrap section">
     <div class="grid cols-2">
       <div class="panel">
-        <h2>Snelle worp</h2>
-        <p class="muted" style="font-size:.92rem">Typ een notatie en druk op enter. De volledige roller zit onder <a href="tools/dice.html">Dobbelen</a>.</p>
+        <h2>Quick roll</h2>
+        <p class="muted" style="font-size:.92rem">Type a notation and press enter. The full roller lives under <a href="tools/dice.html">Dice</a>.</p>
         <form id="quick-form" class="field-row" style="align-items:flex-end">
           <div class="field" style="flex:1 1 200px">
-            <label for="quick-input">Notatie</label>
+            <label for="quick-input">Notation</label>
             <input id="quick-input" class="mono" value="1d20+5" autocomplete="off">
           </div>
-          <button class="btn btn-primary" type="submit">Rol</button>
+          <button class="btn btn-primary" type="submit">Roll</button>
         </form>
         <div id="quick-result" class="result-box hidden" style="margin-top:12px">
           <div class="dice-total" id="quick-total">&mdash;</div>
@@ -49,13 +49,13 @@
       </div>
 
       <div class="panel">
-        <h2>Waarom deze site</h2>
+        <h2>Why this site</h2>
         <div class="stack">
-          <div class="stat-line"><span>Werkt offline</span><span>alles lokaal, geen server nodig</span></div>
-          <div class="stat-line"><span>Slaat op</span><span>je gevecht blijft staan na F5</span></div>
-          <div class="stat-line"><span>Speldata</span><span>SRD 5.1 &mdash; vrij te gebruiken</span></div>
-          <div class="stat-line"><span>Printbaar</span><span>statblocks en schatten netjes op papier</span></div>
-          <div class="stat-line"><span>Donker &amp; licht</span><span>schakel rechtsboven</span></div>
+          <div class="stat-line"><span>Works offline</span><span>all local, no server required</span></div>
+          <div class="stat-line"><span>Remembers</span><span>your fight survives a refresh</span></div>
+          <div class="stat-line"><span>Game data</span><span>SRD 5.1 &mdash; free to use</span></div>
+          <div class="stat-line"><span>Printable</span><span>stat blocks and treasure on paper</span></div>
+          <div class="stat-line"><span>Dark &amp; light</span><span>switch in the top right</span></div>
         </div>
       </div>
     </div>
@@ -63,14 +63,14 @@
 
   <section class="wrap section">
     <div class="panel">
-      <h2>Aan de slag</h2>
+      <h2>Getting started</h2>
       <p class="muted">
-        Ben je Dungeon Master? Begin bij de <a href="tools/encounter.html">encounter builder</a> om een
-        gevecht op maat van je party te maken, zet de monsters daarna met &eacute;&eacute;n klik in de
-        <a href="tools/initiative.html">initiatief-tracker</a> en rol achteraf de buit met de
-        <a href="tools/loot.html">schatgenerator</a>. Speel je mee aan tafel? De
-        <a href="tools/dice.html">dobbelsteenroller</a> en de <a href="tools/rules.html">regelnaslag</a>
-        zijn waarschijnlijk je vaste twee tabbladen.
+        Running the game? Start at the <a href="tools/encounter.html">encounter builder</a> to size a
+        fight to your party, send those monsters straight to the
+        <a href="tools/initiative.html">initiative tracker</a> with one click, then roll the spoils in the
+        <a href="tools/loot.html">treasure generator</a>. Sitting on the player side? The
+        <a href="tools/dice.html">dice roller</a> and the <a href="tools/rules.html">rules reference</a>
+        are probably your two permanent tabs.
       </p>
     </div>
   </section>
@@ -80,7 +80,7 @@
 <script src="assets/js/dice.js"></script>
 <script>
 (function () {
-  // Toolkaarten uit het register in core.js
+  // Tool cards from the registry in core.js
   var grid = document.getElementById('tool-grid');
   grid.innerHTML = window.TOOLS.map(function (t) {
     return '<a class="card" href="' + t.href + '">' +
@@ -89,7 +89,7 @@
            '</a>';
   }).join('');
 
-  // Snelle worp
+  // Quick roll
   var form = document.getElementById('quick-form');
   var input = document.getElementById('quick-input');
   var box = document.getElementById('quick-result');

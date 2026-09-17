@@ -1,6 +1,6 @@
 /* ============================================================
-   core.js - gedeelde basis: navigatie, thema, helpers
-   Elke pagina zet vooraf: window.PAGE = 'dice'; window.BASE = '..';
+   core.js - shared foundation: navigation, theme, helpers
+   Every page sets: window.PAGE = 'dice'; window.BASE = '..';
    ============================================================ */
 (function () {
   'use strict';
@@ -8,38 +8,38 @@
   var BASE = window.BASE || '.';
   var PAGE = window.PAGE || 'home';
 
-  /* ---------- Toolregister (bron voor nav + homepage) ---------- */
+  /* ---------- Tool registry (source for nav + home page) ---------- */
   var TOOLS = [
-    { id: 'dice',       href: 'tools/dice.html',       icon: '\u{1F3B2}', name: 'Dobbelsteenroller', short: 'Dobbelen',
-      desc: 'Volledige dice-notatie: 4d6kh3, 2d20adv, 3d6!, rerolls, modifiers en een rolgeschiedenis.' },
-    { id: 'initiative', href: 'tools/initiative.html', icon: '⚔️', name: 'Initiatief-tracker', short: 'Initiatief',
-      desc: 'Beheer het gevecht: initiatief, HP, condities, rondes en legendarische acties. Slaat automatisch op.' },
-    { id: 'encounter',  href: 'tools/encounter.html',  icon: '\u{1F4C8}', name: 'Encounter builder', short: 'Encounters',
-      desc: 'Bereken XP-budget en moeilijkheidsgraad voor je party, en stel een gevecht samen uit de monsterlijst.' },
-    { id: 'monsters',   href: 'tools/monsters.html',   icon: '\u{1F409}', name: 'Monsterboek', short: 'Monsters',
-      desc: 'Doorzoekbare statblocks met filters op CR, type en omgeving. Direct naar tracker of encounter.' },
-    { id: 'spells',     href: 'tools/spells.html',     icon: '✨', name: 'Sprekenlijst', short: 'Spreuken',
-      desc: 'Zoek spreuken op naam, niveau, school of klasse. Met volledige beschrijving en componenten.' },
-    { id: 'loot',       href: 'tools/loot.html',       icon: '\u{1F4B0}', name: 'Schatgenerator', short: 'Schatten',
-      desc: 'Rol individuele schat of een hoard per CR-niveau: munten, edelstenen, kunst en magische items.' },
-    { id: 'npc',        href: 'tools/npc.html',        icon: '\u{1F9D9}', name: 'NPC-generator', short: 'NPCs',
-      desc: 'Complete NPC in een klik: naam, ras, beroep, uiterlijk, karakter, geheim en scores.' },
-    { id: 'names',      href: 'tools/names.html',      icon: '\u{1F4DC}', name: 'Naamgenerator', short: 'Namen',
-      desc: 'Namen per volk en geslacht, plus herbergen, winkels, dorpen en gezelschappen.' },
-    { id: 'abilities',  href: 'tools/abilities.html',  icon: '\u{1F4CA}', name: 'Ability scores', short: 'Scores',
-      desc: 'Point buy, standard array en 4d6-drop-lowest met automatische modifiers en rasbonussen.' },
-    { id: 'rules',      href: 'tools/rules.html',      icon: '\u{1F4D6}', name: 'Regelnaslag', short: 'Regels',
-      desc: 'Condities, acties in gevecht, dekking, vallen, rustregels, reizen en DC-richtlijnen.' }
+    { id: 'dice',       href: 'tools/dice.html',       icon: '\u{1F3B2}', name: 'Dice Roller', short: 'Dice',
+      desc: 'Full dice notation: 4d6kh3, advantage, exploding dice, rerolls, modifiers and a roll history.' },
+    { id: 'initiative', href: 'tools/initiative.html', icon: '⚔️', name: 'Initiative Tracker', short: 'Initiative',
+      desc: 'Run the fight: initiative order, hit points, conditions and rounds. Saves automatically.' },
+    { id: 'encounter',  href: 'tools/encounter.html',  icon: '\u{1F4C8}', name: 'Encounter Builder', short: 'Encounters',
+      desc: 'Work out the XP budget and difficulty for your party, and assemble a fight from the monster list.' },
+    { id: 'monsters',   href: 'tools/monsters.html',   icon: '\u{1F409}', name: 'Bestiary', short: 'Monsters',
+      desc: 'Searchable stat blocks with filters for challenge rating, type and environment. One click to the tracker.' },
+    { id: 'spells',     href: 'tools/spells.html',     icon: '✨', name: 'Spell List', short: 'Spells',
+      desc: 'Search spells by name, level, school or class, with components, duration and description.' },
+    { id: 'loot',       href: 'tools/loot.html',       icon: '\u{1F4B0}', name: 'Treasure Generator', short: 'Treasure',
+      desc: 'Roll individual treasure or a full hoard by CR: coins, gems, art objects and magic items.' },
+    { id: 'npc',        href: 'tools/npc.html',        icon: '\u{1F9D9}', name: 'NPC Generator', short: 'NPCs',
+      desc: 'A complete NPC in one click: name, ancestry, trade, looks, personality, secret and ability scores.' },
+    { id: 'names',      href: 'tools/names.html',      icon: '\u{1F4DC}', name: 'Name Generator', short: 'Names',
+      desc: 'Names by ancestry, plus taverns, shops, villages and companies.' },
+    { id: 'abilities',  href: 'tools/abilities.html',  icon: '\u{1F4CA}', name: 'Ability Scores', short: 'Scores',
+      desc: 'Point buy, standard array and 4d6 drop lowest with automatic modifiers and racial bonuses.' },
+    { id: 'rules',      href: 'tools/rules.html',      icon: '\u{1F4D6}', name: 'Rules Reference', short: 'Rules',
+      desc: 'Conditions, actions in combat, cover, hazards, resting, travel and DC guidelines.' }
   ];
   window.TOOLS = TOOLS;
 
   /* ---------- Helpers ---------- */
   var H = {
-    /** Willekeurig geheel getal tussen min en max (beide inclusief). */
+    /** Random integer between min and max (both inclusive). */
     randInt: function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; },
-    /** Eén willekeurig element uit een array. */
+    /** One random element from an array. */
     pick: function (arr) { return arr[Math.floor(Math.random() * arr.length)]; },
-    /** n unieke willekeurige elementen (of minder als de array te klein is). */
+    /** n unique random elements (or fewer if the array is too small). */
     pickN: function (arr, n) {
       var copy = arr.slice(), out = [];
       while (out.length < n && copy.length) out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
@@ -51,7 +51,7 @@
       return a;
     },
     clamp: function (v, min, max) { return Math.min(max, Math.max(min, v)); },
-    /** Modifier uit een ability score, bv. 16 -> +3 */
+    /** Modifier from an ability score, e.g. 16 -> +3 */
     mod: function (score) { return Math.floor((score - 10) / 2); },
     signed: function (n) { return (n >= 0 ? '+' : '') + n; },
     escape: function (s) {
@@ -59,15 +59,15 @@
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
     },
-    /** Kiest uit [{w: gewicht, ...}] op basis van gewicht. */
+    /** Picks from [{w: weight, ...}] according to weight. */
     weighted: function (list) {
       var total = list.reduce(function (s, o) { return s + (o.w || 1); }, 0);
       var r = Math.random() * total;
       for (var i = 0; i < list.length; i++) { r -= (list[i].w || 1); if (r <= 0) return list[i]; }
       return list[list.length - 1];
     },
-    /** Duizendtalscheiding met punt (NL-notatie). */
-    num: function (n) { return Number(n).toLocaleString('nl-NL'); },
+    /** Thousands separator. */
+    num: function (n) { return Number(n).toLocaleString('en-US'); },
     el: function (tag, cls, html) {
       var e = document.createElement(tag);
       if (cls) e.className = cls;
@@ -100,7 +100,7 @@
       setTimeout(function () { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; setTimeout(function () { t.remove(); }, 300); }, 2200);
     },
     copy: function (text) {
-      var done = function () { H.toast('Gekopieerd naar klembord'); };
+      var done = function () { H.toast('Copied to clipboard'); };
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(done, function () { H.fallbackCopy(text, done); });
       } else { H.fallbackCopy(text, done); }
@@ -109,7 +109,7 @@
       var ta = H.el('textarea');
       ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); done(); } catch (e) { H.toast('Kopiëren mislukt'); }
+      try { document.execCommand('copy'); done(); } catch (e) { H.toast('Copying failed'); }
       ta.remove();
     },
     download: function (filename, text, type) {
@@ -120,7 +120,7 @@
       document.body.appendChild(a); a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
     },
-    /** Serialiseert een formulier naar een object. */
+    /** Serialises a form into a plain object. */
     formData: function (form) {
       var o = {};
       H.qsa('input,select,textarea', form).forEach(function (f) {
@@ -132,7 +132,7 @@
   };
   window.H = H;
 
-  /* ---------- Thema ---------- */
+  /* ---------- Theme ---------- */
   var savedTheme = H.store.get('theme', null);
   if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
 
@@ -147,10 +147,10 @@
     if (!btn) return;
     var light = document.documentElement.getAttribute('data-theme') === 'light';
     btn.textContent = light ? '☽' : '☀';
-    btn.title = light ? 'Donker thema' : 'Licht thema';
+    btn.title = light ? 'Dark theme' : 'Light theme';
   }
 
-  /* ---------- Header + footer renderen ---------- */
+  /* ---------- Header and footer ---------- */
   var D20 = '<svg class="d20" viewBox="0 0 100 100" aria-hidden="true">' +
     '<polygon points="50,4 93,29 93,71 50,96 7,71 7,29" fill="none" stroke="currentColor" stroke-width="5"/>' +
     '<polygon points="50,22 76,62 24,62" fill="none" stroke="currentColor" stroke-width="5"/>' +
@@ -168,7 +168,7 @@
         '<a class="brand" href="' + BASE + '/index.html">' + D20 + '<span>DnD&nbsp;Tools</span></a>' +
         '<button class="icon-btn nav-toggle" id="nav-btn" aria-label="Menu" aria-expanded="false">≡</button>' +
         '<nav class="nav-links" id="nav-links">' + links + '</nav>' +
-        '<button class="icon-btn" id="theme-btn" aria-label="Thema wisselen"></button>' +
+        '<button class="icon-btn" id="theme-btn" aria-label="Toggle theme"></button>' +
       '</div>';
     document.body.insertBefore(header, document.body.firstChild);
 
@@ -185,19 +185,19 @@
     var f = H.el('footer', 'site-footer');
     f.innerHTML =
       '<div class="wrap">' +
-        '<span>DnD Tools — gratis hulpmiddelen voor spelers en DMs.</span>' +
-        '<span>Speldata op basis van de SRD 5.1 (CC-BY-4.0, Wizards of the Coast). Geen officieel Wizards-product.</span>' +
+        '<span>DnD Tools — free tools for players and Dungeon Masters.</span>' +
+        '<span>Game data based on the SRD 5.1 (CC-BY-4.0, Wizards of the Coast). Not an official Wizards product.</span>' +
       '</div>';
     document.body.appendChild(f);
   }
 
-  /* ---------- Scrollbare lijsten: duidelijk maken dat er meer is ----------
-     Elke .scroll-y krijgt een vervaging onderaan en een hint-regel zolang er
-     nog inhoud onder de rand zit. Beide verdwijnen zodra je beneden bent of
-     als de inhoud sowieso past. */
+  /* ---------- Scrollable lists: make it obvious there is more ----------
+     Every .scroll-y gets a fade at the bottom and a hint line for as long
+     as there is content below the edge. Both disappear once you reach the
+     bottom, or if the content fits anyway. */
   function setupScrollHints() {
     H.qsa('.scroll-y').forEach(function (box) {
-      var hint = H.el('div', 'scroll-hint', 'meer ▾');
+      var hint = H.el('div', 'scroll-hint', 'more ▾');
       box.insertAdjacentElement('afterend', hint);
 
       function update() {
@@ -211,7 +211,7 @@
 
       box.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
-      // de lijsten worden herbouwd bij elke filterwijziging
+      // the lists are rebuilt whenever a filter changes
       new MutationObserver(update).observe(box, { childList: true, subtree: true });
       update();
     });
@@ -224,7 +224,7 @@
     if (!document.getElementById('toast-host')) {
       var host = H.el('div'); host.id = 'toast-host'; document.body.appendChild(host);
     }
-    // data-copy="<selector>" kopieert de tekst van dat element
+    // data-copy="<selector>" copies the text of that element
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-copy]');
       if (!btn) return;

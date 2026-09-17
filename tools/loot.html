@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="nl" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Schatgenerator &mdash; DnD Tools</title>
-<meta name="description" content="Rol D&amp;D-schatten: munten, edelstenen, kunstvoorwerpen en magische items, per challenge rating.">
+<title>Treasure Generator &mdash; DnD Tools</title>
+<meta name="description" content="Roll D&amp;D treasure: coins, gems, art objects and magic items, by challenge rating.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128176;</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
 <script>window.PAGE = 'loot'; window.BASE = '..';</script>
@@ -12,19 +12,19 @@
 <body>
 
 <main class="wrap section">
-  <h1>Schatgenerator</h1>
-  <p class="muted">Rol de buit van een monster of een hele schatkamer.</p>
+  <h1>Treasure Generator</h1>
+  <p class="muted">Roll what a single monster carries, or an entire hoard.</p>
 
   <div class="grid cols-2" style="align-items:start">
 
     <div class="stack no-print">
       <div class="panel">
-        <h2>Instellingen</h2>
+        <h2>Settings</h2>
         <div class="field">
-          <label for="f-type">Soort schat</label>
+          <label for="f-type">Type of treasure</label>
           <select id="f-type">
-            <option value="individueel">Individueel (per monster)</option>
-            <option value="hoard">Schatkamer (hoard)</option>
+            <option value="individual">Individual (per monster)</option>
+            <option value="hoard">Treasure hoard</option>
           </select>
         </div>
         <div class="field">
@@ -37,18 +37,18 @@
           </select>
         </div>
         <div class="field">
-          <label for="f-times">Aantal keer rollen</label>
+          <label for="f-times">Number of rolls</label>
           <input id="f-times" type="number" value="1" min="1" max="20">
         </div>
-        <button class="btn btn-primary btn-block" id="btn-roll">Rol de schat</button>
+        <button class="btn btn-primary btn-block" id="btn-roll">Roll the treasure</button>
       </div>
 
       <div class="panel">
-        <h2>Los rollen</h2>
+        <h2>Roll a single item</h2>
         <div class="btn-group">
-          <button class="btn btn-sm" data-single="gem">Edelsteen</button>
-          <button class="btn btn-sm" data-single="art">Kunstvoorwerp</button>
-          <button class="btn btn-sm" data-single="A">Item tabel A</button>
+          <button class="btn btn-sm" data-single="gem">Gemstone</button>
+          <button class="btn btn-sm" data-single="art">Art object</button>
+          <button class="btn btn-sm" data-single="A">Item table A</button>
           <button class="btn btn-sm" data-single="B">B</button>
           <button class="btn btn-sm" data-single="C">C</button>
           <button class="btn btn-sm" data-single="D">D</button>
@@ -62,11 +62,11 @@
       </div>
 
       <div class="panel">
-        <h2>Over deze tabellen</h2>
+        <h2>About these tables</h2>
         <p class="muted" style="font-size:.9rem">
-          De munttabellen volgen de tabellen uit de DMG/SRD. De verdeling van edelstenen,
-          kunstvoorwerpen en magische items is een vereenvoudigde variant: de verhoudingen kloppen,
-          maar de exacte percentielrijen zijn samengevat tot gewogen kansen.
+          The coin tables follow those in the DMG/SRD. The distribution of gems, art objects and
+          magic items is a simplified variant: the proportions hold, but the exact percentile rows
+          are condensed into weighted chances.
         </p>
       </div>
     </div>
@@ -74,14 +74,14 @@
     <div class="stack">
       <div class="panel">
         <div class="panel-head">
-          <h2>Buit</h2>
+          <h2>Loot</h2>
           <div class="btn-group no-print">
-            <button class="btn btn-sm" data-copy="#loot-out">Kopieer</button>
+            <button class="btn btn-sm" data-copy="#loot-out">Copy</button>
             <button class="btn btn-sm" onclick="window.print()">Print</button>
-            <button class="btn btn-sm btn-danger" id="btn-clear">Wissen</button>
+            <button class="btn btn-sm btn-danger" id="btn-clear">Clear</button>
           </div>
         </div>
-        <div id="loot-out"><div class="empty">Nog niets gerold.</div></div>
+        <div id="loot-out"><div class="empty">Nothing rolled yet.</div></div>
       </div>
     </div>
   </div>

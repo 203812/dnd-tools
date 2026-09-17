@@ -1,47 +1,47 @@
 /* ============================================================
-   npc-page.js - logica voor tools/npc.html
+   npc-page.js - logic for tools/npc.html
    ============================================================ */
 (function () {
   'use strict';
 
-  var volken = Object.keys(NAMES.volken);
-  volken.forEach(function (v) { H.qs('#f-volk').appendChild(new Option(v, v)); });
-  NPC_DATA.beroepen.slice().sort().forEach(function (b) { H.qs('#f-beroep').appendChild(new Option(b, b)); });
+  var ancestries = Object.keys(NAMES.ancestries);
+  ancestries.forEach(function (v) { H.qs('#f-ancestry').appendChild(new Option(v, v)); });
+  NPC_DATA.occupations.slice().sort().forEach(function (b) { H.qs('#f-occupation').appendChild(new Option(b, b)); });
 
-  function naam(volk, geslacht) {
-    var data = NAMES.volken[volk];
-    var g = geslacht || H.pick(['m', 'v']);
-    var voor = H.pick(data[g]);
-    var achter = data.achter && data.achter.length ? ' ' + H.pick(data.achter) : '';
-    return voor + achter;
+  function fullName(ancestry, gender) {
+    var data = NAMES.ancestries[ancestry];
+    var g = gender || H.pick(['m', 'f']);
+    var first = H.pick(data[g]);
+    var family = data.family && data.family.length ? ' ' + H.pick(data.family) : '';
+    return first + family;
   }
 
   function scores() {
-    // 4d6 drop lowest, gesorteerd van hoog naar laag over de zes abilities
+    // 4d6 drop lowest, one roll per ability
     var vals = [];
     for (var i = 0; i < 6; i++) vals.push(Dice.total('4d6kh3'));
     return vals;
   }
 
-  function maakNpc() {
-    var volk = H.qs('#f-volk').value || H.pick(volken);
-    var geslacht = H.qs('#f-geslacht').value || null;
-    var beroep = H.qs('#f-beroep').value || H.pick(NPC_DATA.beroepen);
+  function makeNpc() {
+    var ancestry = H.qs('#f-ancestry').value || H.pick(ancestries);
+    var gender = H.qs('#f-gender').value || null;
+    var occupation = H.qs('#f-occupation').value || H.pick(NPC_DATA.occupations);
 
     return {
-      naam: naam(volk, geslacht),
-      volk: volk,
-      beroep: beroep,
-      leeftijd: H.randInt(17, 68),
-      uiterlijk: H.pickN(NPC_DATA.uiterlijk, 2),
-      stem: H.pick(NPC_DATA.stem),
-      trek: H.pick(NPC_DATA.karaktertrek),
-      ideaal: H.pick(NPC_DATA.ideaal),
-      band: H.pick(NPC_DATA.band),
-      zwakte: H.pick(NPC_DATA.zwakte),
-      geheim: H.pick(NPC_DATA.geheim),
-      houding: H.weighted(NPC_DATA.houding).label,
-      behoefte: H.pick(NPC_DATA.behoefte),
+      name: fullName(ancestry, gender),
+      ancestry: ancestry,
+      occupation: occupation,
+      age: H.randInt(17, 68),
+      appearance: H.pickN(NPC_DATA.appearance, 2),
+      voice: H.pick(NPC_DATA.voice),
+      trait: H.pick(NPC_DATA.trait),
+      ideal: H.pick(NPC_DATA.ideal),
+      bond: H.pick(NPC_DATA.bond),
+      flaw: H.pick(NPC_DATA.flaw),
+      secret: H.pick(NPC_DATA.secret),
+      attitude: H.weighted(NPC_DATA.attitude).label,
+      need: H.pick(NPC_DATA.need),
       scores: H.qs('#f-stats').checked ? scores() : null
     };
   }
@@ -60,30 +60,30 @@
       }
 
       return '<div class="result-box" style="margin-bottom:14px">' +
-        '<h3 style="margin-top:0">' + H.escape(n.naam) + '</h3>' +
+        '<h3 style="margin-top:0">' + H.escape(n.name) + '</h3>' +
         '<p class="muted" style="font-style:italic;margin-bottom:10px">' +
-          H.escape(n.volk) + ' · ' + H.escape(n.beroep) + ' · ' + n.leeftijd + ' jaar</p>' +
+          H.escape(n.ancestry) + ' · ' + H.escape(n.occupation) + ' · ' + n.age + ' years old</p>' +
         stats +
-        '<div class="stat-line"><span>Uiterlijk</span><span>' + H.escape(n.uiterlijk.join(', ')) + '</span></div>' +
-        '<div class="stat-line"><span>Stem</span><span>' + H.escape(n.stem) + '</span></div>' +
-        '<div class="stat-line"><span>Karaktertrek</span><span>' + H.escape(n.trek) + '</span></div>' +
-        '<div class="stat-line"><span>Ideaal</span><span>' + H.escape(n.ideaal) + '</span></div>' +
-        '<div class="stat-line"><span>Band</span><span>' + H.escape(n.band) + '</span></div>' +
-        '<div class="stat-line"><span>Zwakte</span><span>' + H.escape(n.zwakte) + '</span></div>' +
-        '<div class="stat-line"><span>Houding tegenover de party</span><span>' + H.escape(n.houding) + '</span></div>' +
-        '<div class="stat-line"><span>Wil iets van de party</span><span>' + H.escape(n.behoefte) + '</span></div>' +
-        '<div class="stat-line"><span>Geheim (alleen DM)</span><span>' + H.escape(n.geheim) + '</span></div>' +
+        '<div class="stat-line"><span>Appearance</span><span>' + H.escape(n.appearance.join(', ')) + '</span></div>' +
+        '<div class="stat-line"><span>Voice</span><span>' + H.escape(n.voice) + '</span></div>' +
+        '<div class="stat-line"><span>Personality</span><span>' + H.escape(n.trait) + '</span></div>' +
+        '<div class="stat-line"><span>Ideal</span><span>' + H.escape(n.ideal) + '</span></div>' +
+        '<div class="stat-line"><span>Bond</span><span>' + H.escape(n.bond) + '</span></div>' +
+        '<div class="stat-line"><span>Flaw</span><span>' + H.escape(n.flaw) + '</span></div>' +
+        '<div class="stat-line"><span>Attitude to the party</span><span>' + H.escape(n.attitude) + '</span></div>' +
+        '<div class="stat-line"><span>Wants from the party</span><span>' + H.escape(n.need) + '</span></div>' +
+        '<div class="stat-line"><span>Secret (DM only)</span><span>' + H.escape(n.secret) + '</span></div>' +
       '</div>';
     }).join('');
   }
 
   H.on('#btn-gen', 'click', function () {
-    var n = H.clamp(parseInt(H.qs('#f-aantal').value, 10) || 1, 1, 10);
+    var n = H.clamp(parseInt(H.qs('#f-count').value, 10) || 1, 1, 10);
     var out = [];
-    for (var i = 0; i < n; i++) out.push(maakNpc());
+    for (var i = 0; i < n; i++) out.push(makeNpc());
     render(out);
   });
 
-  // meteen één NPC tonen bij binnenkomst
-  render([maakNpc()]);
+  // show one NPC straight away
+  render([makeNpc()]);
 })();

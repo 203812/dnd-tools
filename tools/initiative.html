@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="nl" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Initiatief-tracker &mdash; DnD Tools</title>
-<meta name="description" content="Houd je D&amp;D-gevecht bij: initiatief, hitpoints, condities en rondes. Slaat automatisch op in je browser.">
+<title>Initiative Tracker &mdash; DnD Tools</title>
+<meta name="description" content="Track your D&amp;D combat: initiative order, hit points, conditions and rounds. Saves automatically in your browser.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9876;</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
 <script>window.PAGE = 'initiative'; window.BASE = '..';</script>
@@ -13,24 +13,24 @@
 
 <main class="wrap section">
   <div class="panel-head">
-    <h1 style="margin:0">Initiatief-tracker</h1>
+    <h1 style="margin:0">Initiative Tracker</h1>
     <div class="btn-group no-print">
-      <button class="btn btn-sm" id="btn-export">Exporteer</button>
-      <button class="btn btn-sm" id="btn-import">Importeer</button>
-      <button class="btn btn-sm btn-danger" id="btn-reset">Nieuw gevecht</button>
+      <button class="btn btn-sm" id="btn-export">Export</button>
+      <button class="btn btn-sm" id="btn-import">Import</button>
+      <button class="btn btn-sm btn-danger" id="btn-reset">New fight</button>
     </div>
   </div>
 
   <div class="grid cols-2" style="align-items:start">
 
-    <!-- Het gevecht -->
+    <!-- The fight -->
     <div class="stack" style="order:2">
       <div class="panel">
         <div class="panel-head">
-          <h2 id="round-label">Ronde 1</h2>
+          <h2 id="round-label">Round 1</h2>
           <div class="btn-group no-print">
-            <button class="btn btn-sm" id="btn-prev">&#8592; Vorige</button>
-            <button class="btn btn-primary btn-sm" id="btn-next">Volgende &#8594;</button>
+            <button class="btn btn-sm" id="btn-prev">&#8592; Previous</button>
+            <button class="btn btn-primary btn-sm" id="btn-next">Next &#8594;</button>
           </div>
         </div>
         <div id="combatants"></div>
@@ -38,63 +38,63 @@
       </div>
     </div>
 
-    <!-- Toevoegen -->
+    <!-- Adding combatants -->
     <div class="stack no-print" style="order:1">
       <div class="panel">
-        <h2>Deelnemer toevoegen</h2>
+        <h2>Add a combatant</h2>
         <form id="add-form">
           <div class="field">
-            <label for="c-name">Naam</label>
-            <input id="c-name" placeholder="bv. Goblin of Thalia" autocomplete="off" required>
+            <label for="c-name">Name</label>
+            <input id="c-name" placeholder="e.g. Goblin or Thalia" autocomplete="off" required>
           </div>
           <div class="field-row">
             <div class="field">
-              <label for="c-init">Initiatief</label>
-              <input id="c-init" type="number" placeholder="leeg = rollen">
+              <label for="c-init">Initiative</label>
+              <input id="c-init" type="number" placeholder="blank = roll">
             </div>
             <div class="field">
-              <label for="c-dex">DEX-mod</label>
+              <label for="c-dex">DEX mod</label>
               <input id="c-dex" type="number" value="0">
             </div>
           </div>
           <div class="field-row">
             <div class="field">
-              <label for="c-hp">Hitpoints</label>
-              <input id="c-hp" type="number" placeholder="bv. 27">
+              <label for="c-hp">Hit points</label>
+              <input id="c-hp" type="number" placeholder="e.g. 27">
             </div>
             <div class="field">
               <label for="c-ac">AC</label>
-              <input id="c-ac" type="number" placeholder="bv. 15">
+              <input id="c-ac" type="number" placeholder="e.g. 15">
             </div>
             <div class="field">
-              <label for="c-count">Aantal</label>
+              <label for="c-count">Count</label>
               <input id="c-count" type="number" value="1" min="1" max="20">
             </div>
           </div>
           <div class="check" style="margin-bottom:12px">
             <input type="checkbox" id="c-pc">
-            <label for="c-pc">Speler (party)</label>
+            <label for="c-pc">Player character</label>
           </div>
-          <button class="btn btn-primary btn-block" type="submit">Toevoegen</button>
+          <button class="btn btn-primary btn-block" type="submit">Add</button>
         </form>
       </div>
 
       <div class="panel">
-        <h2>Uit het monsterboek</h2>
+        <h2>From the bestiary</h2>
         <div class="field">
-          <label for="m-search">Zoek een monster</label>
-          <input id="m-search" placeholder="bv. goblin" autocomplete="off">
+          <label for="m-search">Search for a monster</label>
+          <input id="m-search" placeholder="e.g. goblin" autocomplete="off">
         </div>
         <div class="field-row" style="margin-bottom:10px">
           <div class="field" style="flex:0 0 110px">
-            <label for="m-count">Aantal</label>
+            <label for="m-count">Count</label>
             <input id="m-count" type="number" value="1" min="1" max="20">
           </div>
           <div class="field">
-            <label for="m-hp">HP</label>
+            <label for="m-hp">Hit points</label>
             <select id="m-hp">
-              <option value="avg">Gemiddeld</option>
-              <option value="roll">Uitrollen</option>
+              <option value="avg">Average</option>
+              <option value="roll">Roll them</option>
             </select>
           </div>
         </div>
@@ -102,9 +102,9 @@
       </div>
 
       <div class="panel">
-        <h2>Condities</h2>
-        <p class="muted" style="font-size:.88rem">Klik op een deelnemer om condities toe te kennen.</p>
-        <div id="cond-panel" class="muted" style="font-size:.9rem">Geen deelnemer geselecteerd.</div>
+        <h2>Conditions</h2>
+        <p class="muted" style="font-size:.88rem">Click a combatant to assign conditions.</p>
+        <div id="cond-panel" class="muted" style="font-size:.9rem">No combatant selected.</div>
       </div>
     </div>
   </div>

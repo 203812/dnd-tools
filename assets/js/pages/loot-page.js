@@ -1,16 +1,16 @@
 /* ============================================================
-   loot-page.js - logica voor tools/loot.html
+   loot-page.js - logic for tools/loot.html
    ============================================================ */
 (function () {
   'use strict';
 
-  var MUNT = { cp: 'koperstukken', sp: 'zilverstukken', ep: 'elektrumstukken', gp: 'goudstukken', pp: 'platinastukken' };
+  var COIN = { cp: 'copper pieces', sp: 'silver pieces', ep: 'electrum pieces', gp: 'gold pieces', pp: 'platinum pieces' };
   var IN_GP = { cp: 0.01, sp: 0.1, ep: 0.5, gp: 1, pp: 10 };
 
   var outEl = H.qs('#loot-out');
   var results = [];
 
-  /* ---------- Rolfuncties ---------- */
+  /* ---------- Rolling ---------- */
   function rollCoins(spec) {
     var coins = {};
     Object.keys(spec).forEach(function (k) {
@@ -21,98 +21,98 @@
   }
 
   function rollIndividual(tier) {
-    var row = H.weighted(TREASURE.individueel[tier]);
-    return { titel: 'Individuele schat (CR ' + tier + ')', munten: rollCoins(row.munten), waardevol: [], items: [] };
+    var row = H.weighted(TREASURE.individual[tier]);
+    return { title: 'Individual treasure (CR ' + tier + ')', coins: rollCoins(row.coins), valuables: [], items: [] };
   }
 
   function rollHoard(tier) {
     var t = TREASURE.hoard[tier];
-    var out = { titel: 'Schatkamer (CR ' + tier + ')', munten: rollCoins(t.munten), waardevol: [], items: [] };
+    var out = { title: 'Treasure hoard (CR ' + tier + ')', coins: rollCoins(t.coins), valuables: [], items: [] };
 
-    var v = H.weighted(t.waardevol);
+    var v = H.weighted(t.valuables);
     if (v.type) {
-      var aantal = Dice.total(v.aantal);
-      var pool = v.type === 'gem' ? TREASURE.gems[v.waarde] : TREASURE.art[v.waarde];
-      for (var i = 0; i < aantal; i++) {
-        out.waardevol.push({
-          naam: H.pick(pool),
-          waarde: v.waarde,
-          soort: v.type === 'gem' ? 'edelsteen' : 'kunstvoorwerp'
+      var count = Dice.total(v.count);
+      var pool = v.type === 'gem' ? TREASURE.gems[v.value] : TREASURE.art[v.value];
+      for (var i = 0; i < count; i++) {
+        out.valuables.push({
+          name: H.pick(pool),
+          value: v.value,
+          kind: v.type === 'gem' ? 'gemstone' : 'art object'
         });
       }
     }
 
     var it = H.weighted(t.items);
-    if (it.tabel) {
-      var n = typeof it.aantal === 'string' ? Dice.total(it.aantal) : it.aantal;
+    if (it.table) {
+      var n = typeof it.count === 'string' ? Dice.total(it.count) : it.count;
       for (var j = 0; j < n; j++) {
-        out.items.push({ naam: H.pick(TREASURE.itemTabellen[it.tabel]), tabel: it.tabel });
+        out.items.push({ name: H.pick(TREASURE.itemTables[it.table]), table: it.table });
       }
     }
     return out;
   }
 
-  /* ---------- Weergave ---------- */
+  /* ---------- Display ---------- */
   function totalGp(res) {
     var total = 0;
-    Object.keys(res.munten).forEach(function (k) { total += res.munten[k] * IN_GP[k]; });
-    res.waardevol.forEach(function (w) { total += w.waarde; });
+    Object.keys(res.coins).forEach(function (k) { total += res.coins[k] * IN_GP[k]; });
+    res.valuables.forEach(function (w) { total += w.value; });
     return Math.round(total * 100) / 100;
   }
 
   function renderOne(res) {
-    var munten = Object.keys(res.munten);
+    var coins = Object.keys(res.coins);
     var html = '<div class="result-box" style="margin-bottom:14px">';
-    html += '<h3 style="margin-top:0">' + H.escape(res.titel) + '</h3>';
+    html += '<h3 style="margin-top:0">' + H.escape(res.title) + '</h3>';
 
-    if (munten.length) {
-      html += munten.map(function (k) {
-        return '<div class="stat-line"><span>' + MUNT[k] + '</span><span>' + H.num(res.munten[k]) + ' ' + k + '</span></div>';
+    if (coins.length) {
+      html += coins.map(function (k) {
+        return '<div class="stat-line"><span>' + COIN[k] + '</span><span>' + H.num(res.coins[k]) + ' ' + k + '</span></div>';
       }).join('');
     } else {
-      html += '<div class="stat-line"><span>Munten</span><span>geen</span></div>';
+      html += '<div class="stat-line"><span>Coins</span><span>none</span></div>';
     }
 
-    if (res.waardevol.length) {
-      // groepeer identieke voorwerpen
+    if (res.valuables.length) {
+      // group identical items together
       var groups = {};
-      res.waardevol.forEach(function (w) {
-        var key = w.naam + '|' + w.waarde;
-        groups[key] = groups[key] || { naam: w.naam, waarde: w.waarde, soort: w.soort, n: 0 };
+      res.valuables.forEach(function (w) {
+        var key = w.name + '|' + w.value;
+        groups[key] = groups[key] || { name: w.name, value: w.value, kind: w.kind, n: 0 };
         groups[key].n++;
       });
       html += '<div class="hr"></div>';
       html += Object.keys(groups).map(function (k) {
         var g = groups[k];
-        return '<div class="stat-line"><span>' + (g.n > 1 ? g.n + '× ' : '') + H.escape(g.naam) +
-          '<br><small>' + g.soort + '</small></span><span>' + H.num(g.waarde) + ' gp p.st.</span></div>';
+        return '<div class="stat-line"><span>' + (g.n > 1 ? g.n + '× ' : '') + H.escape(g.name) +
+          '<br><small>' + g.kind + '</small></span><span>' + H.num(g.value) + ' gp each</span></div>';
       }).join('');
     }
 
     if (res.items.length) {
       html += '<div class="hr"></div>';
       html += res.items.map(function (it) {
-        return '<div class="stat-line"><span><b>' + H.escape(it.naam) + '</b></span><span class="tag gold">tabel ' + it.tabel + '</span></div>';
+        return '<div class="stat-line"><span><b>' + H.escape(it.name) + '</b></span><span class="tag gold">table ' + it.table + '</span></div>';
       }).join('');
     }
 
     html += '<div class="hr"></div>';
-    html += '<div class="stat-line"><span><b>Totale waarde</b></span><span><b>' + H.num(totalGp(res)) + ' gp</b></span></div>';
+    html += '<div class="stat-line"><span><b>Total value</b></span><span><b>' + H.num(totalGp(res)) + ' gp</b></span></div>';
     html += '</div>';
     return html;
   }
 
   function render() {
-    if (!results.length) { outEl.innerHTML = '<div class="empty">Nog niets gerold.</div>'; return; }
+    if (!results.length) { outEl.innerHTML = '<div class="empty">Nothing rolled yet.</div>'; return; }
     outEl.innerHTML = results.map(renderOne).join('');
     if (results.length > 1) {
       var sum = results.reduce(function (s, r) { return s + totalGp(r); }, 0);
-      outEl.innerHTML += '<div class="result-box"><div class="stat-line"><span><b>Alles bij elkaar</b></span>' +
+      outEl.innerHTML += '<div class="result-box"><div class="stat-line"><span><b>Everything together</b></span>' +
         '<span><b>' + H.num(Math.round(sum * 100) / 100) + ' gp</b></span></div></div>';
     }
   }
 
-  /* ---------- Knoppen ---------- */
+  /* ---------- Buttons ---------- */
   H.on('#btn-roll', 'click', function () {
     var type = H.qs('#f-type').value;
     var tier = H.qs('#f-cr').value;
@@ -136,24 +136,24 @@
 
     if (what === 'gem' || what === 'art') {
       var table = what === 'gem' ? TREASURE.gems : TREASURE.art;
-      var waardes = Object.keys(table);
-      var waarde = H.pick(waardes);
-      box.innerHTML = '<b>' + H.escape(H.pick(table[waarde])) + '</b><br><small>' +
-        (what === 'gem' ? 'edelsteen' : 'kunstvoorwerp') + ' · ' + H.num(waarde) + ' gp</small>';
+      var values = Object.keys(table);
+      var value = H.pick(values);
+      box.innerHTML = '<b>' + H.escape(H.pick(table[value])) + '</b><br><small>' +
+        (what === 'gem' ? 'gemstone' : 'art object') + ' · ' + H.num(value) + ' gp</small>';
     } else {
-      box.innerHTML = '<b>' + H.escape(H.pick(TREASURE.itemTabellen[what])) + '</b><br><small>magische-itemtabel ' + what + '</small>';
+      box.innerHTML = '<b>' + H.escape(H.pick(TREASURE.itemTables[what])) + '</b><br><small>magic item table ' + what + '</small>';
     }
   });
 
-  /* ---------- Verzoek vanuit de encounter builder ---------- */
+  /* ---------- Request handed over from the encounter builder ---------- */
   var req = H.store.get('loot-request', null);
   if (req) {
     H.store.del('loot-request');
     var tier = req.cr <= 4 ? '0-4' : (req.cr <= 10 ? '5-10' : (req.cr <= 16 ? '11-16' : '17+'));
     H.qs('#f-cr').value = tier;
-    H.qs('#f-type').value = req.type === 'hoard' ? 'hoard' : 'individueel';
+    H.qs('#f-type').value = req.type === 'hoard' ? 'hoard' : 'individual';
     H.qs('#btn-roll').click();
-    H.toast('Schat gerold voor CR ' + tier);
+    H.toast('Treasure rolled for CR ' + tier);
   }
 
   render();
