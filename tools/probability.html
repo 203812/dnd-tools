@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dice Probability &mdash; DnD Tools</title>
+<meta name="description" content="Work out the odds behind any dice notation: full distribution, averages, chance to beat a target, and attack damage maths for homebrew monsters.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128201;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'probability'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <h1>Dice Probability</h1>
+  <p class="muted">The maths behind the dice &mdash; useful when you are balancing a homebrew monster or deciding whether that gamble is worth it.</p>
+
+  <div class="panel no-print" style="margin-bottom:16px">
+    <form id="prob-form" class="field-row" style="align-items:flex-end">
+      <div class="field" style="flex:2 1 240px">
+        <label for="notation">Notation</label>
+        <input id="notation" class="mono" value="4d6kh3" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field" style="flex:0 0 150px">
+        <label for="target">Target</label>
+        <input id="target" type="number" value="15">
+      </div>
+      <button class="btn btn-primary" type="submit">Work it out</button>
+    </form>
+    <div class="chips" style="margin-top:12px" id="preset-chips"></div>
+  </div>
+
+  <div id="error-box" class="panel hidden" style="margin-bottom:16px;border-color:var(--red)">
+    <b style="color:var(--red-soft)">That notation didn't work</b>
+    <p class="muted" id="error-text" style="margin:6px 0 0"></p>
+  </div>
+
+  <div class="grid cols-2" style="align-items:start">
+    <div class="stack">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Distribution</h2>
+          <span class="tag" id="method-tag"></span>
+        </div>
+        <div class="hist" id="hist"></div>
+        <div class="hist-axis"><span id="axis-min"></span><span id="axis-max"></span></div>
+        <p class="muted center" style="font-size:.82rem;margin:10px 0 0">Hover a bar for its exact chance.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Chance against the target</h2>
+        <div id="target-out"></div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <h2>Summary</h2>
+        <div id="stats-out"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Attack maths</h2>
+        <p class="muted" style="font-size:.9rem">
+          Damage per round for an attack routine, including the chance to crit. Enter the damage
+          dice and the flat modifier separately &mdash; a crit doubles the dice but not the modifier.
+        </p>
+        <div class="field-row">
+          <div class="field">
+            <label for="a-bonus">Attack bonus</label>
+            <input id="a-bonus" type="number" value="5">
+          </div>
+          <div class="field">
+            <label for="a-ac">Target AC</label>
+            <input id="a-ac" type="number" value="15">
+          </div>
+          <div class="field">
+            <label for="a-attacks">Attacks per round</label>
+            <input id="a-attacks" type="number" value="1" min="1" max="20">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="a-dice">Damage dice</label>
+            <input id="a-dice" class="mono" value="1d8" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="a-flat">Flat modifier</label>
+            <input id="a-flat" type="number" value="3">
+          </div>
+          <div class="field">
+            <label for="a-crit">Crits on</label>
+            <select id="a-crit">
+              <option value="20">20</option>
+              <option value="19">19-20</option>
+              <option value="18">18-20</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="a-mode">Roll type</label>
+          <select id="a-mode">
+            <option value="normal">Normal</option>
+            <option value="adv">Advantage</option>
+            <option value="dis">Disadvantage</option>
+          </select>
+        </div>
+        <div class="hr"></div>
+        <div id="attack-out"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:16px">
+    <h2>How the numbers are produced</h2>
+    <p class="muted" style="font-size:.92rem">
+      Plain sums of dice are convolved exactly, and keep/drop terms such as <code>4d6kh3</code> are
+      enumerated over every possible combination of faces &mdash; so those results are exact, not sampled.
+      Exploding dice, rerolls and clamps resist that treatment, and very large pools would take too long,
+      so those fall back to simulating 200,000 rolls. The tag above the chart always says which method
+      was used.
+    </p>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/js/prob.js"></script>
+<script src="../assets/js/pages/probability-page.js"></script>
+</body>
+</html>

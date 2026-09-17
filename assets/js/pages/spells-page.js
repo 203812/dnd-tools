@@ -95,7 +95,7 @@
     var s = SPELLS.filter(function (x) { return x.n === row.getAttribute('data-spell'); })[0];
     if (s) {
       show(s);
-      if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) H.qs('#detail').scrollIntoView({ behavior: 'smooth' });
+      if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) H.reveal(H.qs('#detail'));
     }
   });
 

@@ -43,6 +43,10 @@
         </div>
         <div class="field-row" style="margin-bottom:10px">
           <div class="field">
+            <label for="f-env">Environment</label>
+            <select id="f-env"><option value="">Anywhere</option></select>
+          </div>
+          <div class="field">
             <label for="f-cr-min">CR from</label>
             <select id="f-cr-min"></select>
           </div>
@@ -60,7 +64,13 @@
         <div class="panel-head">
           <h2>The encounter</h2>
           <div class="btn-group">
-            <button class="btn btn-sm" id="btn-random">Random</button>
+            <select id="f-target" style="width:auto;padding:5px 8px;font-size:.84rem">
+              <option value="0">Easy</option>
+              <option value="1">Medium</option>
+              <option value="2" selected>Hard</option>
+              <option value="3">Deadly</option>
+            </select>
+            <button class="btn btn-sm" id="btn-random">Roll an encounter</button>
             <button class="btn btn-sm btn-danger" id="btn-clear">Clear</button>
           </div>
         </div>

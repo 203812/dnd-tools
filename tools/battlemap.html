@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Battle Map &mdash; DnD Tools</title>
+<meta name="description" content="A local D&amp;D battle map: drop in a map image, snap tokens to the grid, measure distances and hide the map behind fog of war.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128506;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'battlemap'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <div class="panel-head">
+    <h1 style="margin:0">Battle Map</h1>
+    <div class="btn-group no-print">
+      <button class="btn btn-sm" id="btn-save">Save</button>
+      <button class="btn btn-sm" id="btn-load">Load</button>
+      <button class="btn btn-sm" id="btn-png">Export PNG</button>
+      <button class="btn btn-sm btn-danger" id="btn-clear">Clear map</button>
+    </div>
+  </div>
+
+  <div class="panel no-print" style="margin-bottom:14px">
+    <div class="map-toolbar">
+      <span class="muted" style="font-size:.85rem;margin-right:4px">Tool</span>
+      <button class="chip active" data-tool="select">&#9995; Move</button>
+      <button class="chip" data-tool="measure">&#128207; Measure</button>
+      <button class="chip" data-tool="fog">&#127787; Reveal fog</button>
+      <button class="chip" data-tool="fog-add">&#9729; Hide again</button>
+      <button class="chip" data-tool="ping">&#128205; Ping</button>
+      <span style="flex:1 1 auto"></span>
+      <button class="btn btn-sm" id="btn-fit">Fit to view</button>
+      <button class="btn btn-sm" id="btn-fog-all">Cover everything</button>
+      <button class="btn btn-sm" id="btn-fog-none">Reveal everything</button>
+    </div>
+  </div>
+
+  <div class="grid cols-2" style="align-items:start;grid-template-columns:minmax(0,2.2fr) minmax(260px,1fr)">
+
+    <div class="canvas-stage" id="map-wrap">
+      <canvas id="map-canvas"></canvas>
+      <div class="map-readout" id="readout">Drop a map image here</div>
+    </div>
+
+    <div class="stack no-print">
+      <div class="panel">
+        <h2>Map image</h2>
+        <div class="dropzone" id="dropzone" style="padding:16px">
+          <b>Choose or drop a map</b>
+          <div style="font-size:.84rem;margin-top:3px">works fine without one too</div>
+        </div>
+        <div class="field-row" style="margin-top:12px">
+          <div class="field">
+            <label for="grid-size">Grid size (px)</label>
+            <input id="grid-size" type="number" value="70" min="10" max="400">
+          </div>
+          <div class="field">
+            <label for="grid-feet">Feet per square</label>
+            <input id="grid-feet" type="number" value="5" min="1" max="100">
+          </div>
+        </div>
+        <div class="check"><input type="checkbox" id="show-grid" checked><label for="show-grid">Show the grid</label></div>
+        <div class="check"><input type="checkbox" id="snap" checked><label for="snap">Snap tokens to squares</label></div>
+        <div class="check"><input type="checkbox" id="diag-5105"><label for="diag-5105">Count diagonals as 5-10-5</label></div>
+      </div>
+
+      <div class="panel">
+        <h2>Add a token</h2>
+        <form id="token-form">
+          <div class="field">
+            <label for="t-name">Name</label>
+            <input id="t-name" placeholder="e.g. Goblin" autocomplete="off">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="t-color">Colour</label>
+              <input id="t-color" type="color" value="#a8342b">
+            </div>
+            <div class="field">
+              <label for="t-size">Size</label>
+              <select id="t-size">
+                <option value="0.5">Tiny (&frac12;)</option>
+                <option value="1" selected>Medium (1)</option>
+                <option value="2">Large (2)</option>
+                <option value="3">Huge (3)</option>
+                <option value="4">Gargantuan (4)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Place token</button>
+        </form>
+        <div class="btn-group" style="margin-top:10px">
+          <button class="btn btn-sm" id="btn-from-tracker">From initiative tracker</button>
+          <button class="btn btn-sm" id="btn-from-saved">From saved tokens</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>On the map</h2>
+          <span class="muted" id="token-count"></span>
+        </div>
+        <div id="token-list" class="scroll-y" style="max-height:300px"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Controls</h2>
+        <div class="stat-line"><span>Pan the map</span><span>right-drag or middle-drag</span></div>
+        <div class="stat-line"><span>Zoom</span><span>mouse wheel</span></div>
+        <div class="stat-line"><span>Move a token</span><span>drag it with Move selected</span></div>
+        <div class="stat-line"><span>Delete a token</span><span>select it, press Delete</span></div>
+        <div class="stat-line"><span>Fog brush size</span><span>[ and ]</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:16px">
+    <h2>About this map</h2>
+    <p class="muted" style="font-size:.92rem">
+      This is a single-screen map: perfect for a laptop at the table or for sharing your screen
+      over a call, but it is not a shared virtual tabletop. There is no server behind it, so players
+      cannot join from their own devices and move their own tokens. Everything you place is stored in
+      this browser and can be exported as a file to carry between machines.
+    </p>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/pages/battlemap-page.js"></script>
+</body>
+</html>

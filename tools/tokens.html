@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Maker &mdash; DnD Tools</title>
+<meta name="description" content="Turn any picture into a round D&amp;D token with a border and a name label, ready to print or drop on a battle map.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128309;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'tokens'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <h1>Token Maker</h1>
+  <p class="muted">Drop in a picture, frame it, and download a token. Everything happens in your browser &mdash; no image ever leaves your machine.</p>
+
+  <div class="grid cols-2" style="align-items:start">
+
+    <div class="stack no-print">
+      <div class="panel">
+        <h2>Picture</h2>
+        <div class="dropzone" id="dropzone">
+          <div style="font-size:1.6rem">&#128247;</div>
+          <div><b>Click to choose a picture</b></div>
+          <div style="font-size:.85rem;margin-top:4px">or drop one here, or paste from the clipboard</div>
+        </div>
+        <div class="muted" id="img-info" style="font-size:.85rem;margin-top:10px">No picture loaded.</div>
+
+        <div class="hr"></div>
+        <label>Position</label>
+        <div class="field">
+          <label for="zoom" style="text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--text-dim)">Zoom &mdash; <span id="zoom-val">100%</span></label>
+          <input id="zoom" type="range" min="20" max="400" value="100">
+        </div>
+        <p class="muted" style="font-size:.85rem">Drag the token preview to move the picture inside the frame. The mouse wheel zooms.</p>
+        <button class="btn btn-sm" id="btn-center">Centre the picture</button>
+      </div>
+
+      <div class="panel">
+        <h2>Frame</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="shape">Shape</label>
+            <select id="shape">
+              <option value="circle">Circle</option>
+              <option value="square">Square</option>
+              <option value="rounded">Rounded square</option>
+              <option value="hex">Hexagon</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="size">Export size</label>
+            <select id="size">
+              <option value="128">128 px</option>
+              <option value="256" selected>256 px</option>
+              <option value="512">512 px</option>
+              <option value="1024">1024 px</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="border">Border width &mdash; <span id="border-val">14</span> px</label>
+          <input id="border" type="range" min="0" max="40" value="14">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="border-color">Border colour</label>
+            <input id="border-color" type="color" value="#c8a24a">
+          </div>
+          <div class="field">
+            <label for="bg-color">Background</label>
+            <input id="bg-color" type="color" value="#201c18">
+          </div>
+        </div>
+        <div class="check" style="margin-bottom:10px">
+          <input type="checkbox" id="transparent" checked>
+          <label for="transparent">Transparent background outside the frame</label>
+        </div>
+        <label>Border presets</label>
+        <div class="chips" id="colour-chips"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Name label</h2>
+        <div class="field">
+          <label for="label-text">Text (leave blank for none)</label>
+          <input id="label-text" placeholder="e.g. Goblin 1" autocomplete="off" maxlength="24">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="label-pos">Position</label>
+            <select id="label-pos">
+              <option value="bottom">Across the bottom</option>
+              <option value="top">Across the top</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="label-color">Text colour</label>
+            <input id="label-color" type="color" value="#12100e">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Token</h2>
+          <div class="btn-group no-print">
+            <button class="btn btn-primary btn-sm" id="btn-download">Download PNG</button>
+            <button class="btn btn-sm" id="btn-to-map">Send to battle map</button>
+          </div>
+        </div>
+        <div class="token-preview">
+          <canvas id="token-canvas" width="256" height="256" title="Drag to move, scroll to zoom"></canvas>
+          <div>
+            <div class="muted" style="font-size:.85rem;margin-bottom:8px">On a battle map at 5&nbsp;ft per square:</div>
+            <canvas id="scale-canvas" width="150" height="150"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Saved tokens</h2>
+          <button class="btn btn-sm" id="btn-save">Save this one</button>
+        </div>
+        <p class="muted" style="font-size:.88rem">
+          Saved tokens are kept in this browser and can be dropped straight onto the battle map.
+        </p>
+        <div id="saved-list"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Tips</h2>
+        <ul class="muted" style="font-size:.9rem;padding-left:18px;margin:0">
+          <li>A square picture works best; anything else gets cropped by the frame.</li>
+          <li>Copy an image anywhere and press <kbd>Ctrl</kbd>+<kbd>V</kbd> on this page to load it.</li>
+          <li>Printing for the table? Use 512&nbsp;px or larger and print at about 25&nbsp;mm across.</li>
+          <li>Colour the border per creature type so your players can tell factions apart at a glance.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/pages/tokens-page.js"></script>
+</body>
+</html>

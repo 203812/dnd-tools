@@ -10,28 +10,53 @@
 
   /* ---------- Tool registry (source for nav + home page) ---------- */
   var TOOLS = [
-    { id: 'dice',       href: 'tools/dice.html',       icon: '\u{1F3B2}', name: 'Dice Roller', short: 'Dice',
-      desc: 'Full dice notation: 4d6kh3, advantage, exploding dice, rerolls, modifiers and a roll history.' },
-    { id: 'initiative', href: 'tools/initiative.html', icon: '⚔️', name: 'Initiative Tracker', short: 'Initiative',
-      desc: 'Run the fight: initiative order, hit points, conditions and rounds. Saves automatically.' },
-    { id: 'encounter',  href: 'tools/encounter.html',  icon: '\u{1F4C8}', name: 'Encounter Builder', short: 'Encounters',
-      desc: 'Work out the XP budget and difficulty for your party, and assemble a fight from the monster list.' },
-    { id: 'monsters',   href: 'tools/monsters.html',   icon: '\u{1F409}', name: 'Bestiary', short: 'Monsters',
+    /* --- Combat --- */
+    { id: 'initiative', cat: 'Combat', href: 'tools/initiative.html', icon: '⚔️', name: 'Initiative Tracker', short: 'Initiative',
+      desc: 'Run the fight: initiative order, hit points, concentration, conditions and rounds. Opens stat blocks inline and saves automatically.' },
+    { id: 'encounter', cat: 'Combat', href: 'tools/encounter.html', icon: '\u{1F4C8}', name: 'Encounter Builder', short: 'Encounters',
+      desc: 'Work out the XP budget and difficulty for your party, filter by environment and roll a random encounter that fits.' },
+    { id: 'battlemap', cat: 'Combat', href: 'tools/battlemap.html', icon: '\u{1F5FA}️', name: 'Battle Map', short: 'Battle Map',
+      desc: 'Drop a map image, snap tokens to the grid, measure distances and hide the unexplored parts behind fog of war.' },
+    { id: 'monsters', cat: 'Combat', href: 'tools/monsters.html', icon: '\u{1F409}', name: 'Bestiary', short: 'Monsters',
       desc: 'Searchable stat blocks with filters for challenge rating, type and environment. One click to the tracker.' },
-    { id: 'spells',     href: 'tools/spells.html',     icon: '✨', name: 'Spell List', short: 'Spells',
+
+    /* --- Dice --- */
+    { id: 'dice', cat: 'Dice', href: 'tools/dice.html', icon: '\u{1F3B2}', name: 'Dice Roller', short: 'Roller',
+      desc: 'Full dice notation: 4d6kh3, advantage, exploding dice, rerolls, modifiers and a roll history.' },
+    { id: 'probability', cat: 'Dice', href: 'tools/probability.html', icon: '\u{1F4C9}', name: 'Dice Probability', short: 'Probability',
+      desc: 'The odds behind the dice: full distribution, averages, chance to beat a target, and attack maths for homebrew monsters.' },
+
+    /* --- Reference --- */
+    { id: 'spells', cat: 'Reference', href: 'tools/spells.html', icon: '✨', name: 'Spell List', short: 'Spells',
       desc: 'Search spells by name, level, school or class, with components, duration and description.' },
-    { id: 'loot',       href: 'tools/loot.html',       icon: '\u{1F4B0}', name: 'Treasure Generator', short: 'Treasure',
-      desc: 'Roll individual treasure or a full hoard by CR: coins, gems, art objects and magic items.' },
-    { id: 'npc',        href: 'tools/npc.html',        icon: '\u{1F9D9}', name: 'NPC Generator', short: 'NPCs',
+    { id: 'rules', cat: 'Reference', href: 'tools/rules.html', icon: '\u{1F4D6}', name: 'Rules Reference', short: 'Rules',
+      desc: 'Conditions, actions in combat, cover, hazards, resting, travel and DC guidelines.' },
+    { id: 'screen', cat: 'Reference', href: 'tools/screen.html', icon: '\u{1F5C2}️', name: 'DM Screen', short: 'DM Screen',
+      desc: 'Your own dashboard: pick the panels you want behind the screen and arrange them however you like.' },
+
+    /* --- Generators --- */
+    { id: 'npc', cat: 'Generators', href: 'tools/npc.html', icon: '\u{1F9D9}', name: 'NPC Generator', short: 'NPCs',
       desc: 'A complete NPC in one click: name, ancestry, trade, looks, personality, secret and ability scores.' },
-    { id: 'names',      href: 'tools/names.html',      icon: '\u{1F4DC}', name: 'Name Generator', short: 'Names',
+    { id: 'names', cat: 'Generators', href: 'tools/names.html', icon: '\u{1F4DC}', name: 'Name Generator', short: 'Names',
       desc: 'Names by ancestry, plus taverns, shops, villages and companies.' },
-    { id: 'abilities',  href: 'tools/abilities.html',  icon: '\u{1F4CA}', name: 'Ability Scores', short: 'Scores',
+    { id: 'loot', cat: 'Generators', href: 'tools/loot.html', icon: '\u{1F4B0}', name: 'Treasure Generator', short: 'Treasure',
+      desc: 'Roll individual treasure or a full hoard by CR: coins, gems, art objects and magic items.' },
+    { id: 'tokens', cat: 'Generators', href: 'tools/tokens.html', icon: '\u{1F535}', name: 'Token Maker', short: 'Tokens',
+      desc: 'Turn any picture into a round token with a border and a name, ready to print or drop on the battle map.' },
+    { id: 'abilities', cat: 'Generators', href: 'tools/abilities.html', icon: '\u{1F4CA}', name: 'Ability Scores', short: 'Scores',
       desc: 'Point buy, standard array and 4d6 drop lowest with automatic modifiers and racial bonuses.' },
-    { id: 'rules',      href: 'tools/rules.html',      icon: '\u{1F4D6}', name: 'Rules Reference', short: 'Rules',
-      desc: 'Conditions, actions in combat, cover, hazards, resting, travel and DC guidelines.' }
+
+    /* --- At the table --- */
+    { id: 'calendar', cat: 'At the table', href: 'tools/calendar.html', icon: '\u{1F4C5}', name: 'Campaign Calendar', short: 'Calendar',
+      desc: 'Build your own calendar with custom months and moons, track the date as the party travels, and roll the weather.' },
+    { id: 'ambience', cat: 'At the table', href: 'tools/ambience.html', icon: '\u{1F50A}', name: 'Ambience Mixer', short: 'Ambience',
+      desc: 'Layered background sound built in your browser: rain, wind, fire, caves and taverns, plus your own audio files.' }
   ];
   window.TOOLS = TOOLS;
+
+  var CATEGORIES = [];
+  TOOLS.forEach(function (t) { if (CATEGORIES.indexOf(t.cat) === -1) CATEGORIES.push(t.cat); });
+  window.TOOL_CATEGORIES = CATEGORIES;
 
   /* ---------- Helpers ---------- */
   var H = {
@@ -68,6 +93,11 @@
     },
     /** Thousands separator. */
     num: function (n) { return Number(n).toLocaleString('en-US'); },
+    /** Percentage with one decimal, without trailing ".0". */
+    pct: function (v) {
+      var s = (v * 100).toFixed(1);
+      return (s.slice(-2) === '.0' ? s.slice(0, -2) : s) + '%';
+    },
     el: function (tag, cls, html) {
       var e = document.createElement(tag);
       if (cls) e.className = cls;
@@ -114,11 +144,43 @@
     },
     download: function (filename, text, type) {
       var blob = new Blob([text], { type: type || 'text/plain;charset=utf-8' });
+      H.downloadBlob(filename, blob);
+    },
+    downloadBlob: function (filename, blob) {
       var a = H.el('a');
       a.href = URL.createObjectURL(blob);
       a.download = filename;
       document.body.appendChild(a); a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    },
+    /** Opens a file picker and hands the chosen File objects to the callback. */
+    pickFile: function (accept, multiple, cb) {
+      var inp = H.el('input');
+      inp.type = 'file';
+      inp.accept = accept;
+      inp.multiple = !!multiple;
+      inp.addEventListener('change', function () {
+        if (inp.files && inp.files.length) cb(multiple ? Array.prototype.slice.call(inp.files) : inp.files[0]);
+      });
+      inp.click();
+    },
+    /** Reads an image File into a loaded HTMLImageElement. */
+    readImage: function (file, cb, onError) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var img = new Image();
+        img.onload = function () { cb(img, reader.result); };
+        img.onerror = function () { if (onError) onError('That file could not be read as an image.'); };
+        img.src = reader.result;
+      };
+      reader.onerror = function () { if (onError) onError('That file could not be read.'); };
+      reader.readAsDataURL(file);
+    },
+    /** Scrolls an element into view where the browser supports it. */
+    reveal: function (el, opts) {
+      if (el && typeof el.scrollIntoView === 'function') {
+        el.scrollIntoView(opts || { behavior: 'smooth', block: 'nearest' });
+      }
     },
     /** Serialises a form into a plain object. */
     formData: function (form) {
@@ -158,8 +220,17 @@
     '</svg>';
 
   function buildHeader() {
-    var links = TOOLS.map(function (t) {
-      return '<a href="' + BASE + '/' + t.href + '"' + (t.id === PAGE ? ' class="active"' : '') + '>' + t.short + '</a>';
+    var menus = CATEGORIES.map(function (cat) {
+      var tools = TOOLS.filter(function (t) { return t.cat === cat; });
+      var active = tools.some(function (t) { return t.id === PAGE; });
+      var items = tools.map(function (t) {
+        return '<a href="' + BASE + '/' + t.href + '"' + (t.id === PAGE ? ' class="active"' : '') + '>' +
+          '<span class="menu-icon">' + t.icon + '</span>' + t.name + '</a>';
+      }).join('');
+      return '<div class="nav-group' + (active ? ' has-active' : '') + '">' +
+        '<button type="button" class="nav-trigger" aria-expanded="false">' + cat + '<span class="caret">▾</span></button>' +
+        '<div class="nav-menu">' + items + '</div>' +
+      '</div>';
     }).join('');
 
     var header = H.el('header', 'site-header');
@@ -167,12 +238,40 @@
       '<div class="wrap nav">' +
         '<a class="brand" href="' + BASE + '/index.html">' + D20 + '<span>DnD&nbsp;Tools</span></a>' +
         '<button class="icon-btn nav-toggle" id="nav-btn" aria-label="Menu" aria-expanded="false">≡</button>' +
-        '<nav class="nav-links" id="nav-links">' + links + '</nav>' +
+        '<nav class="nav-links" id="nav-links">' + menus + '</nav>' +
         '<button class="icon-btn" id="theme-btn" aria-label="Toggle theme"></button>' +
       '</div>';
     document.body.insertBefore(header, document.body.firstChild);
 
-    H.on('#nav-btn', 'click', function () {
+    // Category menus: click to open, click elsewhere or Escape to close.
+    H.qsa('.nav-trigger', header).forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var group = btn.parentNode;
+        var open = group.classList.contains('open');
+        H.qsa('.nav-group', header).forEach(function (g) {
+          g.classList.remove('open');
+          H.qs('.nav-trigger', g).setAttribute('aria-expanded', 'false');
+        });
+        if (!open) { group.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+    document.addEventListener('click', function () {
+      H.qsa('.nav-group.open', header).forEach(function (g) {
+        g.classList.remove('open');
+        H.qs('.nav-trigger', g).setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      H.qsa('.nav-group.open', header).forEach(function (g) {
+        g.classList.remove('open');
+        H.qs('.nav-trigger', g).setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    H.on('#nav-btn', 'click', function (e) {
+      e.stopPropagation();
       var nav = document.getElementById('nav-links');
       var open = nav.classList.toggle('open');
       this.setAttribute('aria-expanded', String(open));

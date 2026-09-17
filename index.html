@@ -15,19 +15,18 @@
   <section class="wrap hero">
     <h1>Everything for your <span class="accent">next session</span></h1>
     <p class="lead">
-      Ten tools for players and Dungeon Masters: roll dice, run a fight, balance encounters
-      and drop an NPC, a hoard or a name into play in one click. No account, no ads &mdash;
-      it all runs in your browser.
+      Sixteen tools for players and Dungeon Masters: roll dice, run a fight on a real battle map,
+      balance encounters, keep the campaign calendar and fill the room with sound. No account,
+      no ads &mdash; it all runs in your browser.
     </p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="tools/dice.html">&#127922; Roll some dice</a>
       <a class="btn" href="tools/initiative.html">&#9876;&#65039; Start a fight</a>
+      <a class="btn" href="tools/battlemap.html">&#128506;&#65039; Open a battle map</a>
     </div>
   </section>
 
-  <section class="wrap section">
-    <div class="grid cols-3" id="tool-grid"></div>
-  </section>
+  <section class="wrap section" id="tool-grid"></section>
 
   <section class="wrap section">
     <div class="grid cols-2">
@@ -52,6 +51,7 @@
         <h2>Why this site</h2>
         <div class="stack">
           <div class="stat-line"><span>Works offline</span><span>all local, no server required</span></div>
+          <div class="stat-line"><span>Private</span><span>your maps and pictures never upload</span></div>
           <div class="stat-line"><span>Remembers</span><span>your fight survives a refresh</span></div>
           <div class="stat-line"><span>Game data</span><span>SRD 5.1 &mdash; free to use</span></div>
           <div class="stat-line"><span>Printable</span><span>stat blocks and treasure on paper</span></div>
@@ -65,12 +65,19 @@
     <div class="panel">
       <h2>Getting started</h2>
       <p class="muted">
-        Running the game? Start at the <a href="tools/encounter.html">encounter builder</a> to size a
-        fight to your party, send those monsters straight to the
-        <a href="tools/initiative.html">initiative tracker</a> with one click, then roll the spoils in the
-        <a href="tools/loot.html">treasure generator</a>. Sitting on the player side? The
-        <a href="tools/dice.html">dice roller</a> and the <a href="tools/rules.html">rules reference</a>
-        are probably your two permanent tabs.
+        Running the game? Size a fight to your party in the
+        <a href="tools/encounter.html">encounter builder</a>, send those monsters straight to the
+        <a href="tools/initiative.html">initiative tracker</a> or onto the
+        <a href="tools/battlemap.html">battle map</a> with one click, then roll the spoils in the
+        <a href="tools/loot.html">treasure generator</a>. Keep the
+        <a href="tools/screen.html">DM screen</a> on a second monitor and the
+        <a href="tools/ambience.html">ambience mixer</a> humming in the background.
+      </p>
+      <p class="muted">
+        Sitting on the player side? The <a href="tools/dice.html">dice roller</a> and the
+        <a href="tools/rules.html">rules reference</a> are probably your two permanent tabs, and
+        <a href="tools/probability.html">dice probability</a> settles the argument about whether
+        that gamble was worth it.
       </p>
     </div>
   </section>
@@ -80,13 +87,17 @@
 <script src="assets/js/dice.js"></script>
 <script>
 (function () {
-  // Tool cards from the registry in core.js
+  // Tool cards from the registry in core.js, grouped by category
   var grid = document.getElementById('tool-grid');
-  grid.innerHTML = window.TOOLS.map(function (t) {
-    return '<a class="card" href="' + t.href + '">' +
-             '<h3><span class="card-icon">' + t.icon + '</span>' + t.name + '</h3>' +
-             '<p>' + t.desc + '</p>' +
-           '</a>';
+  grid.innerHTML = window.TOOL_CATEGORIES.map(function (cat) {
+    var cards = window.TOOLS.filter(function (t) { return t.cat === cat; }).map(function (t) {
+      return '<a class="card" href="' + t.href + '">' +
+               '<h3><span class="card-icon">' + t.icon + '</span>' + t.name + '</h3>' +
+               '<p>' + t.desc + '</p>' +
+             '</a>';
+    }).join('');
+    return '<div class="cat-head"><h2>' + cat + '</h2><span class="rule"></span></div>' +
+           '<div class="grid cols-3">' + cards + '</div>';
   }).join('');
 
   // Quick roll

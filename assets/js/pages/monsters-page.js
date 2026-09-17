@@ -158,7 +158,7 @@
     var m = MONSTERS.filter(function (x) { return x.name === row.getAttribute('data-name'); })[0];
     if (m) {
       showMonster(m);
-      if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) detailEl.scrollIntoView({ behavior: 'smooth' });
+      if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) H.reveal(detailEl);
     }
   });
 

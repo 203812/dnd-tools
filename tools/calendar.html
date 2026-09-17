@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaign Calendar &mdash; DnD Tools</title>
+<meta name="description" content="Build a custom fantasy calendar with your own months and moons, track the date as the party travels, and roll the weather.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128197;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'calendar'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <div class="panel-head">
+    <h1 style="margin:0">Campaign Calendar</h1>
+    <div class="btn-group no-print">
+      <button class="btn btn-sm" id="btn-export">Export</button>
+      <button class="btn btn-sm" id="btn-import">Import</button>
+      <button class="btn btn-sm btn-danger" id="btn-reset">Start over</button>
+    </div>
+  </div>
+
+  <div class="grid cols-2" style="align-items:start;grid-template-columns:minmax(0,2fr) minmax(280px,1fr)">
+
+    <div class="stack">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="month-title" style="margin:0"></h2>
+            <div class="muted" id="today-line" style="font-size:.88rem"></div>
+          </div>
+          <div class="btn-group no-print">
+            <button class="btn btn-sm" id="btn-prev-month">&#8592;</button>
+            <button class="btn btn-sm" id="btn-today">Today</button>
+            <button class="btn btn-sm" id="btn-next-month">&#8594;</button>
+          </div>
+        </div>
+        <div id="cal-headers" class="cal-grid" style="margin-bottom:4px"></div>
+        <div id="cal-body" class="cal-grid"></div>
+        <div class="muted" style="font-size:.84rem;margin-top:10px">Click a day to set the date or add an event.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Advance time</h2>
+          <span class="muted" id="elapsed-line" style="font-size:.85rem"></span>
+        </div>
+        <div class="btn-group">
+          <button class="btn" data-advance="1">+1 day</button>
+          <button class="btn" data-advance="7">+1 week</button>
+          <button class="btn" data-advance="30">+30 days</button>
+          <button class="btn" data-advance="-1">&#8722;1 day</button>
+        </div>
+        <div class="field-row" style="margin-top:12px;align-items:flex-end">
+          <div class="field" style="flex:0 0 130px">
+            <label for="adv-days">Custom</label>
+            <input id="adv-days" type="number" value="3">
+          </div>
+          <button class="btn btn-sm" id="btn-advance">Advance that many days</button>
+          <button class="btn btn-sm" id="btn-rest">Long rest (+8 hours)</button>
+        </div>
+        <div class="muted" id="time-line" style="margin-top:10px;font-size:.9rem"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Journal</h2>
+          <span class="muted" id="event-count" style="font-size:.85rem"></span>
+        </div>
+        <div id="event-list" class="scroll-y" style="max-height:280px"></div>
+      </div>
+    </div>
+
+    <div class="stack no-print">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Weather</h2>
+          <button class="btn btn-sm" id="btn-weather">Roll again</button>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="climate">Climate</label>
+            <select id="climate"></select>
+          </div>
+          <div class="field">
+            <label for="season-out">Season</label>
+            <input id="season-out" readonly>
+          </div>
+        </div>
+        <div id="weather-out"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Moons</h2>
+        <div id="moon-out"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Calendar setup</h2>
+        <div class="field">
+          <label for="preset">Preset</label>
+          <select id="preset">
+            <option value="">Choose a preset&hellip;</option>
+            <option value="earth">Earth-like (12 months, 365 days)</option>
+            <option value="fantasy">Fantasy (12 months of 30 days)</option>
+            <option value="simple">Simple (10 months of 36 days)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="year-name">Era name</label>
+          <input id="year-name" placeholder="e.g. Age of Embers">
+        </div>
+        <div class="field">
+          <label for="weekdays">Weekday names (comma separated)</label>
+          <input id="weekdays">
+        </div>
+        <div class="field">
+          <label for="months">Months &mdash; one per line as <code>Name, days</code></label>
+          <textarea id="months" rows="7" spellcheck="false"></textarea>
+        </div>
+        <div class="field">
+          <label for="moons">Moons &mdash; one per line as <code>Name, cycle days, offset</code></label>
+          <textarea id="moons" rows="3" spellcheck="false"></textarea>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-apply">Apply setup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day editor -->
+  <div class="panel hidden" id="day-editor" style="margin-top:16px">
+    <div class="panel-head">
+      <h2 id="editor-title">Day</h2>
+      <button class="btn btn-sm" id="btn-close-editor">Close</button>
+    </div>
+    <div class="field-row" style="align-items:flex-end">
+      <div class="field" style="flex:2 1 260px">
+        <label for="ev-title">Event</label>
+        <input id="ev-title" placeholder="e.g. The caravan reaches Stonebrook" autocomplete="off">
+      </div>
+      <div class="field" style="flex:0 0 150px">
+        <label for="ev-repeat">Repeats</label>
+        <select id="ev-repeat">
+          <option value="once">Once</option>
+          <option value="yearly">Every year</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btn-add-event">Add event</button>
+      <button class="btn" id="btn-set-today">Make this today</button>
+    </div>
+    <div id="day-events" style="margin-top:12px"></div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/data/calendar.js"></script>
+<script src="../assets/js/pages/calendar-page.js"></script>
+</body>
+</html>

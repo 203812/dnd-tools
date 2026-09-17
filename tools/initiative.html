@@ -35,6 +35,9 @@
         </div>
         <div id="combatants"></div>
         <div class="muted center" id="turn-hint" style="font-size:.85rem;margin-top:10px"></div>
+        <div class="muted center no-print" style="font-size:.8rem;margin-top:6px">
+          Space or &rarr; for the next turn &middot; click a name to select &middot; <b>C</b> toggles concentration
+        </div>
       </div>
     </div>
 
@@ -70,6 +73,10 @@
               <label for="c-count">Count</label>
               <input id="c-count" type="number" value="1" min="1" max="20">
             </div>
+          </div>
+          <div class="field">
+            <label for="c-note">Note (optional)</label>
+            <input id="c-note" placeholder="e.g. hides at 20 hp" autocomplete="off">
           </div>
           <div class="check" style="margin-bottom:12px">
             <input type="checkbox" id="c-pc">

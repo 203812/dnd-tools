@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DM Screen &mdash; DnD Tools</title>
+<meta name="description" content="A customisable digital DM screen: pick the panels you want behind the screen and arrange them however you like.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128450;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'screen'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <div class="panel-head">
+    <h1 style="margin:0">DM Screen</h1>
+    <div class="btn-group no-print">
+      <button class="btn btn-sm" id="btn-print" onclick="window.print()">Print</button>
+      <button class="btn btn-sm" id="btn-reset">Default layout</button>
+    </div>
+  </div>
+
+  <div class="panel no-print" style="margin-bottom:16px">
+    <label>Panels &mdash; click to add or remove</label>
+    <div class="chips" id="widget-chips"></div>
+  </div>
+
+  <div class="screen-grid" id="screen"></div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/data/rules.js"></script>
+<script src="../assets/data/monsters.js"></script>
+<script src="../assets/data/names.js"></script>
+<script src="../assets/data/npc.js"></script>
+<script src="../assets/data/treasure.js"></script>
+<script src="../assets/js/pages/screen-page.js"></script>
+</body>
+</html>

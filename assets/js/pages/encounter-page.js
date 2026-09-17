@@ -54,6 +54,13 @@
     Array.apply(null, { length: 24 }).map(function (_, i) { return i + 1; })
   );
   var crMin = H.qs('#f-cr-min'), crMax = H.qs('#f-cr-max');
+
+  // environments come straight from the monster data
+  var envs = [];
+  MONSTERS.forEach(function (m) {
+    (m.env || []).forEach(function (e) { if (envs.indexOf(e) === -1) envs.push(e); });
+  });
+  envs.sort().forEach(function (e) { H.qs('#f-env').appendChild(new Option(e, e)); });
   CR_VALUES.forEach(function (cr) {
     crMin.appendChild(new Option(crLabel(cr), cr));
     crMax.appendChild(new Option(crLabel(cr), cr));
@@ -137,8 +144,11 @@
     var q = H.qs('#m-search').value.trim().toLowerCase();
     var lo = parseFloat(crMin.value), hi = parseFloat(crMax.value);
 
+    var env = H.qs('#f-env').value;
+
     var list = MONSTERS.filter(function (m) {
       if (m.cr < lo || m.cr > hi) return false;
+      if (env && (m.env || []).indexOf(env) === -1) return false;
       if (!q) return true;
       return m.name.toLowerCase().indexOf(q) !== -1 || m.type.indexOf(q) !== -1 ||
              (m.env || []).join(' ').toLowerCase().indexOf(q) !== -1;
@@ -182,13 +192,19 @@
   H.on('#btn-clear', 'click', function () { chosen = []; refresh(); });
 
   H.on('#btn-random', 'click', function () {
-    // fills up to roughly the "hard" threshold
+    // fills up to the chosen difficulty, honouring the environment filter
     var partySize = H.clamp(parseInt(pCount.value, 10) || 1, 1, 12);
     var lvl = H.clamp(parseInt(pLevel.value, 10) || 1, 1, 20);
-    var target = THRESHOLDS[lvl][2] * partySize;
+    var tier = parseInt(H.qs('#f-target').value, 10);
+    var target = THRESHOLDS[lvl][tier] * partySize;
+    var env = H.qs('#f-env').value;
 
-    var pool = MONSTERS.filter(function (m) { return CR_XP[m.cr] <= target && CR_XP[m.cr] > 0; });
-    if (!pool.length) { H.toast('No suitable monsters found'); return; }
+    var pool = MONSTERS.filter(function (m) {
+      if (CR_XP[m.cr] > target || CR_XP[m.cr] <= 0) return false;
+      if (env && (m.env || []).indexOf(env) === -1) return false;
+      return true;
+    });
+    if (!pool.length) { H.toast('No suitable monsters found for that environment'); return; }
 
     chosen = [];
     var guard = 0;
@@ -221,6 +237,7 @@
   H.qs('#m-search').addEventListener('input', renderSearch);
   crMin.addEventListener('change', renderSearch);
   crMax.addEventListener('change', renderSearch);
+  H.qs('#f-env').addEventListener('change', renderSearch);
 
   renderSearch();
   refresh();

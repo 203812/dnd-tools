@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ambience Mixer &mdash; DnD Tools</title>
+<meta name="description" content="Layered background sound for your D&amp;D table, generated live in your browser: rain, wind, fire, caves, taverns and more.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128266;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'ambience'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+  <h1>Ambience Mixer</h1>
+  <p class="muted">Background sound built from scratch in your browser &mdash; nothing to download, nothing to buy. Layer the channels until the scene sounds right.</p>
+
+  <div class="panel no-print" style="margin-bottom:16px">
+    <div class="panel-head" style="margin-bottom:10px">
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btn-master">&#9654; Start sound</button>
+        <button class="btn btn-danger" id="btn-stop-all">Silence everything</button>
+      </div>
+      <div style="flex:1 1 220px;min-width:180px">
+        <label for="master-vol" style="margin-bottom:2px">Master volume &mdash; <span id="master-val">70</span>%</label>
+        <input id="master-vol" type="range" min="0" max="100" value="70">
+      </div>
+    </div>
+    <label>Scene presets</label>
+    <div class="chips" id="preset-chips"></div>
+  </div>
+
+  <div class="panel" style="margin-bottom:16px">
+    <div class="panel-head">
+      <h2>Channels</h2>
+      <span class="muted" id="active-count" style="font-size:.85rem"></span>
+    </div>
+    <div class="mixer" id="mixer"></div>
+  </div>
+
+  <div class="grid cols-2" style="align-items:start">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Your own audio</h2>
+        <button class="btn btn-sm" id="btn-add-audio">Add files</button>
+      </div>
+      <p class="muted" style="font-size:.9rem">
+        Add music or sound effects from your own machine. They play on loop alongside the generated
+        channels and never leave your computer &mdash; but they are not remembered after you close the tab,
+        so add them again next session.
+      </p>
+      <div id="own-list"></div>
+    </div>
+
+    <div class="panel">
+      <h2>How this works</h2>
+      <p class="muted" style="font-size:.92rem">
+        Every channel is synthesised live with the Web Audio API: filtered noise for rain and wind,
+        random bursts for fire and dripping caves, layered voices for a crowded tavern. Nothing is
+        sampled, so there is no audio to license and no file to load.
+      </p>
+      <p class="muted" style="font-size:.92rem">
+        It won't fool anyone into thinking it's a field recording &mdash; for that you want a service like
+        Syrinscape, which ships professionally recorded audio. This is the version that costs nothing
+        and works offline.
+      </p>
+      <p class="muted" style="font-size:.92rem">
+        Browsers refuse to make sound until you interact with the page, which is why there is a
+        start button.
+      </p>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/ambience.js"></script>
+<script src="../assets/js/pages/ambience-page.js"></script>
+</body>
+</html>
