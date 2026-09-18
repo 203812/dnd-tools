@@ -443,3 +443,69 @@ input[type="color"] { padding: 2px; height: 38px; cursor: pointer; }
 .widget textarea { min-height: 150px; font-size: .9rem; }
 .widget.wide { grid-column: span 2; }
 @media (max-width: 700px) { .widget.wide { grid-column: span 1; } }
+
+/* ---------- Tabs (session console) ---------- */
+.tabs { display: flex; gap: 3px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+.tab {
+  background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer;
+  font-family: inherit; font-size: .95rem; color: var(--text-dim);
+  padding: 9px 15px; margin-bottom: -1px; display: flex; align-items: center; gap: 7px;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab .count {
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px;
+  font-size: .72rem; padding: 0 6px; min-width: 18px; text-align: center; color: var(--text-faint);
+}
+.tab.active .count { border-color: var(--gold); color: var(--gold); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ---------- Console header bar ---------- */
+.console-bar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 16px; margin-bottom: 16px;
+}
+.console-bar .field { margin-bottom: 0; }
+.console-stat { text-align: center; padding: 0 4px; }
+.console-stat b { display: block; font-family: var(--font-display); font-size: 1.3rem; color: var(--gold); line-height: 1.1; }
+.console-stat span { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-faint); }
+.save-dot { font-size: .8rem; color: var(--text-faint); white-space: nowrap; }
+.save-dot.saved { color: #8fbf78; }
+
+/* ---------- Roster cards ---------- */
+.pc-card {
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px; position: relative;
+}
+.pc-card.bloodied { border-color: var(--red); }
+.pc-card.down { opacity: .6; border-color: var(--red); }
+.pc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.pc-name { font-weight: 600; font-size: 1.04rem; }
+.pc-sub { font-size: .8rem; color: var(--text-dim); }
+.pc-hp-row { display: flex; align-items: center; gap: 6px; margin: 8px 0 4px; }
+.pc-hp-row input { width: 58px; text-align: center; padding: 5px; }
+.pc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; margin-top: 10px; }
+.pc-grid > div { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--radius-sm); padding: 5px 2px; }
+.pc-grid b { display: block; font-size: .68rem; letter-spacing: .06em; color: var(--text-faint); text-transform: uppercase; }
+.death-saves { display: flex; gap: 10px; align-items: center; font-size: .78rem; margin-top: 8px; }
+.death-saves .pips { display: flex; gap: 3px; }
+.pip { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--line); cursor: pointer; display: inline-block; }
+.pip.on-success { background: var(--green); border-color: var(--green); }
+.pip.on-fail { background: var(--red); border-color: var(--red); }
+
+/* ---------- Log and list entries ---------- */
+.entry {
+  border-left: 3px solid var(--line); padding: 8px 0 8px 12px; margin-bottom: 10px;
+}
+.entry.highlight { border-left-color: var(--gold); }
+.entry-meta { font-size: .76rem; color: var(--text-faint); margin-bottom: 3px; }
+.entry-body { font-size: .92rem; white-space: pre-wrap; }
+
+.quest { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 10px; background: var(--panel-2); }
+.quest.done { opacity: .6; }
+.quest.done .quest-title { text-decoration: line-through; }
+.quest-title { font-weight: 600; }
+.objective { display: flex; align-items: flex-start; gap: 8px; font-size: .89rem; padding: 3px 0; }
+.objective.done span { text-decoration: line-through; color: var(--text-faint); }

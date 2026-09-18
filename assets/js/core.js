@@ -10,6 +10,14 @@
 
   /* ---------- Tool registry (source for nav + home page) ---------- */
   var TOOLS = [
+    /* --- Campaign: the things that run all session --- */
+    { id: 'console', cat: 'Campaign', href: 'tools/console.html', icon: '\u{1F4DD}', name: 'Session Console', short: 'Console',
+      desc: 'The laptop beside the DM. Party, hit points, experience, quests, NPCs, loot and session notes in one place, saved as you go.' },
+    { id: 'calendar', cat: 'Campaign', href: 'tools/calendar.html', icon: '\u{1F4C5}', name: 'Campaign Calendar', short: 'Calendar',
+      desc: 'Build your own calendar with custom months and moons, track the date as the party travels, and roll the weather.' },
+    { id: 'ambience', cat: 'Campaign', href: 'tools/ambience.html', icon: '\u{1F50A}', name: 'Ambience Mixer', short: 'Ambience',
+      desc: 'Layered background sound built in your browser: rain, wind, fire, caves and taverns, plus your own audio files.' },
+
     /* --- Combat --- */
     { id: 'initiative', cat: 'Combat', href: 'tools/initiative.html', icon: '⚔️', name: 'Initiative Tracker', short: 'Initiative',
       desc: 'Run the fight: initiative order, hit points, concentration, conditions and rounds. Opens stat blocks inline and saves automatically.' },
@@ -44,13 +52,7 @@
     { id: 'tokens', cat: 'Generators', href: 'tools/tokens.html', icon: '\u{1F535}', name: 'Token Maker', short: 'Tokens',
       desc: 'Turn any picture into a round token with a border and a name, ready to print or drop on the battle map.' },
     { id: 'abilities', cat: 'Generators', href: 'tools/abilities.html', icon: '\u{1F4CA}', name: 'Ability Scores', short: 'Scores',
-      desc: 'Point buy, standard array and 4d6 drop lowest with automatic modifiers and racial bonuses.' },
-
-    /* --- At the table --- */
-    { id: 'calendar', cat: 'At the table', href: 'tools/calendar.html', icon: '\u{1F4C5}', name: 'Campaign Calendar', short: 'Calendar',
-      desc: 'Build your own calendar with custom months and moons, track the date as the party travels, and roll the weather.' },
-    { id: 'ambience', cat: 'At the table', href: 'tools/ambience.html', icon: '\u{1F50A}', name: 'Ambience Mixer', short: 'Ambience',
-      desc: 'Layered background sound built in your browser: rain, wind, fire, caves and taverns, plus your own audio files.' }
+      desc: 'Point buy, standard array and 4d6 drop lowest with automatic modifiers and racial bonuses.' }
   ];
   window.TOOLS = TOOLS;
 

@@ -50,15 +50,36 @@ Opening `index.html` directly works too, but some browsers refuse `localStorage`
 | Token Maker | `tools/tokens.html` | Crop any picture into a bordered token, ready for the map or the printer |
 | Ability Scores | `tools/abilities.html` | Point buy, standard array, 4d6 drop lowest |
 
-### At the table
+### Campaign
 | Tool | File | What it does |
 | --- | --- | --- |
+| Session Console | `tools/console.html` | Party, HP, XP, quests, NPCs, places, loot and the session log, in one place |
 | Campaign Calendar | `tools/calendar.html` | Custom months and moons, event journal, time tracking, weather by climate |
 | Ambience Mixer | `tools/ambience.html` | Twelve procedurally generated sound channels plus your own audio files |
 
 The tools talk to each other: send monsters from the bestiary or the encounter builder into the
 initiative tracker, push a whole fight onto the battle map, drop a freshly made token straight
-onto that map, and let the builder roll the matching loot.
+onto that map, and let the builder roll the matching loot. The session console pushes the party
+into the initiative tracker and pulls experience back out of the encounter builder.
+
+## The session console
+
+This is the one meant to sit open on the laptop next to you for the whole evening. Six tabs:
+
+- **Party** — a card per character with hit points, temporary hit points, AC, passive Perception,
+  hit dice, inspiration and death saves. Short and long rest buttons apply to everyone at once.
+- **Session** — a timestamped log of what happened, filterable by kind, plus quick dice and
+  secret rolls the players are not supposed to see you make.
+- **Quests** — objectives you tick off, status, giver and reward.
+- **World** — the NPCs they have met and the places they have been, both searchable.
+- **Loot** — the party purse in five coin types, the item list, a total in gold and an even split
+  calculated down to the copper.
+- **Progress** — experience bars per character with automatic level-ups, or milestone levelling
+  if you prefer.
+
+Everything is written to the browser a moment after you change it, several campaigns can live
+side by side, and the whole thing exports to a JSON file. The **Recap** button writes a Markdown
+summary of the session you can paste straight into a group chat.
 
 ## Dice notation
 
@@ -79,7 +100,7 @@ onto that map, and let the builder roll the matching loot.
 
 ```
 index.html
-tools/            the sixteen tool pages
+tools/            the seventeen tool pages
 assets/css/       one stylesheet, dark and light themes
 assets/js/        core.js (nav, theme, helpers), dice.js (parser),
                   prob.js (distributions), ambience.js (Web Audio)

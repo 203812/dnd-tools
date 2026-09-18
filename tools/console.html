@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session Console &mdash; DnD Tools</title>
+<meta name="description" content="The laptop beside the DM: track your party, hit points, experience, quests, NPCs, loot and session notes in one place, with save, import and export.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128220;</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>window.PAGE = 'console'; window.BASE = '..';</script>
+</head>
+<body>
+
+<main class="wrap section">
+
+  <!-- Always-visible bar -->
+  <div class="console-bar no-print">
+    <div class="field" style="flex:1 1 180px;min-width:150px">
+      <label for="camp-name">Campaign</label>
+      <input id="camp-name" placeholder="Campaign name">
+    </div>
+    <div class="field" style="flex:0 0 130px">
+      <label for="camp-select">Switch</label>
+      <select id="camp-select"></select>
+    </div>
+    <div class="console-stat"><b id="stat-session">1</b><span>Session</span></div>
+    <div class="console-stat"><b id="stat-party">0</b><span>Party</span></div>
+    <div class="console-stat"><b id="stat-level">1</b><span>Avg level</span></div>
+    <div class="console-stat"><b id="stat-gold">0</b><span>Party gold</span></div>
+    <span style="flex:1 1 auto"></span>
+    <span class="save-dot" id="save-dot">saved</span>
+    <div class="btn-group">
+      <button class="btn btn-sm" id="btn-new">New</button>
+      <button class="btn btn-sm" id="btn-export">Export</button>
+      <button class="btn btn-sm" id="btn-import">Import</button>
+      <button class="btn btn-sm" id="btn-recap">Recap</button>
+      <button class="btn btn-sm btn-danger" id="btn-delete">Delete</button>
+    </div>
+  </div>
+
+  <div class="tabs no-print" id="tabs">
+    <button class="tab active" data-tab="party">&#128101; Party <span class="count" id="c-party">0</span></button>
+    <button class="tab" data-tab="session">&#128214; Session <span class="count" id="c-log">0</span></button>
+    <button class="tab" data-tab="quests">&#127919; Quests <span class="count" id="c-quests">0</span></button>
+    <button class="tab" data-tab="world">&#127757; World <span class="count" id="c-world">0</span></button>
+    <button class="tab" data-tab="loot">&#128176; Loot</button>
+    <button class="tab" data-tab="progress">&#11088; Progress</button>
+  </div>
+
+  <!-- ============ PARTY ============ -->
+  <section class="tab-panel active" id="panel-party">
+    <div class="grid cols-2" style="align-items:start;grid-template-columns:minmax(0,2.3fr) minmax(270px,1fr)">
+      <div>
+        <div class="panel-head">
+          <h2 style="margin:0">The party</h2>
+          <div class="btn-group no-print">
+            <button class="btn btn-sm" id="btn-short-rest">Short rest</button>
+            <button class="btn btn-sm" id="btn-long-rest">Long rest</button>
+            <button class="btn btn-sm" id="btn-to-initiative">To initiative tracker</button>
+          </div>
+        </div>
+        <div class="grid cols-2" id="party-list"></div>
+      </div>
+
+      <div class="stack no-print">
+        <div class="panel">
+          <h2>Add a character</h2>
+          <form id="pc-form">
+            <div class="field">
+              <label for="pc-name">Character</label>
+              <input id="pc-name" placeholder="e.g. Thalia Everhart" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="pc-player">Player</label>
+              <input id="pc-player" placeholder="who plays them" autocomplete="off">
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="pc-class">Class</label>
+                <select id="pc-class"></select>
+              </div>
+              <div class="field">
+                <label for="pc-level">Level</label>
+                <input id="pc-level" type="number" value="1" min="1" max="20">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="pc-hp">Max HP</label>
+                <input id="pc-hp" type="number" value="10" min="1">
+              </div>
+              <div class="field">
+                <label for="pc-ac">AC</label>
+                <input id="pc-ac" type="number" value="14">
+              </div>
+              <div class="field">
+                <label for="pc-pp">Passive Perc.</label>
+                <input id="pc-pp" type="number" value="12">
+              </div>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Add to the party</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>At a glance</h2>
+          <div id="party-summary"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Encounter thresholds</h2>
+          <p class="muted" style="font-size:.86rem">For this exact party, right now.</p>
+          <div id="party-thresholds"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SESSION ============ -->
+  <section class="tab-panel" id="panel-session">
+    <div class="grid cols-2" style="align-items:start;grid-template-columns:minmax(0,2fr) minmax(270px,1fr)">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Session log</h2>
+          <div class="btn-group no-print">
+            <select id="log-filter" style="width:auto;padding:5px 8px;font-size:.84rem">
+              <option value="">Everything</option>
+            </select>
+            <button class="btn btn-sm" id="btn-end-session">End session</button>
+          </div>
+        </div>
+        <form id="log-form" class="no-print">
+          <div class="field">
+            <textarea id="log-text" rows="3" placeholder="What just happened? Enter adds it, Shift+Enter makes a new line."></textarea>
+          </div>
+          <div class="field-row" style="align-items:flex-end">
+            <div class="field" style="flex:0 0 150px">
+              <label for="log-kind">Kind</label>
+              <select id="log-kind"></select>
+            </div>
+            <button class="btn btn-primary" type="submit">Add to the log</button>
+          </div>
+        </form>
+        <div class="hr"></div>
+        <div id="log-list" class="scroll-y" style="max-height:520px"></div>
+      </div>
+
+      <div class="stack no-print">
+        <div class="panel">
+          <h2>This session</h2>
+          <div class="field-row">
+            <div class="field">
+              <label for="sess-num">Session number</label>
+              <input id="sess-num" type="number" min="1" value="1">
+            </div>
+            <div class="field">
+              <label for="sess-date">In-game date</label>
+              <input id="sess-date" placeholder="e.g. 14 Greentide">
+            </div>
+          </div>
+          <div class="btn-group">
+            <a class="btn btn-sm" href="calendar.html">Open the calendar</a>
+            <a class="btn btn-sm" href="initiative.html">Open the tracker</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Quick roll</h2>
+          <div class="chips" id="quick-chips"></div>
+          <div class="result-box center" style="margin-top:10px">
+            <div style="font-family:var(--font-display);font-size:2.1rem;color:var(--gold)" id="quick-total">&mdash;</div>
+            <div class="muted mono" style="font-size:.8rem" id="quick-detail"></div>
+          </div>
+          <form id="quick-form" class="field-row" style="margin-top:10px">
+            <input id="quick-input" class="mono" value="1d20" style="flex:1 1 110px">
+            <button class="btn btn-sm" type="submit">Roll</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Secret rolls</h2>
+          <p class="muted" style="font-size:.86rem">Rolls the players shouldn't see you make.</p>
+          <div class="btn-group">
+            <button class="btn btn-sm" data-secret="perception">Passive check</button>
+            <button class="btn btn-sm" data-secret="insight">Insight vs lie</button>
+            <button class="btn btn-sm" data-secret="wander">Wandering monster</button>
+          </div>
+          <div id="secret-out" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUESTS ============ -->
+  <section class="tab-panel" id="panel-quests">
+    <div class="grid cols-2" style="align-items:start;grid-template-columns:minmax(0,2fr) minmax(270px,1fr)">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Quests</h2>
+          <select id="quest-filter" style="width:auto;padding:5px 8px;font-size:.84rem" class="no-print">
+            <option value="">All</option>
+          </select>
+        </div>
+        <div id="quest-list"></div>
+      </div>
+      <div class="panel no-print">
+        <h2>New quest</h2>
+        <form id="quest-form">
+          <div class="field">
+            <label for="q-title">Title</label>
+            <input id="q-title" placeholder="e.g. The missing caravan" required autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="q-giver">Given by</label>
+            <input id="q-giver" placeholder="who asked" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="q-reward">Reward</label>
+            <input id="q-reward" placeholder="e.g. 200 gp and a favour" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="q-notes">Notes</label>
+            <textarea id="q-notes" rows="3"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-objectives">Objectives &mdash; one per line</label>
+            <textarea id="q-objectives" rows="3" placeholder="Find the wagon tracks&#10;Question the innkeeper"></textarea>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Add quest</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORLD ============ -->
+  <section class="tab-panel" id="panel-world">
+    <div class="grid cols-2" style="align-items:start">
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>NPCs</h2>
+            <input id="npc-search" placeholder="Search" style="width:150px" class="no-print">
+          </div>
+          <div id="npc-list" class="scroll-y" style="max-height:400px"></div>
+        </div>
+        <div class="panel no-print">
+          <form id="npc-form" class="field-row" style="align-items:flex-end">
+            <div class="field" style="flex:2 1 130px">
+              <label for="n-name">Name</label>
+              <input id="n-name" placeholder="NPC name" required autocomplete="off">
+            </div>
+            <div class="field" style="flex:1 1 110px">
+              <label for="n-where">Where</label>
+              <input id="n-where" autocomplete="off">
+            </div>
+            <div class="field" style="flex:1 1 110px">
+              <label for="n-attitude">Attitude</label>
+              <select id="n-attitude"></select>
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+          </form>
+          <div class="field" style="margin-top:8px">
+            <label for="n-note">Note</label>
+            <input id="n-note" placeholder="what the party knows about them" autocomplete="off">
+          </div>
+          <button class="btn btn-sm" id="btn-gen-npc">Generate one on the spot</button>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <h2>Places</h2>
+          <div id="place-list" class="scroll-y" style="max-height:400px"></div>
+        </div>
+        <div class="panel no-print">
+          <form id="place-form" class="field-row" style="align-items:flex-end">
+            <div class="field" style="flex:2 1 130px">
+              <label for="p-name">Name</label>
+              <input id="p-name" placeholder="Place name" required autocomplete="off">
+            </div>
+            <div class="field" style="flex:1 1 110px">
+              <label for="p-type">Type</label>
+              <select id="p-type"></select>
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+          </form>
+          <div class="field" style="margin-top:8px">
+            <label for="p-note">Note</label>
+            <input id="p-note" placeholder="what happened there" autocomplete="off">
+          </div>
+          <button class="btn btn-sm" id="btn-gen-place">Generate a name</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOOT ============ -->
+  <section class="tab-panel" id="panel-loot">
+    <div class="grid cols-2" style="align-items:start">
+      <div class="stack">
+        <div class="panel">
+          <h2>Party purse</h2>
+          <div class="field-row">
+            <div class="field"><label for="coin-pp">Platinum</label><input id="coin-pp" type="number" value="0" min="0"></div>
+            <div class="field"><label for="coin-gp">Gold</label><input id="coin-gp" type="number" value="0" min="0"></div>
+            <div class="field"><label for="coin-ep">Electrum</label><input id="coin-ep" type="number" value="0" min="0"></div>
+            <div class="field"><label for="coin-sp">Silver</label><input id="coin-sp" type="number" value="0" min="0"></div>
+            <div class="field"><label for="coin-cp">Copper</label><input id="coin-cp" type="number" value="0" min="0"></div>
+          </div>
+          <div class="hr"></div>
+          <div id="purse-summary"></div>
+          <div class="btn-group no-print" style="margin-top:12px">
+            <button class="btn btn-sm" id="btn-split">Split evenly</button>
+            <button class="btn btn-sm" id="btn-consolidate">Convert to gold</button>
+            <a class="btn btn-sm" href="loot.html">Roll a hoard</a>
+          </div>
+          <div id="split-out" style="margin-top:12px"></div>
+        </div>
+
+        <div class="panel no-print">
+          <h2>Add coins</h2>
+          <form id="coin-form" class="field-row" style="align-items:flex-end">
+            <div class="field" style="flex:1 1 90px">
+              <label for="add-amount">Amount</label>
+              <input id="add-amount" type="number" value="100">
+            </div>
+            <div class="field" style="flex:0 0 100px">
+              <label for="add-coin">Coin</label>
+              <select id="add-coin">
+                <option value="gp">gold</option>
+                <option value="pp">platinum</option>
+                <option value="ep">electrum</option>
+                <option value="sp">silver</option>
+                <option value="cp">copper</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Add to the purse</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Items</h2>
+          <span class="muted" id="item-count" style="font-size:.85rem"></span>
+        </div>
+        <form id="item-form" class="field-row no-print" style="align-items:flex-end">
+          <div class="field" style="flex:2 1 140px">
+            <label for="i-name">Item</label>
+            <input id="i-name" placeholder="e.g. Bag of Holding" required autocomplete="off">
+          </div>
+          <div class="field" style="flex:1 1 90px">
+            <label for="i-value">Value (gp)</label>
+            <input id="i-value" type="number" value="0" min="0">
+          </div>
+          <div class="field" style="flex:1 1 110px">
+            <label for="i-holder">Carried by</label>
+            <input id="i-holder" placeholder="party" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+        <div class="hr"></div>
+        <div id="item-list" class="scroll-y" style="max-height:420px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROGRESS ============ -->
+  <section class="tab-panel" id="panel-progress">
+    <div class="grid cols-2" style="align-items:start">
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Experience</h2>
+            <div class="check no-print">
+              <input type="checkbox" id="milestone">
+              <label for="milestone">Milestone levelling</label>
+            </div>
+          </div>
+          <div id="xp-out"></div>
+        </div>
+
+        <div class="panel no-print" id="xp-award-panel">
+          <h2>Award experience</h2>
+          <form id="xp-form" class="field-row" style="align-items:flex-end">
+            <div class="field" style="flex:1 1 110px">
+              <label for="xp-amount">Total XP</label>
+              <input id="xp-amount" type="number" value="0">
+            </div>
+            <div class="field" style="flex:0 0 130px">
+              <label for="xp-mode">Divide</label>
+              <select id="xp-mode">
+                <option value="split">Split across party</option>
+                <option value="each">Give each this much</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Award</button>
+          </form>
+          <div class="btn-group" style="margin-top:10px">
+            <button class="btn btn-sm" id="btn-xp-from-encounter">Take it from the encounter builder</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <h2>Level up manually</h2>
+          <p class="muted" style="font-size:.88rem">Useful with milestone levelling, or to correct a mistake.</p>
+          <div id="level-controls"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Campaign so far</h2>
+          <div id="campaign-stats"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recap output, filled on demand -->
+  <div class="panel hidden" id="recap-panel" style="margin-top:16px">
+    <div class="panel-head">
+      <h2>Session recap</h2>
+      <div class="btn-group no-print">
+        <button class="btn btn-sm" data-copy="#recap-text">Copy</button>
+        <button class="btn btn-sm" id="btn-recap-download">Download .md</button>
+        <button class="btn btn-sm" id="btn-recap-close">Close</button>
+      </div>
+    </div>
+    <pre id="recap-text" style="white-space:pre-wrap;font-family:var(--font-mono);font-size:.85rem;margin:0"></pre>
+  </div>
+</main>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/dice.js"></script>
+<script src="../assets/data/campaign.js"></script>
+<script src="../assets/data/monsters.js"></script>
+<script src="../assets/data/names.js"></script>
+<script src="../assets/data/npc.js"></script>
+<script src="../assets/js/pages/console-page.js"></script>
+</body>
+</html>
