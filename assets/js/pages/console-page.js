@@ -129,7 +129,8 @@
     var host = H.qs('#party-list');
 
     if (!party.length) {
-      host.innerHTML = '<div class="panel"><div class="empty">No characters yet. Add your players on the right.</div></div>';
+      host.innerHTML = '<div class="empty" style="grid-column:1/-1">' +
+        'No characters yet. Add your players with the form on the right.</div>';
     } else {
       host.innerHTML = party.map(function (p, i) {
         var pct = p.maxHp ? H.clamp(Math.round((p.hp / p.maxHp) * 100), 0, 100) : 0;
@@ -138,36 +139,41 @@
         var level = camp().milestone ? p.level : levelForXp(p.xp || 0);
 
         return '<div class="' + cls + '" data-pc="' + i + '">' +
-          '<div class="pc-head">' +
-            '<div>' +
+
+          '<div class="pc-top">' +
+            '<div style="min-width:0">' +
               '<div class="pc-name">' + H.escape(p.name) +
-                (p.inspiration ? ' <span class="tag gold">inspired</span>' : '') + '</div>' +
-              '<div class="pc-sub">' + H.escape(p.player || 'no player') + ' · ' +
-                H.escape(p.cls) + ' ' + level + '</div>' +
+                (p.inspiration ? '<span class="tag gold">inspired</span>' : '') +
+                (p.temp ? '<span class="tag blue">+' + p.temp + ' temp</span>' : '') + '</div>' +
+              '<div class="pc-sub">' + H.escape(p.cls) + ' ' + level +
+                (p.player ? ' · ' + H.escape(p.player) : '') + '</div>' +
             '</div>' +
-            '<div class="btn-group no-print">' +
+            '<div class="pc-actions no-print">' +
               '<button class="btn btn-sm" data-act="inspire" title="Toggle inspiration">★</button>' +
               '<button class="btn btn-sm" data-act="edit" title="Edit">✎</button>' +
               '<button class="btn btn-sm btn-danger" data-act="remove" title="Remove">✕</button>' +
             '</div>' +
           '</div>' +
 
-          '<div class="pc-hp-row no-print">' +
-            '<button class="btn btn-sm" data-act="damage">&#8722;</button>' +
-            '<input type="number" data-act="hp" value="' + p.hp + '" aria-label="Current hit points">' +
-            '<span class="muted" style="font-size:.82rem">/ ' + p.maxHp + '</span>' +
-            '<button class="btn btn-sm" data-act="heal">+</button>' +
-            (p.temp ? '<span class="tag blue">' + p.temp + ' temp</span>' : '') +
+          '<div class="pc-hp">' +
+            '<div class="pc-hp-row">' +
+              '<input class="pc-hp-num" type="number" data-act="hp" value="' + p.hp + '" aria-label="Current hit points">' +
+              '<span class="pc-hp-max">/ ' + p.maxHp + '</span>' +
+              '<span class="pc-hp-btns no-print">' +
+                '<button class="btn btn-sm" data-act="damage" title="Take damage">&#8722;</button>' +
+                '<button class="btn btn-sm" data-act="heal" title="Heal">+</button>' +
+              '</span>' +
+            '</div>' +
+            '<div class="hpbar ' + barCls + '"><i style="width:' + pct + '%"></i></div>' +
           '</div>' +
-          '<div class="hpbar ' + barCls + '"><i style="width:' + pct + '%"></i></div>' +
 
           (p.hp <= 0 ? deathSaveHtml(p) : '') +
 
-          '<div class="pc-grid">' +
-            '<div><b>AC</b>' + p.ac + '</div>' +
-            '<div><b>Passive</b>' + p.pp + '</div>' +
-            '<div><b>Prof</b>' + H.signed(profBonus(level)) + '</div>' +
-            '<div><b>Hit dice</b>' + p.hitDice + '/' + level + '</div>' +
+          '<div class="pc-foot">' +
+            '<div><b>AC</b><span>' + p.ac + '</span></div>' +
+            '<div><b>Passive</b><span>' + p.pp + '</span></div>' +
+            '<div><b>Prof</b><span>' + H.signed(profBonus(level)) + '</span></div>' +
+            '<div><b>Hit dice</b><span>' + p.hitDice + '/' + level + '</span></div>' +
           '</div>' +
         '</div>';
       }).join('');
@@ -187,9 +193,10 @@
       return out;
     }
     return '<div class="death-saves">' +
-      '<span class="muted">Death saves</span>' +
-      '<span class="pips">' + pips('success', p.deathSuccess || 0) + '</span>' +
-      '<span class="pips">' + pips('fail', p.deathFail || 0) + '</span>' +
+      '<span>Saved<span class="pips" style="display:inline-flex;margin-left:6px;vertical-align:-2px">' +
+        pips('success', p.deathSuccess || 0) + '</span></span>' +
+      '<span>Failed<span class="pips" style="display:inline-flex;margin-left:6px;vertical-align:-2px">' +
+        pips('fail', p.deathFail || 0) + '</span></span>' +
     '</div>';
   }
 

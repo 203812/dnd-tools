@@ -13,53 +13,54 @@
 
 <main class="wrap section">
 
-  <!-- Always-visible bar -->
-  <div class="console-bar no-print">
-    <div class="field" style="flex:1 1 180px;min-width:150px">
-      <label for="camp-name">Campaign</label>
-      <input id="camp-name" placeholder="Campaign name">
+  <!-- Always-visible header -->
+  <div class="console-head no-print">
+    <div class="console-title">
+      <input id="camp-name" class="title-input" placeholder="Campaign name" aria-label="Campaign name">
+      <div class="console-meta">
+        <select id="camp-select" aria-label="Switch campaign"></select>
+        <button class="btn btn-sm" id="btn-new">+ New</button>
+        <span class="save-dot" id="save-dot">saved</span>
+      </div>
     </div>
-    <div class="field" style="flex:0 0 130px">
-      <label for="camp-select">Switch</label>
-      <select id="camp-select"></select>
+
+    <div class="stat-strip">
+      <div><b id="stat-session">1</b><span>Session</span></div>
+      <div><b id="stat-party">0</b><span>Party</span></div>
+      <div><b id="stat-level">1</b><span>Avg level</span></div>
+      <div><b id="stat-gold">0</b><span>Gold</span></div>
     </div>
-    <div class="console-stat"><b id="stat-session">1</b><span>Session</span></div>
-    <div class="console-stat"><b id="stat-party">0</b><span>Party</span></div>
-    <div class="console-stat"><b id="stat-level">1</b><span>Avg level</span></div>
-    <div class="console-stat"><b id="stat-gold">0</b><span>Party gold</span></div>
-    <span style="flex:1 1 auto"></span>
-    <span class="save-dot" id="save-dot">saved</span>
+
     <div class="btn-group">
-      <button class="btn btn-sm" id="btn-new">New</button>
+      <button class="btn btn-sm" id="btn-recap">Recap</button>
       <button class="btn btn-sm" id="btn-export">Export</button>
       <button class="btn btn-sm" id="btn-import">Import</button>
-      <button class="btn btn-sm" id="btn-recap">Recap</button>
       <button class="btn btn-sm btn-danger" id="btn-delete">Delete</button>
     </div>
   </div>
 
   <div class="tabs no-print" id="tabs">
-    <button class="tab active" data-tab="party">&#128101; Party <span class="count" id="c-party">0</span></button>
-    <button class="tab" data-tab="session">&#128214; Session <span class="count" id="c-log">0</span></button>
-    <button class="tab" data-tab="quests">&#127919; Quests <span class="count" id="c-quests">0</span></button>
-    <button class="tab" data-tab="world">&#127757; World <span class="count" id="c-world">0</span></button>
-    <button class="tab" data-tab="loot">&#128176; Loot</button>
-    <button class="tab" data-tab="progress">&#11088; Progress</button>
+    <button class="tab active" data-tab="party">Party <span class="count" id="c-party">0</span></button>
+    <button class="tab" data-tab="session">Session <span class="count" id="c-log">0</span></button>
+    <button class="tab" data-tab="quests">Quests <span class="count" id="c-quests">0</span></button>
+    <button class="tab" data-tab="world">World <span class="count" id="c-world">0</span></button>
+    <button class="tab" data-tab="loot">Loot</button>
+    <button class="tab" data-tab="progress">Progress</button>
   </div>
 
   <!-- ============ PARTY ============ -->
   <section class="tab-panel active" id="panel-party">
     <div class="grid cols-2" style="align-items:start;grid-template-columns:minmax(0,2.3fr) minmax(270px,1fr)">
-      <div>
+      <div class="panel">
         <div class="panel-head">
           <h2 style="margin:0">The party</h2>
           <div class="btn-group no-print">
             <button class="btn btn-sm" id="btn-short-rest">Short rest</button>
             <button class="btn btn-sm" id="btn-long-rest">Long rest</button>
-            <button class="btn btn-sm" id="btn-to-initiative">To initiative tracker</button>
+            <button class="btn btn-sm" id="btn-to-initiative">To the tracker</button>
           </div>
         </div>
-        <div class="grid cols-2" id="party-list"></div>
+        <div class="grid" id="party-list" style="grid-template-columns:repeat(auto-fill,minmax(258px,1fr))"></div>
       </div>
 
       <div class="stack no-print">
@@ -105,11 +106,9 @@
         <div class="panel">
           <h2>At a glance</h2>
           <div id="party-summary"></div>
-        </div>
-
-        <div class="panel">
-          <h2>Encounter thresholds</h2>
-          <p class="muted" style="font-size:.86rem">For this exact party, right now.</p>
+          <div class="hr"></div>
+          <h3 style="margin-bottom:4px">Encounter thresholds</h3>
+          <p class="muted" style="font-size:.84rem;margin-bottom:10px">For this exact party, right now.</p>
           <div id="party-thresholds"></div>
         </div>
       </div>
@@ -235,16 +234,15 @@
   <!-- ============ WORLD ============ -->
   <section class="tab-panel" id="panel-world">
     <div class="grid cols-2" style="align-items:start">
-      <div class="stack">
+      <div>
         <div class="panel">
           <div class="panel-head">
-            <h2>NPCs</h2>
+            <h2 style="margin:0">NPCs</h2>
             <input id="npc-search" placeholder="Search" style="width:150px" class="no-print">
           </div>
-          <div id="npc-list" class="scroll-y" style="max-height:400px"></div>
-        </div>
-        <div class="panel no-print">
-          <form id="npc-form" class="field-row" style="align-items:flex-end">
+          <div id="npc-list" class="scroll-y" style="max-height:340px"></div>
+          <div class="hr no-print"></div>
+          <form id="npc-form" class="field-row no-print" style="align-items:flex-end">
             <div class="field" style="flex:2 1 130px">
               <label for="n-name">Name</label>
               <input id="n-name" placeholder="NPC name" required autocomplete="off">
@@ -259,21 +257,20 @@
             </div>
             <button class="btn btn-primary" type="submit">Add</button>
           </form>
-          <div class="field" style="margin-top:8px">
+          <div class="field no-print" style="margin-top:8px">
             <label for="n-note">Note</label>
             <input id="n-note" placeholder="what the party knows about them" autocomplete="off">
           </div>
-          <button class="btn btn-sm" id="btn-gen-npc">Generate one on the spot</button>
+          <button class="btn btn-sm no-print" id="btn-gen-npc">Generate one on the spot</button>
         </div>
       </div>
 
-      <div class="stack">
+      <div>
         <div class="panel">
           <h2>Places</h2>
-          <div id="place-list" class="scroll-y" style="max-height:400px"></div>
-        </div>
-        <div class="panel no-print">
-          <form id="place-form" class="field-row" style="align-items:flex-end">
+          <div id="place-list" class="scroll-y" style="max-height:340px"></div>
+          <div class="hr no-print"></div>
+          <form id="place-form" class="field-row no-print" style="align-items:flex-end">
             <div class="field" style="flex:2 1 130px">
               <label for="p-name">Name</label>
               <input id="p-name" placeholder="Place name" required autocomplete="off">
@@ -284,11 +281,11 @@
             </div>
             <button class="btn btn-primary" type="submit">Add</button>
           </form>
-          <div class="field" style="margin-top:8px">
+          <div class="field no-print" style="margin-top:8px">
             <label for="p-note">Note</label>
             <input id="p-note" placeholder="what happened there" autocomplete="off">
           </div>
-          <button class="btn btn-sm" id="btn-gen-place">Generate a name</button>
+          <button class="btn btn-sm no-print" id="btn-gen-place">Generate a name</button>
         </div>
       </div>
     </div>
@@ -301,11 +298,11 @@
         <div class="panel">
           <h2>Party purse</h2>
           <div class="field-row">
-            <div class="field"><label for="coin-pp">Platinum</label><input id="coin-pp" type="number" value="0" min="0"></div>
-            <div class="field"><label for="coin-gp">Gold</label><input id="coin-gp" type="number" value="0" min="0"></div>
-            <div class="field"><label for="coin-ep">Electrum</label><input id="coin-ep" type="number" value="0" min="0"></div>
-            <div class="field"><label for="coin-sp">Silver</label><input id="coin-sp" type="number" value="0" min="0"></div>
-            <div class="field"><label for="coin-cp">Copper</label><input id="coin-cp" type="number" value="0" min="0"></div>
+            <div class="field" style="flex:1 1 72px"><label for="coin-pp">Plat</label><input id="coin-pp" type="number" value="0" min="0"></div>
+            <div class="field" style="flex:1 1 72px"><label for="coin-gp">Gold</label><input id="coin-gp" type="number" value="0" min="0"></div>
+            <div class="field" style="flex:1 1 72px"><label for="coin-ep">Elec</label><input id="coin-ep" type="number" value="0" min="0"></div>
+            <div class="field" style="flex:1 1 72px"><label for="coin-sp">Silver</label><input id="coin-sp" type="number" value="0" min="0"></div>
+            <div class="field" style="flex:1 1 72px"><label for="coin-cp">Copper</label><input id="coin-cp" type="number" value="0" min="0"></div>
           </div>
           <div class="hr"></div>
           <div id="purse-summary"></div>
